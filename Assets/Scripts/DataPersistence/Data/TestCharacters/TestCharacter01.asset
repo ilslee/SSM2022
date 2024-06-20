@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114b2a4430ec764428a31aaf7ae09fb3, type: 3}
+  m_Name: TestCharacter01
+  m_EditorClassIdentifier: 
+  characterName: 
+  item:
+  - {fileID: 11400000, guid: a1e7aad54c09da2418debe821d4e1767, type: 2}
+  - {fileID: 11400000, guid: e5da60968c20c1940a74f2f8d93794f9, type: 2}
+  - {fileID: 11400000, guid: bd1ea73797c65394bafa68f32dc19e49, type: 2}
+  - {fileID: 11400000, guid: 8cd9caa7a7852e143aa03ad28b62cf37, type: 2}
+  - {fileID: 11400000, guid: 88b421d8195e7044f975623d754c7e67, type: 2}
+  - {fileID: 11400000, guid: cbdf947315461ed48be1bf8b3cfd527c, type: 2}
+  - {fileID: 11400000, guid: 986d8f580076b3a4a9f9932d81b924f4, type: 2}
+  score: 0
+  bp: []
