@@ -1,3 +1,4 @@
+/*
 namespace ssm.game.structure{
     public class MaxHealth : GameToken
     {
@@ -6,3 +7,4 @@ namespace ssm.game.structure{
         }
     }
 }
+*/

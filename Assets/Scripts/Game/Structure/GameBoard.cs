@@ -26,10 +26,7 @@ namespace ssm.game.structure{
             character1 = new Character(c1,1);   
             character2 = new Character(c2,2);  
             //Set Max Stat and Start Stat      
-            // character1.item.Operate(StatTokenFactory.OperateType.OnStartGame, character1, character2);
-            // character2.item.Operate(StatTokenFactory.OperateType.OnStartGame, character2, character1);
-            character1.GetLastPlayData().token.OnGameStart(character1, character2);
-            character2.GetLastPlayData().token.OnGameStart(character2, character1);
+            
         }
        
         //------------------------------[Ready]------------------------------
@@ -54,8 +51,7 @@ namespace ssm.game.structure{
             character2.GetLastPlayData().motion = character2.behaviourPattern.Calculate(character2, character1);
 
             //Get Token via Motion
-            character1.GetLastPlayData().token.AddRange(character1.expectation.CloneExpectationViaMotion(character1.GetLastPlayData().motion));
-            character2.GetLastPlayData().token.AddRange(character2.expectation.CloneExpectationViaMotion(character2.GetLastPlayData().motion));
+            
         }
         
 
@@ -225,6 +221,11 @@ namespace ssm.game.structure{
             }
             // TODO : 추가적인 충돌 회피상황 있으면 정리(Avoid 등?)
             Debug.Log("Collision : " + isCollide);
+
+            // float character1Power = character1.GetLastPlayData().token.GetGameTokenValue(GameTerms.TokenType.OffensivePower)
+
+            //Collision이 없거나 모두 defensive
+
             character1.GetLastPlayData().collision = isCollide;
             character2.GetLastPlayData().collision = isCollide;
         }
@@ -232,14 +233,6 @@ namespace ssm.game.structure{
        
         
         public void CalculateConseqence(){
-            
-            character1.GetLastPlayData().token.ApplyToken(Token.Category.SwordPower);
-            character2.GetLastPlayData().token.ApplyToken(Token.Category.SwordPower);
-            character1.GetLastPlayData().token.ApplyToken(Token.Category.ShieldPower);
-            character2.GetLastPlayData().token.ApplyToken(Token.Category.ShieldPower);
-            character1.GetLastPlayData().token.Cap(character1);
-            character2.GetLastPlayData().token.Cap(character2);
-
             //ConvertPower
             ConvertPower(character1);
             ConvertPower(character2);
@@ -268,18 +261,18 @@ namespace ssm.game.structure{
             ConvertEnergeGainWithNoCollitionToEnergyGainNext(character2);
 
             //Apply Health/Energy Gain and Loss to Current
-            character1.GetLastPlayData().token.ApplyToken(Token.Category.Health);
-            character2.GetLastPlayData().token.ApplyToken(Token.Category.Health);
+            // character1.GetLastPlayData().token.ApplyToken(Token.Category.Health);
+            // character2.GetLastPlayData().token.ApplyToken(Token.Category.Health);
             
-            character1.GetLastPlayData().token.ApplyToken(Token.Category.Energy);
-            character2.GetLastPlayData().token.ApplyToken(Token.Category.Energy);
+            // character1.GetLastPlayData().token.ApplyToken(Token.Category.Energy);
+            // character2.GetLastPlayData().token.ApplyToken(Token.Category.Energy);
             
-            character1.GetLastPlayData().token.Cap(character1);
-            character2.GetLastPlayData().token.Cap(character2);
+            // character1.GetLastPlayData().token.Cap(character1);
+            // character2.GetLastPlayData().token.Cap(character2);
 
             //------------------------------------------------------------[Organize at last]
-            character1.GetLastPlayData().token.Organize();
-            character2.GetLastPlayData().token.Organize();
+            // character1.GetLastPlayData().token.Organize();
+            // character2.GetLastPlayData().token.Organize();
         }
 
         private void ModifyGaugePower(Character me){
@@ -364,17 +357,18 @@ namespace ssm.game.structure{
 
         private float GetValueFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
             float returnVal = 0f;
-            float valueMotion = target.Find(c, b, GetOccationMotion(me.GetLastPlayData().motion)).value0;
-            float valueMove = target.Find(c, b, GetOccationSSM(me.GetLastPlayData().motion)).value0;
-            returnVal = valueMotion + valueMove;
+            // float valueMotion = target.Find(c, b, GetOccationMotion(me.GetLastPlayData().motion)).value0;
+            // float valueMove = target.Find(c, b, GetOccationSSM(me.GetLastPlayData().motion)).value0;
+            // returnVal = valueMotion + valueMove;
             return returnVal;
         }
 
         private bool GetAvailabilityFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
-            bool availabilityMotion = target.Has(c, b, GetOccationMotion(me.GetLastPlayData().motion));
-            bool availabilityMove = target.Has(c, b, GetOccationSSM(me.GetLastPlayData().motion));
-            if(availabilityMove == true || availabilityMove == true) return true;
-            else return false;
+            // bool availabilityMotion = target.Has(c, b, GetOccationMotion(me.GetLastPlayData().motion));
+            // bool availabilityMove = target.Has(c, b, GetOccationSSM(me.GetLastPlayData().motion));
+            // if(availabilityMove == true || availabilityMove == true) return true;
+            // else return false;
+            return false;
         }
         private void CalcuateDamage(Character me, Character other){
             /*
@@ -410,16 +404,16 @@ namespace ssm.game.structure{
         }
         
         private void ConvertDamageToHealthLoss(Character me){
-            float damageTake = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Take).value0;
-            float damageLoss = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Loss).value0;
-            float damageReduce = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Reduce).value0;
-            float finalDamage = damageTake - damageLoss - damageReduce;
-            // Debug.Log("Gameterms.ConvertDamageToHealthLoss - finalDamage : " + damageTake.ToString() + " - " + damageLoss + " = " +finalDamage.ToString());
-            if(finalDamage > 0f){
-                Token healthLossTk = new Token(Token.Category.Health, Token.Behaviour.Loss);
-                healthLossTk.value0 = finalDamage;
-                me.GetLastPlayData().token.Combine(healthLossTk);
-            }
+            // float damageTake = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Take).value0;
+            // float damageLoss = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Loss).value0;
+            // float damageReduce = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Reduce).value0;
+            // float finalDamage = damageTake - damageLoss - damageReduce;
+            // // Debug.Log("Gameterms.ConvertDamageToHealthLoss - finalDamage : " + damageTake.ToString() + " - " + damageLoss + " = " +finalDamage.ToString());
+            // if(finalDamage > 0f){
+            //     Token healthLossTk = new Token(Token.Category.Health, Token.Behaviour.Loss);
+            //     healthLossTk.value0 = finalDamage;
+            //     me.GetLastPlayData().token.Combine(healthLossTk);
+            // }
         }
         
         private void ConvertEnergyConsumptionTakeBakcToEnergyGain(Character me){

@@ -4,14 +4,14 @@ using UnityEngine;
 using System.Linq;
 using ssm.game.structure;
 namespace ssm.data{
-
+    /*
     [CreateAssetMenu(fileName = "ItemContainer", menuName = "SSM/Item/CreateItemContainer")]
     public class ItemContainer : ScriptableObject{
         public int itemFamilyCount = 7;
         public List<ItemData> basic;
         public List<ItemData> assassin;
         public List<ItemData> blacksmith;
-        public List<ItemData> death;        
+        public List<ItemData> death;
         public List<ItemData> emperor;
         public List<ItemData> jester;
         public List<ItemData> life;
@@ -35,8 +35,6 @@ namespace ssm.data{
                 return death;
                 case ItemData.Family.Emperor:
                 return emperor;
-                case ItemData.Family.Jester:
-                return jester;
                 case ItemData.Family.Life:
                 return life;
             }
@@ -54,14 +52,14 @@ namespace ssm.data{
                 case 4:
                 return ItemData.Family.Emperor;
                 case 5:
-                return ItemData.Family.Jester;
+                return ItemData.Family.None;
                 case 6:
                 return ItemData.Family.Life;
             }
             return ItemData.Family.Default;;
         }
     }
-
+    */
     /*
     [System.Serializable]
     public class ItemIndexer{

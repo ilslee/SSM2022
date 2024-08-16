@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+/*
 namespace ssm.game.structure{
     public class GameToken 
     {
@@ -35,12 +35,13 @@ namespace ssm.game.structure{
         public void OnGameStart(Character me, Character other){
             this.Sort((x,y) => GetGameTokenOrder(x.type).CompareTo(GetGameTokenOrder(y.type)));
             int GetGameTokenOrder(GameTerms.TokenType t){
-                switch (t)
-                {
-                    case GameTerms.TokenType.Health : return 0;
-                    case GameTerms.TokenType.Energy : return 1;
-                    default: return int.MaxValue; // 다른 경우에는 가장 큰 값으로 처리
-                }
+                return 0;
+                // switch (t)
+                // {
+                //     case GameTerms.TokenType.Health : return 0;
+                //     case GameTerms.TokenType.Energy : return 1;
+                //     default: return int.MaxValue; // 다른 경우에는 가장 큰 값으로 처리
+                // }
             }
             foreach(GameToken i in this){
                 i.OnGameStart(me, other);
@@ -189,3 +190,4 @@ namespace ssm.game.structure{
         }
     }
 }
+*/

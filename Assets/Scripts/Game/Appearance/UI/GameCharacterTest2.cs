@@ -27,7 +27,7 @@ namespace ssm.game.appearance{
             }
         }
         private void UpdateText(){
-            
+            /*
             Debug.Log("<GameCharacterTest2.UpdateText>");
             TokenList curStat = GetCharacter().GetLastPlayData().token;
             TokenList prevStat = GetCharacter().GetLastPlayData(1).token;
@@ -58,19 +58,7 @@ namespace ssm.game.appearance{
             damageTakeText += actualDamage.ToString() + " (" + damageLoss.ToString() + ", " + damageReduce.ToString() + ")";
             
             string damageText = damageGiveText + "\n" + damageTakeText;
-            /*
-            if(curStat.Has(Token.Category.Damage, Token.Behaviour.Give) == true){ 
-                damageText = "Give " + curStat.Find(Token.Category.Damage, Token.Behaviour.Give).value0.ToString();
-            }else if(curStat.Has(Token.Category.Damage, Token.Behaviour.Take) == true){
-                float damageTake = curStat.Find(Token.Category.Damage, Token.Behaviour.Take).value0;
-                float damageLoss = curStat.Find(Token.Category.Damage, Token.Behaviour.Loss).value0;
-                float damageReduce = curStat.Find(Token.Category.Damage, Token.Behaviour.Reduce).value0;
-                float actualDamage = Math.Max(damageTake - damageLoss - damageReduce, 0f);
-                damageText = "Take " + actualDamage.ToString() + " (" + damageLoss.ToString() + ", "+ damageReduce.ToString()+ ")";
-            }else{
-                damageText = "No ";
-            }
-            */
+            
             damage.text = damageText;
             
             
@@ -129,7 +117,7 @@ namespace ssm.game.appearance{
             }
 
             other.text = otherText;
-            
+            */
         }
         public void ManageGameEvent(string type, int index, int value){
              switch(type){

@@ -1,3 +1,4 @@
+/*
 namespace ssm.game.structure{
     public class Energy : GameToken
     {
@@ -42,3 +43,4 @@ namespace ssm.game.structure{
         }
     }
 }
+*/

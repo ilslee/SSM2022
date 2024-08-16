@@ -1,3 +1,4 @@
+/*
 namespace ssm.game.structure{
     public class Health : GameToken
     {
@@ -11,8 +12,9 @@ namespace ssm.game.structure{
             CapHealth(me);
         }
         private void CapHealth(Character me){
-            float maxHealth = me.token.GetGameTokenValue(GameTerms.TokenType.MaxHealth);
+            float maxHealth = me.token.Find(GameTerms.TokenType.MaxHealth).value;
             if(value > maxHealth) value = maxHealth;
         }
     }
 }
+*/

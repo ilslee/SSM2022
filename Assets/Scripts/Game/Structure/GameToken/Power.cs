@@ -1,3 +1,4 @@
+/*
 namespace ssm.game.structure{
     public class BasePower : GameToken
     {
@@ -99,3 +100,4 @@ namespace ssm.game.structure{
         }
     }
 }
+*/

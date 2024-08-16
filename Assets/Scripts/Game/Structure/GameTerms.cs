@@ -8,8 +8,8 @@ public static class GameTerms
     }
     
     public enum TokenType { None,                             
-                            Health, MaxHealth, //Health 
-                            Energy, MaxEnergy, //Energy
+                            HPCurrent, HPMax, HPStart, //Health 
+                            EPCurrent, EPMax, EPStart, //Energy
 
                             CollisionWin, CollisionLose, NoCollision,
                             AttackPower, StrikePower, StrikeConversionRate, StrikeConversionMax, // Sword power and energy
@@ -24,7 +24,9 @@ public static class GameTerms
 
 
 
-    public enum TokenBehaviour {}
+    public enum TokenOccasion { None
+
+    }
 
     public enum StatTokenType{      None, Health, Energy, SwordPower, ShieldPower, Power, Damage, 
                                     InvalidDamageTakeByAttack, InvalidColisionByStrike, InvalidDefenceShieldPowerRecoveryOther,

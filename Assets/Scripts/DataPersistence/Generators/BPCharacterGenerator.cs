@@ -10,7 +10,7 @@ namespace ssm.data{
         private int difficulty = -1;
         private int opponentID;
 
-        public ItemContainer itemContainer;
+        // public ItemContainer itemContainer;
         public void Reset(int d){
             difficulty = d;
             opponentID = 0;
@@ -20,7 +20,7 @@ namespace ssm.data{
             opponentCharacter.name = InitCharacterName();
             
             //GenerateCore
-            opponentCharacter.item.Add(GenerateCharacterCore(opponentCharacter.name));
+            // opponentCharacter.item.Add(GenerateCharacterCore(opponentCharacter.name));
             //GenerateItems : Parts
             //GenerateItems : Accessaries
             //Generate BPs
@@ -61,7 +61,7 @@ namespace ssm.data{
             
             
         }
-
+        /*
         private ItemData GenerateCharacterCore(string charaterName){
             //Init Character's Core
             ItemData characterCore = ScriptableObject.CreateInstance("ItemData") as ItemData;
@@ -121,53 +121,30 @@ namespace ssm.data{
             }
             
             float healthVal = (float)MathTool.GetRandomIntWithin(healthMin, healthMax);
-            TokenGrade healthMaxToken = new TokenGrade();
-            healthMaxToken.category = Token.Category.Health;
-            healthMaxToken.behaviour = Token.Behaviour.Max;
-            healthMaxToken.occasion = Token.Occasion.OnStartGame;
-            healthMaxToken.target = Token.Target.Me;
-            healthMaxToken.value0 = new float[3]{healthVal, healthVal, healthVal};
+            Token healthMaxToken = new Token();
+            healthMaxToken.type = GameTerms.TokenType.HPMax;
+            healthMaxToken.occasion = GameTerms.TokenOccasion.None;
+            healthMaxToken.value0 = healthVal;
 
-            TokenGrade healthCurToken = new TokenGrade();
-            healthCurToken.category = Token.Category.Health;
-            healthCurToken.behaviour = Token.Behaviour.Current;
-            healthCurToken.occasion = Token.Occasion.OnStartGame;
-            healthCurToken.target = Token.Target.Me;
-            healthCurToken.value0 = new float[3]{healthVal, healthVal, healthVal};
+            Token healthCurToken = new Token();
+            healthCurToken.type = GameTerms.TokenType.HPCurrent;
+            healthCurToken.occasion = GameTerms.TokenOccasion.None;
+            healthCurToken.value0 = healthVal;
 
             float energyVal = (float)MathTool.GetRandomIntWithin(energyMin, energyMax);
-            TokenGrade energyMaxToken = new TokenGrade();
-            energyMaxToken.category = Token.Category.Energy;
-            energyMaxToken.behaviour = Token.Behaviour.Max;
-            energyMaxToken.occasion = Token.Occasion.OnStartGame;
-            energyMaxToken.target = Token.Target.Me;
-            energyMaxToken.value0 = new float[3]{energyVal, energyVal, energyVal};
+            Token energyMaxToken = new Token();
+            energyMaxToken.type = GameTerms.TokenType.EPMax;
+            energyMaxToken.occasion = GameTerms.TokenOccasion.None;
+            energyMaxToken.value0 = energyVal;
 
-            float swordPowerVal = (float)MathTool.GetRandomIntWithin(swordPowerMin, swordPowerMax);
-            TokenGrade swordPowerMaxToken = new TokenGrade();
-            swordPowerMaxToken.category = Token.Category.SwordPower;
-            swordPowerMaxToken.behaviour = Token.Behaviour.Max;
-            swordPowerMaxToken.occasion = Token.Occasion.OnStartGame;
-            swordPowerMaxToken.target = Token.Target.Me;
-            swordPowerMaxToken.value0 = new float[3]{swordPowerVal, swordPowerVal, swordPowerVal};
-
-            float shieldPowerVal = (float)MathTool.GetRandomIntWithin(shieldPowerMin, shieldPowerMax);
-            TokenGrade shieldPowerMaxToken = new TokenGrade();
-            shieldPowerMaxToken.category = Token.Category.ShieldPower;
-            shieldPowerMaxToken.behaviour = Token.Behaviour.Max;
-            shieldPowerMaxToken.occasion = Token.Occasion.OnStartGame;
-            shieldPowerMaxToken.target = Token.Target.Me;
-            shieldPowerMaxToken.value0 = new float[3]{shieldPowerVal, shieldPowerVal, shieldPowerVal};
             //
             characterCore.tokens.Add(healthMaxToken);
             characterCore.tokens.Add(healthCurToken);
             characterCore.tokens.Add(energyMaxToken);
-            characterCore.tokens.Add(swordPowerMaxToken);
-            characterCore.tokens.Add(shieldPowerMaxToken);
-
+            
             return characterCore;
         }
-
+        */
         private List<ItemData> GenerateItemParts(bool isBoss){
             List<ItemData> parts = new List<ItemData>();
             // List<int> partsFamilyIndex = new List<int>();
@@ -214,6 +191,7 @@ namespace ssm.data{
             // numOfItemHighLevel = totalItemCount - numOfItemHighLevel;
             List<int> partOrder = MathTool.GetShuffledInts(totalItemCount);
             ItemData.Part GetPartViaInt(int i){
+                /*
                 switch(i){
                     case 0:
                     return ItemData.Part.Arms;
@@ -228,12 +206,13 @@ namespace ssm.data{
                     case 5:
                     return ItemData.Part.Sheild;
                 }
-                
+                */
                 Debug.LogError("BPCharacterGenerator.GenerateItemParts.GetPartViaInt : Out of Index!!" );
                 return ItemData.Part.None;;
             }
             
             int generationCount = 0;
+            /*
             for (int i = 0; i < totalItemCount; i++)
             {
                 ItemData.Part part = GetPartViaInt(i);
@@ -245,7 +224,7 @@ namespace ssm.data{
                 parts.Add(itemContainer.DuplicateItem(family, part, grade));
                 generationCount ++;
             }
-            
+            */
             if(isBoss == false){ //Manage Exceptions : Avoid too many set item generation
                 
             }else{ //Set Boss Item

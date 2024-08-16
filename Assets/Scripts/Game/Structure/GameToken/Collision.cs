@@ -1,3 +1,4 @@
+/*
 namespace ssm.game.structure{
     public class CollisionWin : GameToken
     {
@@ -18,3 +19,4 @@ namespace ssm.game.structure{
         }
     }
 }
+*/

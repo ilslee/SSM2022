@@ -15,11 +15,11 @@ namespace ssm.game.structure{
 
         public int numOfGame;
 
-        public ItemContainer itemContainer;
+        // public ItemContainer itemContainer;
 
         private Game game;
         public void Start(){
-            
+            Debug.Log("AI Game Item Tester, Start.");
         }
     }
 }
