@@ -14,8 +14,9 @@ namespace ssm.game.structure{
         public bool isBPCharacter;
         public BPManager behaviourPattern;
         
-        // public GameTokenList token;                
-        public TokenList staticTokens;                
+        // 다른 Token을 만들어 낼 수 있는 뿌리 Token들               
+        // Max값
+        public TokenList staticTokens; 
         public List<PlayData> playData;
         
         public TokenList expectations;
@@ -114,6 +115,21 @@ namespace ssm.game.structure{
         }
         
         public void ExpectPower(){
+            TokenList tempTL = new TokenList();
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Attack));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Strike));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Defence));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Charge));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Rest));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Avoid));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Sword));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Shield));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Move));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Offensive));
+            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Defensive));
+            foreach(Token t in tempTL){
+                expectations.Combine(t.Yeild());
+            }
             
         }
         /*

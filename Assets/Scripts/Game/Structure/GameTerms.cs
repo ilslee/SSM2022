@@ -8,7 +8,8 @@ public static class GameTerms
     }
     
     public enum TokenType { None,                             
-                            AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions
+                            AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions0
+                            
                             HPCurrent, HPMax, HPStart, //Health 
                             EPCurrent, EPMax, EPStart, //Energy
 
@@ -24,7 +25,8 @@ public static class GameTerms
 
 
     public enum TokenOccasion { None, Static, Dinamic, 
-                                MotionNone, Attack, Strike, Defence, Charge, Avoid, Rest
+                                MotionNone, Attack, Strike, Defence, Charge, Avoid, Rest,
+                                Sword, Shield, Move, Offensive, Defensive, // Actions1
 
     }
 

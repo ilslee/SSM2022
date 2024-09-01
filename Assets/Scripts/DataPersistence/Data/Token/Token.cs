@@ -24,12 +24,12 @@ namespace ssm.data.token{
             value0 = 0f;    
             priority = 50;
         }
-        public Token(int chaID, GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f, int p = 50){
+        public Token(int chaID, GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f){
             characterIndex = chaID;
             type = t;
             occasion = o;
             value0 = v;    
-            priority = p;     
+            priority = 50;     
         }  
         public Token Clone(){
             Token returnVal = new Token(characterIndex);
@@ -108,8 +108,8 @@ namespace ssm.data.token{
             else return new Token(0);        
         }
         
-        public TokenList FindAll(GameTerms.TokenType t){
-            List<Token> resulttoken = this.FindAll(x => x.type == t);
+        public TokenList FindAll(GameTerms.TokenOccasion o){
+            List<Token> resulttoken = this.FindAll(x => x.occasion == o);
             TokenList returnVal = new TokenList();
             foreach(Token tk in resulttoken){
                 returnVal.Add(tk);
