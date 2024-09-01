@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ssm.data;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System;
+using ssm.data.token;
 namespace ssm.game.structure{    
     public class Character
     {
@@ -15,25 +15,30 @@ namespace ssm.game.structure{
         public BPManager behaviourPattern;
         
         // public GameTokenList token;                
-        public TokenList token;                
+        public TokenList staticTokens;                
         public List<PlayData> playData;
         
-        public Expectation expectation;
+        public TokenList expectations;
         
         public Character(PlayableCharacter data, int index){
             this.index = index;
-            AddPlayData();//턴 수와 data수를 맞추기 위해 & 0항목에는 시작 데이터가 들어감
+            AddSetItems(); // 기존 아이템을 보고 어떤 세트를 추가할 지 결정'
 
-            // item = data.item as ItemSet;
-            //모든 데이터를 token에 병합
-            token = new TokenList();
+            AddPlayData();//턴 수와 data수를 맞추기 위해 & 0항목에는 시작 데이터가 들어감
+            staticTokens = new TokenList();
+
+            TokenList tempStaticToken = new TokenList();
+            TokenList tempPlayData = new TokenList();
             foreach(ItemData i in data.item){
                 foreach(Token t in i.tokens){
-                    this.token.Combine(t);                    
+                    t.characterIndex = this.index;
+                    if(t.occasion == GameTerms.TokenOccasion.Static)tempStaticToken.Add(t);
+                    else if(t.occasion == GameTerms.TokenOccasion.Static)tempPlayData.Add(t);
                 }
             }
-            // Debug.Log(token.ToString()); // Working Good.            
-            AddSetItems(); // 기존 아이템을 보고 어떤 세트를 추가할 지 결정
+            tempStaticToken.Combine(tempStaticToken);
+            GetLastPlayData().Combine(tempPlayData);
+            
             
             if(data is BPCharacter){
                 isBPCharacter = true;
@@ -83,9 +88,9 @@ namespace ssm.game.structure{
             playData.Add(new PlayData());            
             //지난 Stat 이관
             if(playData.Count > 1){
-                GetLastPlayData().InheritGameToken(GetLastPlayData(1).token);                
+                // GetLastPlayData().InheritGameToken(GetLastPlayData(1).token);                
             }
-            expectation.Clear();
+            expectations.Clear();
             // Debug.Log("Character.AddPlayData() : " + GetLastPlayData().token.ToString());
         }
 
@@ -108,6 +113,9 @@ namespace ssm.game.structure{
             else return -1;
         }
         
+        public void ExpectPower(){
+            
+        }
         /*
         public TokenList GetTokenListViaMotion(GameTerms.Motion m){
             switch(m){

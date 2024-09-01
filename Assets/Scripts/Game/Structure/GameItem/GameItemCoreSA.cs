@@ -28,7 +28,7 @@ namespace ssm.game.structure{
             maxShieldPower =     new float[3]{1f, 2f, 3f};
             startShieldPower =   new float[3]{0f,0f,0f};
 
-            stFactory.Add(new StatTokenFactory(StatTokenFactory.OperateType.OnStartGame, SetStatOnStart));
+            // stFactory.Add(new StatTokenFactory(StatTokenFactory.OperateType.OnStartGame, SetStatOnStart));
         }
         public void SetStatOnStart(Character me, Character other){
             // Debug.Log("GameItemCoreSA.SetStatOnStart");

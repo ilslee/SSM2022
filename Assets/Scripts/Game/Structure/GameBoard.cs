@@ -4,22 +4,35 @@ using UnityEngine;
 using System.Linq;
 using ssm.data;
 using System;
-
+using ssm.data.token;
 namespace ssm.game.structure{
         
-    public class GameBoard : MonoBehaviour {
+    public class GameBoard {
        
+        private static GameBoard staticGameBoard; 
         public static int Turn = 0;
         public static int MaxTurn = 0;
         public static float TurnTime = 0f;
         public static GameTerms.Phase Phase = GameTerms.Phase.None;
         
-        //Character Data 고정
-        [SerializeField]
+        //Character 
         public Character character1;
-        [SerializeField]
         public Character character2;
         
+        public static GameBoard Instance(){
+            if(staticGameBoard == null) staticGameBoard = new GameBoard();
+            return staticGameBoard; 
+        } 
+        public Character FindCharacter(int id){
+            if(id == 1) return character1;
+            else if (id == 2) return character2;
+            else return null;
+        }
+        public Character FindOpponent(int id){
+            if(id == 1) return character2;
+            else if (id == 2) return character1;
+            else return null;
+        }
         //초기 값 세팅
         public void Initialize(PlayableCharacter c1, PlayableCharacter c2){
             // Clone & Convert Character data
@@ -36,13 +49,13 @@ namespace ssm.game.structure{
         }
 
         public void CalculateOnTurnStart(){
-            character1.GetLastPlayData().token.OnTurnStart(character1, character2);
-            character2.GetLastPlayData().token.OnTurnStart(character2, character1);
+            // character1.GetLastPlayData().token.OnTurnStart(character1, character2);
+            // character2.GetLastPlayData().token.OnTurnStart(character2, character1);
             
         }
         public void CalculateExpectations(){
-            character1.expectation.Reset(character1,character2);
-            character2.expectation.Reset(character2,character1);
+            character1.ExpectPower();
+            character2.ExpectPower();
         }
         //------------------------------[Pose]------------------------------
         public void ProcessMotions(){
@@ -355,21 +368,21 @@ namespace ssm.game.structure{
             */
         }
 
-        private float GetValueFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
-            float returnVal = 0f;
-            // float valueMotion = target.Find(c, b, GetOccationMotion(me.GetLastPlayData().motion)).value0;
-            // float valueMove = target.Find(c, b, GetOccationSSM(me.GetLastPlayData().motion)).value0;
-            // returnVal = valueMotion + valueMove;
-            return returnVal;
-        }
+        // private float GetValueFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
+        //     float returnVal = 0f;
+        //     // float valueMotion = target.Find(c, b, GetOccationMotion(me.GetLastPlayData().motion)).value0;
+        //     // float valueMove = target.Find(c, b, GetOccationSSM(me.GetLastPlayData().motion)).value0;
+        //     // returnVal = valueMotion + valueMove;
+        //     return returnVal;
+        // }
 
-        private bool GetAvailabilityFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
-            // bool availabilityMotion = target.Has(c, b, GetOccationMotion(me.GetLastPlayData().motion));
-            // bool availabilityMove = target.Has(c, b, GetOccationSSM(me.GetLastPlayData().motion));
-            // if(availabilityMove == true || availabilityMove == true) return true;
-            // else return false;
-            return false;
-        }
+        // private bool GetAvailabilityFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
+        //     // bool availabilityMotion = target.Has(c, b, GetOccationMotion(me.GetLastPlayData().motion));
+        //     // bool availabilityMove = target.Has(c, b, GetOccationSSM(me.GetLastPlayData().motion));
+        //     // if(availabilityMove == true || availabilityMove == true) return true;
+        //     // else return false;
+        //     return false;
+        // }
         private void CalcuateDamage(Character me, Character other){
             /*
             float myPower = me.GetLastPlayData().token.Find(Token.Category.Power, GetPowerType(me.GetLastPlayData().motion)).value0;
@@ -465,92 +478,92 @@ namespace ssm.game.structure{
             */
         }
 
-        private Token.Occasion GetOccationMotion(GameTerms.Motion m){
-            Token.Occasion returnVal = Token.Occasion.None;
-            switch(m){                
-                case GameTerms.Motion.None:
-                returnVal = Token.Occasion.OnMotionNone;
-                break;
-                case GameTerms.Motion.Attack:
-                returnVal = Token.Occasion.OnMotionAttack;
-                break;
-                case GameTerms.Motion.Strike:
-                returnVal = Token.Occasion.OnMotionStrike;
-                break;
-                case GameTerms.Motion.Defence:
-                returnVal = Token.Occasion.OnMotionDefence;
-                break;
-                case GameTerms.Motion.Charge:
-                returnVal = Token.Occasion.OnMotionCharge;
-                break;
-                case GameTerms.Motion.Avoid:
-                returnVal = Token.Occasion.OnMotionAvoid;
-                break;
-                case GameTerms.Motion.Taunt:
-                returnVal = Token.Occasion.OnMotionTaunt;
-                break;
-            }
-            return returnVal;
-        }        
-        private Token.Occasion GetOccationSSM(GameTerms.Motion m){
-            Token.Occasion returnVal = Token.Occasion.None;
-            switch(m){                
-                case GameTerms.Motion.None:
-                returnVal = Token.Occasion.OnMotionNone;
-                break;
-                case GameTerms.Motion.Attack:
-                case GameTerms.Motion.Strike:
-                returnVal = Token.Occasion.OnMotionSword;
-                break;
-                case GameTerms.Motion.Defence:
-                case GameTerms.Motion.Charge:
-                returnVal = Token.Occasion.OnMotionShield;
-                break;
-                case GameTerms.Motion.Avoid:
-                case GameTerms.Motion.Taunt:
-                returnVal = Token.Occasion.OnMotionMove;
-                break;
-            }
-            return returnVal;
-        }
-        private Token.Behaviour GetPowerType(GameTerms.Motion m){
-            Token.Behaviour returnVal = Token.Behaviour.Defensive;
-            switch(m){                
-                case GameTerms.Motion.None:
-                case GameTerms.Motion.Defence:
-                case GameTerms.Motion.Avoid:
-                case GameTerms.Motion.Taunt:
-                returnVal = Token.Behaviour.Defensive;
-                break;
-                case GameTerms.Motion.Attack:
-                case GameTerms.Motion.Strike:
-                case GameTerms.Motion.Charge:
-                returnVal = Token.Behaviour.Offensive;
-                break;
+        // private Token.Occasion GetOccationMotion(GameTerms.Motion m){
+        //     Token.Occasion returnVal = Token.Occasion.None;
+        //     switch(m){                
+        //         case GameTerms.Motion.None:
+        //         returnVal = Token.Occasion.OnMotionNone;
+        //         break;
+        //         case GameTerms.Motion.Attack:
+        //         returnVal = Token.Occasion.OnMotionAttack;
+        //         break;
+        //         case GameTerms.Motion.Strike:
+        //         returnVal = Token.Occasion.OnMotionStrike;
+        //         break;
+        //         case GameTerms.Motion.Defence:
+        //         returnVal = Token.Occasion.OnMotionDefence;
+        //         break;
+        //         case GameTerms.Motion.Charge:
+        //         returnVal = Token.Occasion.OnMotionCharge;
+        //         break;
+        //         case GameTerms.Motion.Avoid:
+        //         returnVal = Token.Occasion.OnMotionAvoid;
+        //         break;
+        //         case GameTerms.Motion.Taunt:
+        //         returnVal = Token.Occasion.OnMotionTaunt;
+        //         break;
+        //     }
+        //     return returnVal;
+        // }        
+        // private Token.Occasion GetOccationSSM(GameTerms.Motion m){
+        //     Token.Occasion returnVal = Token.Occasion.None;
+        //     switch(m){                
+        //         case GameTerms.Motion.None:
+        //         returnVal = Token.Occasion.OnMotionNone;
+        //         break;
+        //         case GameTerms.Motion.Attack:
+        //         case GameTerms.Motion.Strike:
+        //         returnVal = Token.Occasion.OnMotionSword;
+        //         break;
+        //         case GameTerms.Motion.Defence:
+        //         case GameTerms.Motion.Charge:
+        //         returnVal = Token.Occasion.OnMotionShield;
+        //         break;
+        //         case GameTerms.Motion.Avoid:
+        //         case GameTerms.Motion.Taunt:
+        //         returnVal = Token.Occasion.OnMotionMove;
+        //         break;
+        //     }
+        //     return returnVal;
+        // }
+        // private Token.Behaviour GetPowerType(GameTerms.Motion m){
+        //     Token.Behaviour returnVal = Token.Behaviour.Defensive;
+        //     switch(m){                
+        //         case GameTerms.Motion.None:
+        //         case GameTerms.Motion.Defence:
+        //         case GameTerms.Motion.Avoid:
+        //         case GameTerms.Motion.Taunt:
+        //         returnVal = Token.Behaviour.Defensive;
+        //         break;
+        //         case GameTerms.Motion.Attack:
+        //         case GameTerms.Motion.Strike:
+        //         case GameTerms.Motion.Charge:
+        //         returnVal = Token.Behaviour.Offensive;
+        //         break;
                 
-            }
-            return returnVal;
-        }        
-        private Token.Category GetPowerGaugeTarget(GameTerms.Motion m){
-            Token.Category returnVal = Token.Category.None;
-            switch(m){                
-                case GameTerms.Motion.None:
-                case GameTerms.Motion.Avoid:
-                case GameTerms.Motion.Taunt:
-                returnVal = Token.Category.None;
-                break;
-                case GameTerms.Motion.Attack:
-                case GameTerms.Motion.Strike:
-                returnVal = Token.Category.SwordPower;
-                break;
+        //     }
+        //     return returnVal;
+        // }        
+        // private Token.Category GetPowerGaugeTarget(GameTerms.Motion m){
+        //     Token.Category returnVal = Token.Category.None;
+        //     switch(m){                
+        //         case GameTerms.Motion.None:
+        //         case GameTerms.Motion.Avoid:
+        //         case GameTerms.Motion.Taunt:
+        //         returnVal = Token.Category.None;
+        //         break;
+        //         case GameTerms.Motion.Attack:
+        //         case GameTerms.Motion.Strike:
+        //         returnVal = Token.Category.SwordPower;
+        //         break;
                 
-                case GameTerms.Motion.Defence:
-                case GameTerms.Motion.Charge:
-                returnVal = Token.Category.ShieldPower;
-                break;                
-            }
-            return returnVal;
-        }
+        //         case GameTerms.Motion.Defence:
+        //         case GameTerms.Motion.Charge:
+        //         returnVal = Token.Category.ShieldPower;
+        //         break;                
+        //     }
+        //     return returnVal;
+        // }
         
         
     }

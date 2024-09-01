@@ -4,6 +4,7 @@ using UnityEngine;
 // using UnityEngine.UI;
 using TMPro;
 using ssm.game.structure;
+using ssm.data.token;
 namespace ssm.game.appearance{
     public class GameCharacterTest : MonoBehaviour
     {
@@ -37,7 +38,7 @@ namespace ssm.game.appearance{
 
             }
         }
-        private string GetStat(Token.Category cat){
+        private string GetStat(){
             // string value = "N.D.";
             // float val = GetCharacter().GetLastPlayData().token.Find(cat, Token.Behaviour.Current).value0;
             // return val.ToString();
@@ -102,10 +103,10 @@ namespace ssm.game.appearance{
                 case GameEvent.START_PHASE_OVER:
                 //게임 시작 : 캐릭터 이름, 
                 characterName.text = "Character " + targtCharacterIndex;
-                statHealth.text = GetStat(Token.Category.Health);
-                statEnergy.text = GetStat(Token.Category.Energy);
-                statAttack.text = GetStat(Token.Category.SwordPower);
-                statDefence.text = GetStat(Token.Category.ShieldPower);
+                statHealth.text = GetStat();
+                statEnergy.text = GetStat();
+                statAttack.text = GetStat();
+                statDefence.text = GetStat();
                 break;
                 // case GameEvent.READY_PHASE_OVER:
                 // break;

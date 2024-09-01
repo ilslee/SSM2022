@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
 using ssm.game.structure;
-
+using ssm.data.token;
 namespace ssm.data{
     [System.Serializable]
-    [CreateAssetMenu(fileName = "NewBasicItem", menuName = "SSM/Item/CreateBasicItem")]
     public class ItemData
     {
         public int id;
@@ -18,7 +17,7 @@ namespace ssm.data{
         public Family family;
         public enum Part {None, Body, Legs, Sheild, Sword, Accessory};
         public Part part;
-        public List<Token> tokens;
+        public TokenList tokens;
         public ItemData(int g = 0){
             grade = g;
         }

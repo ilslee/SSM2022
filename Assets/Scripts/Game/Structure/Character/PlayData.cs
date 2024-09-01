@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
-
+using ssm.data.token;
 namespace ssm.game.structure{
     
     //턴 데이터를 저장하기 위한 클래스
-    public class PlayData{
+    public class PlayData : TokenList{
         
         public GameTerms.Motion motion;
         //충돌 여부
         public bool collision;
         
-        public TokenList token;
+        // public TokenList token;
         // public StatTokenList[] expectation;
         
         public PlayData(){
@@ -26,7 +26,7 @@ namespace ssm.game.structure{
             motion = GameTerms.Motion.None;
             collision = false;
             
-            token = new TokenList();            
+            this.Reset();            
             
             
         }
@@ -35,7 +35,7 @@ namespace ssm.game.structure{
         {
             string toStr = motion.ToString();
             toStr += "\n token : ";
-            toStr += token.ToString();
+            toStr += this.ToString();
             
             return toStr;
         }
@@ -45,7 +45,7 @@ namespace ssm.game.structure{
                 switch(t.type){
                     case GameTerms.TokenType.HPCurrent:
                     case GameTerms.TokenType.EPCurrent:
-                    token.Combine(t);
+                    // this.Combine(t);
                     break;
                 }
             }

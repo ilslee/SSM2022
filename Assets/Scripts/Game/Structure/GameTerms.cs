@@ -8,23 +8,23 @@ public static class GameTerms
     }
     
     public enum TokenType { None,                             
+                            AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions
                             HPCurrent, HPMax, HPStart, //Health 
                             EPCurrent, EPMax, EPStart, //Energy
 
                             CollisionWin, CollisionLose, NoCollision,
-                            AttackPower, StrikePower, StrikeConversionRate, StrikeConversionMax, // Sword power and energy
-                            DefencePower, ChargePower, ChargeConversionRate, ChargeConversionMax, // Shield power and energy
-                            AvoidPower, TauntPower, MoveConversionRate, MoveConversionMax, // Move power and energy
-                            BasePower, EnergyPower, AdditionalPower, FixedPower, OffensivePower, DefensivePower, 
-                            AdditionalAttackPower, AdditionalStrikePower, AdditionalDefencePower, AdditionalChargePower, AdditionalAvoidPower, AdditionalTauntPower,
-                            AdditionalSwordPower, AdditionalShieldPower, AdditionalMovePower,
+                            AttackPower, AttackEfficiency, StrikePower, StrikeEfficiency, StrikeConsumption, // Sword power and energy
+                            DefencePower, DefenceEfficiency, CollisionGeneration, ChargePower, ChargeEfficiency, ChargeConsumption, // Shield power and energy
+                            RestPower, AvoidPower, AvoidEfficiency, AvoidAdaptiveConsumption, RestGeneration, AvoidGeneration, // Move power and energy
+                            BasePower, EnergyPower, AdditionalPower, OffensiveMinPower, OffensiveMaxPower, DefensiveMinPower, DefensiveMaxPower, 
                             Damage
                             }
 
 
 
 
-    public enum TokenOccasion { None
+    public enum TokenOccasion { None, Static, Dinamic, 
+                                MotionNone, Attack, Strike, Defence, Charge, Avoid, Rest
 
     }
 
