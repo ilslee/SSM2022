@@ -91,22 +91,22 @@
 //                 //     value1 = when1;
 //                 //     break;
 //                 //     case GameTerms.ConditionWhen.Current:
-//                 //     value1 = GameBoard.Turn;
+//                 //     value1 = GameBoard.Instance().currentTurn;
 //                 //     break;
 //                 //     case GameTerms.ConditionWhen.Duration:
 //                 //     value1 = Mathf.Min(when1, when2);
 //                 //     value2 = Mathf.Max(when1, when2);
 //                 //     break;
 //                 //     case GameTerms.ConditionWhen.Every:
-//                 //     if(when1 % GameBoard.Turn == 0) value1 = GameBoard.Turn;
+//                 //     if(when1 % GameBoard.Instance().currentTurn == 0) value1 = GameBoard.Instance().currentTurn;
 //                 //     else value1 = 0;
 //                 //     break;
 //                 //     case GameTerms.ConditionWhen.Previous:
-//                 //     value1 = GameBoard.Turn - when1;
+//                 //     value1 = GameBoard.Instance().currentTurn - when1;
 //                 //     break;
 //                 //     case GameTerms.ConditionWhen.PreviousDuration:
-//                 //     int prev1 = GameBoard.Turn - when1;
-//                 //     int prev2 = GameBoard.Turn - when2;
+//                 //     int prev1 = GameBoard.Instance().currentTurn - when1;
+//                 //     int prev2 = GameBoard.Instance().currentTurn - when2;
 //                 //     value1 = Mathf.Min(prev1, prev2);
 //                 //     value2 = Mathf.Max(prev1, prev2);
 //                 //     break;
@@ -167,7 +167,7 @@
 //                     break;
                     
 //                     case GameTerms.ConditionWhen.Every:
-//                     // for (int i = 1; i < GameBoard.Turn; i++)
+//                     // for (int i = 1; i < GameBoard.Instance().currentTurn; i++)
 //                     // {
 //                     //     if(i % when1 == 0){
 //                     //         returnVal.Add(GetWhatValue(i));

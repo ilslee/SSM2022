@@ -13,7 +13,7 @@ namespace ssm.game.structure{
             base.ManageStartPhase();
         }
         public override void ManageReadyPhase(){
-            Debug.Log("--------TURN [" + (GameBoard.Turn +1).ToString() +"]-");
+            Debug.Log("--------TURN [" + (GameBoard.Instance().currentTurn +1).ToString() +"]-");
             base.ManageReadyPhase();
         }
         
@@ -24,7 +24,7 @@ namespace ssm.game.structure{
         
         public override bool CheckGameEnd(){
             Debug.Log("--Check Game End");
-            if( GameBoard.Turn >= GameBoard.MaxTurn){
+            if( GameBoard.Instance().currentTurn >= GameBoard.Instance().maxTurn){
                 return true;
             }
             return false;

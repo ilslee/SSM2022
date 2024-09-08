@@ -21,10 +21,10 @@ namespace ssm.game.input{
         private void InputTurn(){
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if(GameBoard.Turn == 0){
+                if(GameBoard.Instance().currentTurn == 0){
                     gameEvent.Raise(GameEvent.GAME_START);
                 }else{
-                    if(GameBoard.Phase == GameTerms.Phase.FeedbackPoses){
+                    if(GameBoard.Instance().phase == GameTerms.Phase.Feedback){
                         gameEvent.Raise(GameEvent.TURN_START);
                     }else{
                         Debug.LogError("GameTestInput : Not Appropriate phase to send input.");

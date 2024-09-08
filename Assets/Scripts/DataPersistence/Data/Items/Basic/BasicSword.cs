@@ -45,20 +45,22 @@ namespace ssm.data.item.basic{
         }
         public virtual void InitTokens(){
             float attackPower = this.attackPower[grade];
-            Token attackPowerToken = new Token(GameTerms.TokenType.AttackPower, GameTerms.TokenOccasion.Attack, attackPower);
+            Token attackPowerToken = new Token(GameTerms.TokenType.AttackPower, GameTerms.TokenOccasion.Static, attackPower);
             tokens.Add(attackPowerToken);
             float attackEfficiency = this.attackEfficiency[grade];
-            Token attackEfficiencyToken = new Token(GameTerms.TokenType.AttackEfficiency, GameTerms.TokenOccasion.Attack, attackEfficiency);
+            Token attackEfficiencyToken = new Token(GameTerms.TokenType.AttackEfficiency, GameTerms.TokenOccasion.Static, attackEfficiency);
             tokens.Add(attackEfficiencyToken);
             float strikePower = this.strikePower[grade];
-            Token strikePowerToken = new Token(GameTerms.TokenType.StrikePower, GameTerms.TokenOccasion.Strike, strikePower);
+            Token strikePowerToken = new Token(GameTerms.TokenType.StrikePower, GameTerms.TokenOccasion.Static, strikePower);
             tokens.Add(strikePowerToken);
             float strikeEfficiency = this.strikeEfficiency[grade];
-            Token strikeEfficiencyToken = new Token(GameTerms.TokenType.StrikeEfficiency, GameTerms.TokenOccasion.Strike, strikeEfficiency);
+            Token strikeEfficiencyToken = new Token(GameTerms.TokenType.StrikeEfficiency, GameTerms.TokenOccasion.Static, strikeEfficiency);
             tokens.Add(strikeEfficiencyToken);
             float strikeConsumption = this.strikeConsumption[grade];
-            Token strikeConsumptionToken = new Token(GameTerms.TokenType.StrikeConsumption, GameTerms.TokenOccasion.Strike, strikeConsumption);
+            Token strikeConsumptionToken = new Token(GameTerms.TokenType.StrikeConsumption, GameTerms.TokenOccasion.Static, strikeConsumption);
             tokens.Add(strikeConsumptionToken);
         }
+        
+        
     }
 }

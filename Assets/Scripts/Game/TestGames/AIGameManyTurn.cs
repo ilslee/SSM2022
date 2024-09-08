@@ -8,9 +8,9 @@ namespace ssm.game.structure{
         public override void PrepareGame(int maxTurn, float turnTime, PlayableCharacter c1, PlayableCharacter c2)
         {
             // base.PrepareGame(maxTurn, turnTime, c1, c2);
-            GameBoard.MaxTurn = 100;
-            GameBoard.Turn = 0;
-            GameBoard.TurnTime = turnTime;
+            GameBoard.Instance().maxTurn = 100;
+            GameBoard.Instance().currentTurn = 0;
+            GameBoard.Instance().turnTime = turnTime;
             board.Initialize(c1,c2);
         }
         public override void ManageGameEvent(string type, int index, int value){

@@ -40,12 +40,12 @@ namespace ssm.game.structure{
             return toStr;
         }
 
-        public void InheritGameToken(TokenList from){
+        public void Inherit(PlayData from){
             foreach(Token t in from){
                 switch(t.type){
                     case GameTerms.TokenType.HPCurrent:
                     case GameTerms.TokenType.EPCurrent:
-                    // this.Combine(t);
+                    this.Combine(t);
                     break;
                 }
             }

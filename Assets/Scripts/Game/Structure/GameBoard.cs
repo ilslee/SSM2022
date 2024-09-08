@@ -10,10 +10,10 @@ namespace ssm.game.structure{
     public class GameBoard {
        
         private static GameBoard staticGameBoard; 
-        public static int Turn = 0;
-        public static int MaxTurn = 0;
-        public static float TurnTime = 0f;
-        public static GameTerms.Phase Phase = GameTerms.Phase.None;
+        public int currentTurn = 0;
+        public int maxTurn = 0;
+        public float turnTime = 0f;
+        public GameTerms.Phase phase = GameTerms.Phase.None;
         
         //Character 
         public Character character1;
@@ -70,222 +70,28 @@ namespace ssm.game.structure{
 
         //------------------------------[Calculate]------------------------------
         public void CalcuateCollision(){
-            GameTerms.Motion myMotion = character1.GetLastPlayData().motion;
-            GameTerms.Motion otherMotion = character2.GetLastPlayData().motion;
-            bool isCollide = false;
-            switch(myMotion){
-                case GameTerms.Motion.None:
-                    switch(otherMotion){
-                        case GameTerms.Motion.None:
-                        break;
-                        case GameTerms.Motion.Attack:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Strike:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Defence:
-                        break;
-                        case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Avoid:
-                        break;
-                        case GameTerms.Motion.Taunt:
-                        break;
-                    }
-                break;
-                case GameTerms.Motion.Attack:
-                    switch(otherMotion){
-                        case GameTerms.Motion.None:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Attack:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Strike:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Defence:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Avoid:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Taunt:
-                        isCollide = true;
-                        break;
-                    }
-                break;
-                case GameTerms.Motion.Strike:
-                    switch(otherMotion){
-                        case GameTerms.Motion.None:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Attack:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Strike:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Defence:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Avoid:
-                        break;
-                        case GameTerms.Motion.Taunt:
-                        isCollide = true;
-                        break;
-                    }
-                break;
-                case GameTerms.Motion.Defence:
-                    switch(otherMotion){
-                        case GameTerms.Motion.None:
-                        break;
-                        case GameTerms.Motion.Attack:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Strike:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Defence:
-                        break;
-                        case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Avoid:
-                        break;
-                        case GameTerms.Motion.Taunt:
-                        break;
-                    }
-                break;
-                case GameTerms.Motion.Charge:
-                    switch(otherMotion){
-                        case GameTerms.Motion.None:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Attack:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Strike:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Defence:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Avoid:                            
-                        isCollide = false;
-                        break;
-                        case GameTerms.Motion.Taunt:
-                        isCollide = true;
-                        break;
-                    }
-                break;
-                case GameTerms.Motion.Avoid:
-                    switch(otherMotion){
-                        case GameTerms.Motion.None:
-                        break;
-                        case GameTerms.Motion.Attack:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Strike:                            
-                        break;
-                        case GameTerms.Motion.Defence:
-                        break;
-                        case GameTerms.Motion.Charge:
-                        // isCollide = true;
-                        break;
-                        case GameTerms.Motion.Avoid:
-                        break;
-                        case GameTerms.Motion.Taunt:
-                        break;
-                    }
-                break;
-                case GameTerms.Motion.Taunt:
-                    switch(otherMotion){
-                        case GameTerms.Motion.None:
-                        break;
-                        case GameTerms.Motion.Attack:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Strike:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Defence:                            
-                        break;
-                        case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
-                        case GameTerms.Motion.Avoid:                            
-                        break;
-                        case GameTerms.Motion.Taunt:
-                        break;
-                    }
-                break;
-            }
-            // TODO : 추가적인 충돌 회피상황 있으면 정리(Avoid 등?)
-            Debug.Log("Collision : " + isCollide);
-
-            // float character1Power = character1.GetLastPlayData().token.GetGameTokenValue(GameTerms.TokenType.OffensivePower)
-
-            //Collision이 없거나 모두 defensive
-
-            character1.GetLastPlayData().collision = isCollide;
-            character2.GetLastPlayData().collision = isCollide;
+            character1.CalcuateCollision();
+            character2.CalcuateCollision();
         }
         
        
         
         public void CalculateConseqence(){
-            //ConvertPower
-            ConvertPower(character1);
-            ConvertPower(character2);
-
+            //Finalize Power
+            character1.FinalizePower();
+            character2.FinalizePower();
+            
             //CalculateDamage
-            CalcuateDamage(character1, character2);
-            CalcuateDamage(character2, character1);
-            
-            
-            
-            //EnergeConsumption TakeBack
-            ConvertEnergyConsumptionTakeBakcToEnergyGain(character1);
-            ConvertEnergyConsumptionTakeBakcToEnergyGain(character2);
+            character1.CalculateDamage();
+            character2.CalculateDamage();
 
+            //ModifyStats
+            character1.ModifyStats();
+            character2.ModifyStats();
             
-            //Damage To Health Loss
-            ConvertDamageToHealthLoss(character1);
-            ConvertDamageToHealthLoss(character2);
-
-
-            //Manage Poison(TODO)
-
-            
-            //Convert EnergyGainWithNoCollision to GainNextTurn
-            ConvertEnergeGainWithNoCollitionToEnergyGainNext(character1);
-            ConvertEnergeGainWithNoCollitionToEnergyGainNext(character2);
-
-            //Apply Health/Energy Gain and Loss to Current
-            // character1.GetLastPlayData().token.ApplyToken(Token.Category.Health);
-            // character2.GetLastPlayData().token.ApplyToken(Token.Category.Health);
-            
-            // character1.GetLastPlayData().token.ApplyToken(Token.Category.Energy);
-            // character2.GetLastPlayData().token.ApplyToken(Token.Category.Energy);
-            
-            // character1.GetLastPlayData().token.Cap(character1);
-            // character2.GetLastPlayData().token.Cap(character2);
-
-            //------------------------------------------------------------[Organize at last]
-            // character1.GetLastPlayData().token.Organize();
-            // character2.GetLastPlayData().token.Organize();
+            //CalculateFeedback
+            character1.CalcuateCollision();
+            character2.CalcuateCollision();
         }
 
         private void ModifyGaugePower(Character me){
@@ -306,7 +112,7 @@ namespace ssm.game.structure{
             shieldPowerGainTK.value0 = shieldPowerGain;
             Token shieldPowerLossTK = new Token(Token.Category.ShieldPower, Token.Behaviour.Loss);
             shieldPowerLossTK.value0 = shieldPowerLoss;
-            // Debug.Log("Gameboard.ModifyGaugePower : " + swordPowerGain.ToString() + "/" + swordPowerLoss.ToString()  + "//" + 
+            // Debug.Log("GameBoard.ModifyGaugePower : " + swordPowerGain.ToString() + "/" + swordPowerLoss.ToString()  + "//" + 
             // shieldPowerGain.ToString() + "/" + shieldPowerLoss.ToString());
             me.GetLastPlayData().token.Combine(swordPowerGainTK);
             me.GetLastPlayData().token.Combine(swordPowerLossTK);
@@ -471,7 +277,7 @@ namespace ssm.game.structure{
             if(me.GetLastPlayData().collision == true)return;
             float energeGainWithNoCollition = GetValueFromToken(me, me.token, Token.Category.Energy, Token.Behaviour.GainWithNoCollision);            
             if(energeGainWithNoCollition <= 0f)return;
-            // Debug.Log("Gameboard.ConvertEnergeGainWithNoCollitionToEnergyGainNext Triggered : " + (energeGainWithNoCollition).ToString());
+            // Debug.Log("GameBoard.ConvertEnergeGainWithNoCollitionToEnergyGainNext Triggered : " + (energeGainWithNoCollition).ToString());
             Token EnergyGainTK = new Token(Token.Category.Energy, Token.Behaviour.GainNextTurn);
             EnergyGainTK.value0 = energeGainWithNoCollition;
             me.GetLastPlayData().token.Combine(EnergyGainTK);

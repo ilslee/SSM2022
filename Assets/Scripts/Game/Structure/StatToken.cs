@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Unity.VisualScripting;
 using UnityEngine;
+/*
 namespace ssm.game.structure{
     
     public class StatToken
     {
-        public GameTerms.StatTokenType type;
+        public GameTerms.TokenType type;
         public GameTerms.StatTokenCategory category;
         public float value0;
         public float value1;
 
-        public StatToken(GameTerms.StatTokenType t, GameTerms.StatTokenCategory c, float v0 = 0f, float v1 = 0f){
+        public StatToken(GameTerms.TokenType t, GameTerms.StatTokenCategory c, float v0 = 0f, float v1 = 0f){
             type = t;
             category = c;
             value0 = v0;
@@ -29,10 +30,10 @@ namespace ssm.game.structure{
         public void Initialize(){
             //초기화시에는 최소 4개의 StatToken이 필요하다
             if(this.Count > 0) Debug.LogError("StatTokenList.Initialize : the List already has other items of - " + this.Count);
-            this.Add(new StatToken(GameTerms.StatTokenType.Health, GameTerms.StatTokenCategory.Current, 0f, 0f));
-            this.Add(new StatToken(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Current, 0f, 0f));
-            this.Add(new StatToken(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.Current, 0f, 0f));
-            this.Add(new StatToken(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.Current, 0f, 0f));
+            this.Add(new StatToken(GameTerms.TokenType.Health, GameTerms.StatTokenCategory.Current, 0f, 0f));
+            this.Add(new StatToken(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Current, 0f, 0f));
+            this.Add(new StatToken(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.Current, 0f, 0f));
+            this.Add(new StatToken(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.Current, 0f, 0f));
             
         }
         public void Combine(StatToken st){
@@ -49,27 +50,27 @@ namespace ssm.game.structure{
             }
             this.Add(new StatToken(st.type, st.category, st.value0, st.value1));
         }
-        public StatToken Find(GameTerms.StatTokenType t, GameTerms.StatTokenCategory c){
+        public StatToken Find(GameTerms.TokenType t, GameTerms.StatTokenCategory c){
             StatToken resultToken = this.Find(m => m.type == t && m.category == c);
             if(resultToken == null){
                 Debug.LogError("StatTokenList.Find(2) : There is no matching type of " + t.ToString() + " & " + c.ToString() );
-                return new StatToken(GameTerms.StatTokenType.None, GameTerms.StatTokenCategory.None);
+                return new StatToken(GameTerms.TokenType.None, GameTerms.StatTokenCategory.None);
             }else{
                 return resultToken;
             }
         }
 
-        public StatToken Find(GameTerms.StatTokenType t){
+        public StatToken Find(GameTerms.TokenType t){
             StatToken resultToken = this.Find(m => m.type == t);
             if(resultToken == null){
                 // Debug.LogError("StatTokenList.Find(1) : There is no matching type of " + t.ToString() );
-                return new StatToken(GameTerms.StatTokenType.None, GameTerms.StatTokenCategory.None);
+                return new StatToken(GameTerms.TokenType.None, GameTerms.StatTokenCategory.None);
             }else{
                 return resultToken;
             }
         }
 
-        public bool Has(GameTerms.StatTokenType t){
+        public bool Has(GameTerms.TokenType t){
             StatToken resultToken = this.Find(m => m.type == t);
             if(resultToken == null){
                 return false;
@@ -77,7 +78,7 @@ namespace ssm.game.structure{
                 return true;
             }
         }
-        public bool Has(GameTerms.StatTokenType t, GameTerms.StatTokenCategory c){
+        public bool Has(GameTerms.TokenType t, GameTerms.StatTokenCategory c){
             StatToken resultToken = this.Find(m => m.type == t && m.category == c);
             if(resultToken == null){
                 return false;
@@ -102,32 +103,32 @@ namespace ssm.game.structure{
 
         public void CalculatePreviousStatOnTurnStart(Character me, Character Other){
             //Energe
-            // StatToken energy = Find(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Current);
-            // float energyGainVal = me.GetLastPlayData(1).token.Find(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.GainNextTurn).value0;
-            // float energyLossVal = me.GetLastPlayData(1).token.Find(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.LossNextTurn).value0;
+            // StatToken energy = Find(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Current);
+            // float energyGainVal = me.GetLastPlayData(1).token.Find(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.GainNextTurn).value0;
+            // float energyLossVal = me.GetLastPlayData(1).token.Find(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.LossNextTurn).value0;
             // Debug.Log(" ** Energy [Current] : " + energy.value0 + " / [Gain] : " + energyGainVal + " / [Loss] : " + energyLossVal);
             // energy.value0 = energy.value0 + energyGainVal - energyLossVal;
             // //SwordPower
-            // StatToken swordPower = Find(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.Current);
+            // StatToken swordPower = Find(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.Current);
             // // Debug.Log("Sword Power and Shield Power : " + swordPower.value0 + " / " + shieldPower.value0);
-            // float swordPowerGainVal = me.GetLastPlayData(1).token.Find(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.GainNextTurn).value0;
-            // float swordPowerLossVal = me.GetLastPlayData(1).token.Find(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.LossNextTurn).value0;
+            // float swordPowerGainVal = me.GetLastPlayData(1).token.Find(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.GainNextTurn).value0;
+            // float swordPowerLossVal = me.GetLastPlayData(1).token.Find(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.LossNextTurn).value0;
             // swordPower.value0 = swordPower.value0 + swordPowerGainVal - swordPowerLossVal;
             // //ShieldPower
-            // StatToken shieldPower = Find(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.Current);
-            // float shieldPowerGainVal = me.GetLastPlayData(1).token.Find(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.GainNextTurn).value0;
-            // float shieldPowerLossVal = me.GetLastPlayData(1).token.Find(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.LossNextTurn).value0;
+            // StatToken shieldPower = Find(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.Current);
+            // float shieldPowerGainVal = me.GetLastPlayData(1).token.Find(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.GainNextTurn).value0;
+            // float shieldPowerLossVal = me.GetLastPlayData(1).token.Find(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.LossNextTurn).value0;
             // shieldPower.value0 = shieldPower.value0 + shieldPowerGainVal - shieldPowerLossVal;
         }
 
         public void CalculatOneResult(StatTokenList other){
             //Health (Damage to Health)
-            StatToken health = Find(GameTerms.StatTokenType.Health, GameTerms.StatTokenCategory.Current);
-            StatToken healthGain = Find(GameTerms.StatTokenType.Health, GameTerms.StatTokenCategory.Gain);
+            StatToken health = Find(GameTerms.TokenType.Health, GameTerms.StatTokenCategory.Current);
+            StatToken healthGain = Find(GameTerms.TokenType.Health, GameTerms.StatTokenCategory.Gain);
             
-            StatToken damage = Find(GameTerms.StatTokenType.Damage, GameTerms.StatTokenCategory.Take);
-            StatToken trueDamage = Find(GameTerms.StatTokenType.TrueDamage, GameTerms.StatTokenCategory.Take);
-            StatToken poison = Find(GameTerms.StatTokenType.Poison, GameTerms.StatTokenCategory.Current);
+            StatToken damage = Find(GameTerms.TokenType.Damage, GameTerms.StatTokenCategory.Take);
+            StatToken trueDamage = Find(GameTerms.TokenType.TrueDamage, GameTerms.StatTokenCategory.Take);
+            StatToken poison = Find(GameTerms.TokenType.Poison, GameTerms.StatTokenCategory.Current);
 
             health.value0 -= Mathf.Max(damage.value0, 0f); // damage가 음수인 경우 체력이 회복됨을 방지
             health.value0 -= Mathf.Max(trueDamage.value0, 0f); // damage가 음수인 경우 체력이 회복됨을 방지
@@ -140,17 +141,17 @@ namespace ssm.game.structure{
             //추가 피해를 주는 방식들 계속 추가
 
             //Energy (Consumption to Energy)
-            StatToken energy = Find(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Current);
-            StatToken energyLoss = Find(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Loss);
-            StatToken energyGain = Find(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Gain);
+            StatToken energy = Find(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Current);
+            StatToken energyLoss = Find(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Loss);
+            StatToken energyGain = Find(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Gain);
             // Debug.Log(" * Energy [Current] : " + energy.value0 + " / [Concumption] : " + energyConsumption.value0);
             energy.value0 = energy.value0 + energyGain.value0 - energyLoss.value0;
             //추가 피해를 주는 방식들 계속 추가
 
             //Poison: Take -> Current, 여기에 위치함으로 인해 1턴 후부터 데미지에 적용        
-            float poisonTaken = Find(GameTerms.StatTokenType.Poison, GameTerms.StatTokenCategory.Take).value0;
+            float poisonTaken = Find(GameTerms.TokenType.Poison, GameTerms.StatTokenCategory.Take).value0;
             if(poisonTaken > 0f){
-                Combine(new StatToken(GameTerms.StatTokenType.Poison, GameTerms.StatTokenCategory.Current, poisonTaken));
+                Combine(new StatToken(GameTerms.TokenType.Poison, GameTerms.StatTokenCategory.Current, poisonTaken));
             }
             
         }
@@ -158,23 +159,23 @@ namespace ssm.game.structure{
             StatTokenList returnVal = new StatTokenList();
             //옮길 것
             //Current Health
-            StatToken currentHealth = Find(GameTerms.StatTokenType.Health, GameTerms.StatTokenCategory.Current);
-            returnVal.Combine(new StatToken(GameTerms.StatTokenType.Health, GameTerms.StatTokenCategory.Current, currentHealth.value0, currentHealth.value1));
+            StatToken currentHealth = Find(GameTerms.TokenType.Health, GameTerms.StatTokenCategory.Current);
+            returnVal.Combine(new StatToken(GameTerms.TokenType.Health, GameTerms.StatTokenCategory.Current, currentHealth.value0, currentHealth.value1));
             //Current Energy
-            StatToken currentEnergy = Find(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Current);
-            returnVal.Combine(new StatToken(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Current, currentEnergy.value0, currentEnergy.value1));
+            StatToken currentEnergy = Find(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Current);
+            returnVal.Combine(new StatToken(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Current, currentEnergy.value0, currentEnergy.value1));
             //Current ShieldPower
-            StatToken currentSwordPower = Find(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.Current);
-            returnVal.Combine(new StatToken(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.Current, currentSwordPower.value0, currentSwordPower.value1));
+            StatToken currentSwordPower = Find(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.Current);
+            returnVal.Combine(new StatToken(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.Current, currentSwordPower.value0, currentSwordPower.value1));
             //Current Health
-            StatToken currentShieldPower = Find(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.Current);
-            returnVal.Combine(new StatToken(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.Current, currentShieldPower.value0, currentShieldPower.value1));
+            StatToken currentShieldPower = Find(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.Current);
+            returnVal.Combine(new StatToken(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.Current, currentShieldPower.value0, currentShieldPower.value1));
             
             //Others
             //Poison
-            float poisonVal = Find(GameTerms.StatTokenType.Poison).value0;
+            float poisonVal = Find(GameTerms.TokenType.Poison).value0;
             if(poisonVal > 0){
-                returnVal.Combine(new StatToken(GameTerms.StatTokenType.Poison, GameTerms.StatTokenCategory.Current, poisonVal));
+                returnVal.Combine(new StatToken(GameTerms.TokenType.Poison, GameTerms.StatTokenCategory.Current, poisonVal));
             }
             return returnVal;
         }
@@ -196,12 +197,12 @@ namespace ssm.game.structure{
 
     public class StatTokenFactory
     {
-        /*
-        OnStartGame : 게임 시작시
-        OnStartTurn : 턴 시작시
-        OnFeedback : 결과에 따른 효과
-        */
-        public enum OperateType {None, OnStartGame, OnStartTurn, OnSource,OnPower, OnExceedEnergyTakeBack, OnDamageGain, OnDamageReduction, OnConsequence, OnFeedback,
+        
+        // OnStartGame : 게임 시작시
+        // OnRecovery : 턴 시작시
+        // OnFeedback : 결과에 따른 효과
+        
+        public enum OperateType {None, OnStartGame, OnRecovery, OnSource,OnPower, OnExceedEnergyTakeBack, OnDamageGain, OnDamageReduction, OnConsequence, OnFeedback,
                                 OnPoisonGive, OnMotionAttack, OnMotionStrike, OnMotionDefence, OnMotionCharge, OnMotionAvoid, OnMotionTaunt, OnMotionNone};
         public delegate void Operate(Character me, Character ohter);
         public OperateType type;
@@ -217,3 +218,4 @@ namespace ssm.game.structure{
 
 
 }
+*/

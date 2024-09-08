@@ -15,7 +15,7 @@ namespace ssm.game.appearance{
         public void ManageGameEvent(string type, int index, int value){
             switch(type){
                 case GameEvent.READY_PHASE_OVER:
-                turn.text = "Turn " + GameBoard.Turn.ToString();
+                turn.text = "Turn " + GameBoard.Instance().currentTurn.ToString();
                 break;
             }
         }

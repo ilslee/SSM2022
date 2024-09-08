@@ -14,12 +14,11 @@ namespace ssm.game.structure{
         public bool isBPCharacter;
         public BPManager behaviourPattern;
         
-        // 다른 Token을 만들어 낼 수 있는 뿌리 Token들               
-        // Max값
-        public TokenList staticTokens; 
+        // public GameTokenList token;                
+        public TokenList staticTokens;                
         public List<PlayData> playData;
         
-        public TokenList expectations;
+        public TokenList temporaryTokens;
         
         public Character(PlayableCharacter data, int index){
             this.index = index;
@@ -33,8 +32,8 @@ namespace ssm.game.structure{
             foreach(ItemData i in data.item){
                 foreach(Token t in i.tokens){
                     t.characterIndex = this.index;
-                    if(t.occasion == GameTerms.TokenOccasion.Static)tempStaticToken.Add(t);
-                    else if(t.occasion == GameTerms.TokenOccasion.Static)tempPlayData.Add(t);
+                    if(t.occasion == GameTerms.TokenOccasion.Dynamic)tempPlayData.Add(t);
+                    else tempStaticToken.Add(t);
                 }
             }
             tempStaticToken.Combine(tempStaticToken);
@@ -89,9 +88,9 @@ namespace ssm.game.structure{
             playData.Add(new PlayData());            
             //지난 Stat 이관
             if(playData.Count > 1){
-                // GetLastPlayData().InheritGameToken(GetLastPlayData(1).token);                
+                GetLastPlayData().Inherit(GetLastPlayData(1));                
             }
-            expectations.Clear();
+            temporaryTokens.Clear();
             // Debug.Log("Character.AddPlayData() : " + GetLastPlayData().token.ToString());
         }
 
@@ -104,7 +103,7 @@ namespace ssm.game.structure{
             }
             
             void GetLastPlayDataError(){
-                Debug.LogError("Gameboard.GetLastPlayDataViaIndex - There is no game Data at : " + count);            
+                Debug.LogError("GameBoard.GetLastPlayDataViaIndex - There is no game Data at : " + count);            
             }
         }
         
@@ -114,45 +113,190 @@ namespace ssm.game.structure{
             else return -1;
         }
         
+        //Static과 Temp에서 지정 타입의 토큰을 찾는다
+        public Token SearchToken(GameTerms.TokenType t){
+            Token resultValue =  new Token(index, t, GameTerms.TokenOccasion.None);
+            resultValue.Combine(staticTokens.Find(t));
+            resultValue.Combine(temporaryTokens.Find(t));
+            return resultValue;
+        }
+        //Static과 Temp에서 지정 상황의 토큰 리스트를 찾는다
+        private TokenList SearchTokenList(GameTerms.TokenOccasion o){
+            TokenList resultValue =  new TokenList();
+            foreach(Token t in staticTokens.FindAll(o)){
+                resultValue.Combine(t);
+            }
+            foreach(Token t in temporaryTokens.FindAll(o)){
+                resultValue.Combine(t);
+            }
+            return resultValue;
+        }
+        //------------------------------[Recovery]
+        public void CalculateRecoveries(){
+            foreach(Token t in SearchTokenList(GameTerms.TokenOccasion.Recover)){
+                t.Yeild();
+            }
+        }
+        //------------------------------[Expectation]
         public void ExpectPower(){
             TokenList tempTL = new TokenList();
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Attack));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Strike));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Defence));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Charge));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Rest));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Avoid));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Sword));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Shield));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Move));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Offensive));
-            tempTL.AddRange(staticTokens.FindAll(GameTerms.TokenOccasion.Defensive));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Attack));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Strike));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defence));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Charge));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Rest));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Avoid));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Sword));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Shield));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Move));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
+            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
             foreach(Token t in tempTL){
-                expectations.Combine(t.Yeild());
+                temporaryTokens.Combine(t.Yeild());
             }
-            
         }
-        /*
-        public TokenList GetTokenListViaMotion(GameTerms.Motion m){
-            switch(m){
+       
+        public void CalcuateCollision(){
+            GameTerms.Motion myMotion = GetLastPlayData().motion;
+            GameTerms.Motion otherMotion = GameBoard.Instance().FindOpponent(index).GetLastPlayData().motion;
+            bool isCollide = false;
+            switch(myMotion){
                 case GameTerms.Motion.None:
-                return token.FindAll(x => x.occasion == Token.Occasion.OnMotionNone) as TokenList;
+                    switch(otherMotion){
+                        // case GameTerms.Motion.None:
+                        // case GameTerms.Motion.Defence:
+                        // case GameTerms.Motion.Rest:
+                        // case GameTerms.Motion.Avoid:
+                        // break;
+                        case GameTerms.Motion.Attack:
+                        case GameTerms.Motion.Strike:
+                        case GameTerms.Motion.Charge:
+                        isCollide = true;
+                        break;
+                    }
+                break;
                 case GameTerms.Motion.Attack:
-                return token.FindAll(x => x.occasion == Token.Occasion.OnMotionAttack) as TokenList;
+                    switch(otherMotion){
+                        case GameTerms.Motion.None:
+                        case GameTerms.Motion.Attack:
+                        case GameTerms.Motion.Strike:
+                        case GameTerms.Motion.Defence:
+                        case GameTerms.Motion.Charge:
+                        case GameTerms.Motion.Rest:
+                        isCollide = true;
+                        break;
+                    }
+                break;
                 case GameTerms.Motion.Strike:
-                return token.FindAll(x => x.occasion == Token.Occasion.OnMotionStrike) as TokenList;
+                    switch(otherMotion){
+                        case GameTerms.Motion.None:
+                        case GameTerms.Motion.Attack:
+                        case GameTerms.Motion.Strike:
+                        case GameTerms.Motion.Defence:
+                        case GameTerms.Motion.Charge:
+                        case GameTerms.Motion.Rest:
+                        isCollide = true;
+                        break;
+                    }
+                break;
                 case GameTerms.Motion.Defence:
-                return token.FindAll(x => x.occasion == Token.Occasion.OnMotionDefence) as TokenList;
+                    switch(otherMotion){
+                        case GameTerms.Motion.Attack:
+                        case GameTerms.Motion.Strike:
+                        case GameTerms.Motion.Charge:
+                        isCollide = true;
+                        break;
+                    }
+                break;
                 case GameTerms.Motion.Charge:
-                return token.FindAll(x => x.occasion == Token.Occasion.OnMotionCharge) as TokenList;
+                    switch(otherMotion){
+                        case GameTerms.Motion.None:
+                        case GameTerms.Motion.Attack:
+                        case GameTerms.Motion.Strike:
+                        case GameTerms.Motion.Defence:
+                        case GameTerms.Motion.Charge:
+                        case GameTerms.Motion.Rest:                            
+                        case GameTerms.Motion.Avoid:
+                        isCollide = true;
+                        break;
+                    }
+                break;
+                case GameTerms.Motion.Rest:
+                    switch(otherMotion){
+                        case GameTerms.Motion.Attack:
+                        case GameTerms.Motion.Strike:
+                        case GameTerms.Motion.Charge:
+                        isCollide = true;
+                        break;
+                    }
+                break;
                 case GameTerms.Motion.Avoid:
-                return token.FindAll(x => x.occasion == Token.Occasion.OnMotionAvoid) as TokenList;
-                case GameTerms.Motion.Taunt:
-                return token.FindAll(x => x.occasion == Token.Occasion.OnMotionTaunt) as TokenList;
+                    switch(otherMotion){
+                        case GameTerms.Motion.Charge:
+                        isCollide = true;
+                        break;
+                    }
+                break;
             }
-            return new TokenList();
+            GetLastPlayData().collision = isCollide;
         }
-        */
+        
+        //------------------------------[Consequences] 
+        public void FinalizePower(){
+            TokenList tempTL = new TokenList();
+            switch(GetLastPlayData().motion){
+                case GameTerms.Motion.None:
+                break;
+                case GameTerms.Motion.Attack:
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Attack));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Sword));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
+                break;
+                case GameTerms.Motion.Strike:
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Strike));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Sword));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
+                break;
+                case GameTerms.Motion.Defence:
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defence));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Shield));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
+                break;
+                case GameTerms.Motion.Charge:
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Charge));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Shield));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
+                break;
+                case GameTerms.Motion.Rest:
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Rest));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Move));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
+                break;
+                case GameTerms.Motion.Avoid:
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Avoid));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Move));
+                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
+                break;
+            }
+            foreach(Token t in tempTL){
+                GetLastPlayData().Combine(t.Yeild()); // Convey Powers 
+            }
+        }
+
+        public void CalculateDamage(){
+            Power myPower = GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as Power;
+            GetLastPlayData().Combine(myPower.Yeild()); // Convey Damage
+        }
+        public void ModifyStats(){
+            Power myPower = GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as Power;
+            GetLastPlayData().Combine(myPower.Yeild()); // Consume & Modification
+        }
+        public void CalculateFeedback(){
+            foreach(Token t in SearchTokenList(GameTerms.TokenOccasion.Feedback)){
+                t.Yeild();
+            }
+        }
+        
     }
 
 

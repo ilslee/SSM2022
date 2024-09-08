@@ -32,15 +32,15 @@ namespace ssm.game.structure{
         }
         public void SetStatOnStart(Character me, Character other){
             // Debug.Log("GameItemCoreSA.SetStatOnStart");
-            // me.maxStat.Combine(new StatToken(GameTerms.StatTokenType.Health, GameTerms.StatTokenCategory.Max, maxHealth[grade]));
-            // me.maxStat.Combine(new StatToken(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Max, maxEnergy[grade]));
-            // me.maxStat.Combine(new StatToken(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.Max, maxSwordPower[grade]));
-            // me.maxStat.Combine(new StatToken(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.Max, maxShieldPower[grade]));
+            // me.maxStat.Combine(new StatToken(GameTerms.TokenType.Health, GameTerms.StatTokenCategory.Max, maxHealth[grade]));
+            // me.maxStat.Combine(new StatToken(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Max, maxEnergy[grade]));
+            // me.maxStat.Combine(new StatToken(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.Max, maxSwordPower[grade]));
+            // me.maxStat.Combine(new StatToken(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.Max, maxShieldPower[grade]));
         
-            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.StatTokenType.Health, GameTerms.StatTokenCategory.Current, startHealth[grade]));
-            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.StatTokenType.Energy, GameTerms.StatTokenCategory.Current, startEnergy[grade]));
-            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.StatTokenType.SwordPower, GameTerms.StatTokenCategory.Current, startSwordPower[grade]));
-            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.StatTokenType.ShieldPower, GameTerms.StatTokenCategory.Current, startShieldPower[grade]));
+            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.TokenType.Health, GameTerms.StatTokenCategory.Current, startHealth[grade]));
+            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.TokenType.Energy, GameTerms.StatTokenCategory.Current, startEnergy[grade]));
+            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.TokenType.SwordPower, GameTerms.StatTokenCategory.Current, startSwordPower[grade]));
+            // me.GetLastPlayData().token.Combine(new StatToken(GameTerms.TokenType.ShieldPower, GameTerms.StatTokenCategory.Current, startShieldPower[grade]));
             
         }
        

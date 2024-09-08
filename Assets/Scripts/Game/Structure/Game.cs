@@ -18,9 +18,9 @@ namespace ssm.game.structure{
         }
 
         public virtual void PrepareGame(int maxTurn, float turnTime, PlayableCharacter c1, PlayableCharacter c2){
-            GameBoard.MaxTurn = maxTurn;
-            GameBoard.Turn = 0;
-            GameBoard.TurnTime = turnTime;
+            GameBoard.Instance().maxTurn = maxTurn;
+            GameBoard.Instance().currentTurn = 0;
+            GameBoard.Instance().turnTime = turnTime;
             board.Initialize(c1,c2);
             GameLogDisplayer.LogGamePreparation();
         }
@@ -35,39 +35,39 @@ namespace ssm.game.structure{
         
         //게임 처음 시작시
         public virtual void ManageStartPhase(){
-            GameBoard.Phase = GameTerms.Phase.StartGame;
+            GameBoard.Instance().phase = GameTerms.Phase.StartGame;
             gameEvent.Raise(GameEvent.START_PHASE_OVER);
         }
         //입력 
         public virtual void ManageReadyPhase(){
-            GameBoard.Phase = GameTerms.Phase.StartTurn;
-            GameBoard.Turn ++;
+            GameBoard.Instance().phase = GameTerms.Phase.Recovery;
+            GameBoard.Instance().currentTurn ++;
             board.AddPlayData();
             board.CalculateOnTurnStart();
-            GameBoard.Phase = GameTerms.Phase.Expectation;
+            GameBoard.Instance().phase = GameTerms.Phase.Expectation;
             board.CalculateExpectations();
             gameEvent.Raise(GameEvent.READY_PHASE_OVER);
         }
         // 상호 Pose 선택
         public virtual void ManagePosePhase(){
-            GameBoard.Phase = GameTerms.Phase.Motion;
+            GameBoard.Instance().phase = GameTerms.Phase.Motion;
             board.ProcessMotions();
             gameEvent.Raise(GameEvent.POSE_PHASE_OVER);
         }
         public virtual void ManageCalculatePhase(){
-            GameBoard.Phase = GameTerms.Phase.Calculate;
+            GameBoard.Instance().phase = GameTerms.Phase.Calculation;
             board.CalcuateCollision();
             // board.CalcuateDamage();
             board.CalculateConseqence();
             gameEvent.Raise(GameEvent.CALCULATIION_PHASE_OVER);
         }
         public virtual void ManageResult(){
-            GameBoard.Phase = GameTerms.Phase.FeedbackPoses;
+            GameBoard.Instance().phase = GameTerms.Phase.Feedback;
             // board.CalculateResult();
             gameEvent.Raise(GameEvent.RESULT_PHASE_OVER);
         }
         public virtual void ManageFinishPhase(){
-            GameBoard.Phase = GameTerms.Phase.FinishGame;
+            GameBoard.Instance().phase = GameTerms.Phase.FinishGame;
             gameEvent.Raise(GameEvent.FINISH_PHASE_OVER);
         }
         

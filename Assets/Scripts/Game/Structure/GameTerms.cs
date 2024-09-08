@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 public static class GameTerms
 {
-    public enum Phase{  None, StartGame, FinishGame, StartTurn, Expectation, InputReady, Motion, Calculate, FeedbackPoses,
-                        CalculateDamageGain, CalculateDamageReduce
-    }
+    public enum Phase{  None, StartGame, FinishGame, Recovery, Expectation, InputReady, Motion, Calculation, Feedback    }
     
     public enum TokenType { None,                             
                             AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions0
@@ -17,31 +15,20 @@ public static class GameTerms
                             AttackPower, AttackEfficiency, StrikePower, StrikeEfficiency, StrikeConsumption, // Sword power and energy
                             DefencePower, DefenceEfficiency, CollisionGeneration, ChargePower, ChargeEfficiency, ChargeConsumption, // Shield power and energy
                             RestPower, AvoidPower, AvoidEfficiency, AvoidAdaptiveConsumption, RestGeneration, AvoidGeneration, // Move power and energy
-                            BasePower, EnergyPower, AdditionalPower, OffensiveMinPower, OffensiveMaxPower, DefensiveMinPower, DefensiveMaxPower, 
+                            BasePower, EnergyPower, AdditionalPower, TotalPower, 
                             Damage
                             }
 
 
 
 
-    public enum TokenOccasion { None, Static, Dinamic, 
+    public enum TokenOccasion { None, Static, Dynamic, 
                                 MotionNone, Attack, Strike, Defence, Charge, Avoid, Rest,
                                 Sword, Shield, Move, Offensive, Defensive, // Actions1
+                                Recover, Feedback, Give, Take
 
     }
 
-    public enum StatTokenType{      None, Health, Energy, SwordPower, ShieldPower, Power, Damage, 
-                                    InvalidDamageTakeByAttack, InvalidColisionByStrike, InvalidDefenceShieldPowerRecoveryOther,
-                                    ExceedEnergyTakeBack, StealSwordPower, StealShieldPower,
-                                    Poison, TrueDamage, ShieldPowerAgainstSword, SwordPowerAgainstDefence,
-                                    OvercomingDeath
-
-    }
-
-    public enum StatTokenCategory{  None, Max, Current, GainNextTurn, LossNextTurn, Gain, Loss,
-                                    Offensive, Defensive, Give, Take
-
-    }
 
 
     public enum MTType{  None, 
@@ -148,7 +135,7 @@ public static class GameTerms
     
     // public enum Pose{None, Sword, Shield, Move, Random, OtherPrev1Pose, OtherPrev2Pose, Winning, Losing, Same}
     // public enum Motion{None, Stay, Normal, Enhance}
-    public enum Motion{None, Attack, Strike, Defence, Charge, Avoid, Taunt}
+    public enum Motion{None, Attack, Strike, Defence, Charge, Rest, Avoid, Taunt}
     // public enum DamageType{None, Attack, Defence}
     //, FastAttack, Block, Blitz
          

@@ -19,12 +19,12 @@ namespace ssm.data.item.basic{
             energy = e;
         }
         public virtual void InitTokens(){
-            tokens.Add(new Token(GameTerms.TokenType.AttackAction, GameTerms.TokenOccasion.Attack));
-            tokens.Add(new Token(GameTerms.TokenType.StrikeAction, GameTerms.TokenOccasion.Attack));
-            tokens.Add(new Token(GameTerms.TokenType.DefenceAction, GameTerms.TokenOccasion.Attack));
-            tokens.Add(new Token(GameTerms.TokenType.ChargeAction, GameTerms.TokenOccasion.Attack));
-            tokens.Add(new Token(GameTerms.TokenType.RestAction, GameTerms.TokenOccasion.Attack));
-            tokens.Add(new Token(GameTerms.TokenType.AvoidAction, GameTerms.TokenOccasion.Attack));
+            tokens.Add(new AttackAction());
+            tokens.Add(new Token(GameTerms.TokenType.StrikeAction, GameTerms.TokenOccasion.Strike));
+            tokens.Add(new Token(GameTerms.TokenType.DefenceAction, GameTerms.TokenOccasion.Defence));
+            tokens.Add(new Token(GameTerms.TokenType.ChargeAction, GameTerms.TokenOccasion.Charge));
+            tokens.Add(new Token(GameTerms.TokenType.RestAction, GameTerms.TokenOccasion.Rest));
+            tokens.Add(new Token(GameTerms.TokenType.AvoidAction, GameTerms.TokenOccasion.Avoid));
             
 
             Token hpMaxToken = new Token(GameTerms.TokenType.HPMax, GameTerms.TokenOccasion.None, health);

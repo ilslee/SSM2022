@@ -8,7 +8,7 @@ namespace ssm.game.structure{
     {
         
         public static bool OnStart(Character me, Character other){
-            if(GameBoard.Phase == GameTerms.Phase.StartGame) return true;
+            if(GameBoard.Instance().phase == GameTerms.Phase.StartGame) return true;
             else return false;
         }
         public static bool OnDamageGive(Character me, Character other){

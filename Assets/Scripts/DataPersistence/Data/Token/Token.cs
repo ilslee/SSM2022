@@ -16,7 +16,13 @@ namespace ssm.data.token{
         public GameTerms.TokenOccasion occasion;
         public float value0;
         public int priority;
-        
+        public Token() {
+            characterIndex = 0;
+            type = GameTerms.TokenType.None;
+            occasion = GameTerms.TokenOccasion.None;
+            value0 = 0f;    
+            priority = 50;
+        }
         public Token(int chaID) {
             characterIndex = chaID;
             type = GameTerms.TokenType.None;
@@ -31,6 +37,14 @@ namespace ssm.data.token{
             value0 = v;    
             priority = 50;     
         }  
+        //아이템 데이터 등 특정 인덱스를 특정하지 않는 경우
+        public Token(GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f){
+            characterIndex = 0; 
+            type = t;
+            occasion = o;
+            value0 = v;    
+            priority = 50;     
+        }
         public Token Clone(){
             Token returnVal = new Token(characterIndex);
             returnVal.type = this.type;
@@ -86,7 +100,7 @@ namespace ssm.data.token{
                 else this.Add(t);
             }     
         }
-        public void Combind(Token t){
+        public void Combine(Token t){
             Token resulttoken = this.Find(x => x.type == t.type && x.occasion == t.occasion);
             if(resulttoken != null ) resulttoken.Combine(t);
             else this.Add(t);
