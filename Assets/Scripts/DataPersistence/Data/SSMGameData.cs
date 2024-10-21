@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ssm.data.league;
 
 namespace ssm.data
 {
    [System.Serializable]   
-   [CreateAssetMenu(fileName = "SSMGameData", menuName = "SSM/Data/Game")]
+   [CreateAssetMenu(fileName = "SSMGameData", menuName = "SSM/Data/SSMGameData")]
    public class SSMGameData : ScriptableObject
    {
       //난이도와 진행상황 관련 변수들
@@ -17,7 +17,7 @@ namespace ssm.data
       public int currnetWorldProgress; // world 내 진행상황
 
       public PlayableCharacter player;
-
+      public List<League> leagues;
       public void Reset(){
          isFirstStart = true;
          worldAvailable = 1;

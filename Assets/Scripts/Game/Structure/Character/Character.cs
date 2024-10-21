@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ssm.data;
+using ssm.data.item;
 using System.Linq;
 using System;
+using ssm.game.structure.token;
 using ssm.data.token;
+using Unity.VisualScripting;
 namespace ssm.game.structure{    
     public class Character
     {
@@ -12,7 +15,7 @@ namespace ssm.game.structure{
         // public ModifierList stat; // 현재스탯, 최대 스탯을 한번에 모아둠
         
         public bool isBPCharacter;
-        public BPManager behaviourPattern;
+        public BPManager bpManager;
         
         // public GameTokenList token;                
         public TokenList staticTokens;                
@@ -21,31 +24,30 @@ namespace ssm.game.structure{
         public TokenList temporaryTokens;
         
         public Character(PlayableCharacter data, int index){
+            Debug.Log("Character : Initiate character as index = " + index);
             this.index = index;
-            AddSetItems(); // 기존 아이템을 보고 어떤 세트를 추가할 지 결정'
+            
 
+            staticTokens = new TokenList(index);
+            //동작 처리하는 GameToken 추가
+            staticTokens.Combine(new AttackAction());
+            staticTokens.Combine(new StrikeAction());
+            staticTokens.Combine(new DefenceAction());
+            staticTokens.Combine(new ChargeAction());
+            staticTokens.Combine(new RestAction());
+            staticTokens.Combine(new AvoidAction());
+            
+            temporaryTokens = new TokenList();
             AddPlayData();//턴 수와 data수를 맞추기 위해 & 0항목에는 시작 데이터가 들어감
-            staticTokens = new TokenList();
+            
+            
 
-            TokenList tempStaticToken = new TokenList();
-            TokenList tempPlayData = new TokenList();
-            foreach(ItemData i in data.item){
-                foreach(Token t in i.tokens){
-                    t.characterIndex = this.index;
-                    if(t.occasion == GameTerms.TokenOccasion.Dynamic)tempPlayData.Add(t);
-                    else tempStaticToken.Add(t);
-                }
-            }
-            tempStaticToken.Combine(tempStaticToken);
-            GetLastPlayData().Combine(tempPlayData);
-            
-            
             if(data is BPCharacter){
                 isBPCharacter = true;
-                behaviourPattern = new BPManager();
-                foreach (var item in (data as BPCharacter).bp)
+                bpManager = new BPManager();
+                foreach (BPData item in (data as BPCharacter).bp)
                 {
-                    behaviourPattern.Add(new BehaviourPattern(item));
+                    bpManager.Add(new BehaviourPattern(index, item));
                 }
                 // Debug.Log("Character " + index + " is a BP Character with " + (data as BPCharacter).bp.Count + " BPs.");
             }else{
@@ -54,13 +56,39 @@ namespace ssm.game.structure{
             
             
 
+                       
+        }
+
+        public void InitializeTokens(PlayableCharacter data){
+            // AddSetItems(); // 기존 아이템을 보고 어떤 세트를 추가할 지 결정'
+            TokenList tempStaticToken = new TokenList(index);
+            TokenList tempPlayData = new TokenList(index);
+            //Core의 스탯을 분배
+            ConvertAndDistributeToken(data.core);
+            foreach(ItemData i in data.item){
+                //itemData의 TokenData를 GameToken으로 변환하여 재분배
+                ConvertAndDistributeToken(i.tokens);
+            }
+            
+            void ConvertAndDistributeToken(List<Token> tokenList){
+                foreach(ssm.data.token.Token t in tokenList){
+                    GameToken gameToken = GameTokenConverter.Convert(t);
+                    if(gameToken.occasion == GameTerms.TokenOccasion.Dynamic) tempPlayData.Add(gameToken);
+                    else tempStaticToken.Add(gameToken);
+                }
+            }
+            
+            staticTokens.Combine(tempStaticToken);
+            // Debug.Log(staticTokens.ToString());
+            GetLastPlayData().Combine(tempPlayData);
+            // Debug.Log(GetLastPlayData().ToString());
             void AddSetItems(){
                 List<ItemData> setItems = new List<ItemData>();
                 int familyCount = System.Enum.GetValues(typeof(ItemData.Family)).Length;
                 for (int i = 0; i < familyCount; i++)
                 {
                     ItemData.Family f = (ItemData.Family)i;
-                    if(f == ItemData.Family.None || f == ItemData.Family.Default){
+                    if(f == ItemData.Family.None || f == ItemData.Family.Basic){
                         
                     }else{
                         if(data.item.Count(t => t.family == f && t.grade >= 2) >= 6){
@@ -77,15 +105,13 @@ namespace ssm.game.structure{
                 }
                 
                 // item.AddRange(setItems);
-            }            
+            } 
         }
-
-        
 
         public void AddPlayData(){
             if(playData == null) playData = new List<PlayData>();
             
-            playData.Add(new PlayData());            
+            playData.Add(new PlayData(index));            
             //지난 Stat 이관
             if(playData.Count > 1){
                 GetLastPlayData().Inherit(GetLastPlayData(1));                
@@ -96,6 +122,9 @@ namespace ssm.game.structure{
 
         public PlayData GetLastPlayData(int count = 0){
             int index = GetLastPlayDataIndex(count);
+            if(count != 0){
+                Debug.Log("Character.GetLastPlayData() - not the last number is called. Converted ID : " +index );
+            }
             if(index >= 0) return playData[index];
             else {
                 GetLastPlayDataError();
@@ -113,47 +142,47 @@ namespace ssm.game.structure{
             else return -1;
         }
         
-        //Static과 Temp에서 지정 타입의 토큰을 찾는다
-        public Token SearchToken(GameTerms.TokenType t){
-            Token resultValue =  new Token(index, t, GameTerms.TokenOccasion.None);
-            resultValue.Combine(staticTokens.Find(t));
-            resultValue.Combine(temporaryTokens.Find(t));
+        //Static, Temp, LastPlayData에서 지정 타입의 토큰을 찾는다
+        public GameToken SearchToken(GameTerms.TokenType t, GameTerms.TokenOccasion o = GameTerms.TokenOccasion.None){
+            GameToken resultValue =  new GameToken(t, o);
+            resultValue.characterIndex = index;
+            resultValue.Combine(staticTokens.Find(t, o));
+            resultValue.Combine(temporaryTokens.Find(t, o));
+            resultValue.Combine(GameBoard.Instance().FindCharacter(index).GetLastPlayData().Find(t, o));
             return resultValue;
         }
-        //Static과 Temp에서 지정 상황의 토큰 리스트를 찾는다
+        //Static, Temp, LastPlayData에서 지정 상황의 토큰 리스트를 찾는다
         private TokenList SearchTokenList(GameTerms.TokenOccasion o){
             TokenList resultValue =  new TokenList();
-            foreach(Token t in staticTokens.FindAll(o)){
+            resultValue.characterIndex = this.index;
+            foreach(GameToken t in staticTokens.FindAll(o)){
                 resultValue.Combine(t);
             }
-            foreach(Token t in temporaryTokens.FindAll(o)){
+            foreach(GameToken t in temporaryTokens.FindAll(o)){
+                resultValue.Combine(t);
+            }
+            foreach(GameToken t in GameBoard.Instance().FindCharacter(index).GetLastPlayData().FindAll(o)){
                 resultValue.Combine(t);
             }
             return resultValue;
         }
+       
         //------------------------------[Recovery]
         public void CalculateRecoveries(){
-            foreach(Token t in SearchTokenList(GameTerms.TokenOccasion.Recover)){
+            foreach(GameToken t in SearchTokenList(GameTerms.TokenOccasion.Recover)){
                 t.Yeild();
             }
         }
         //------------------------------[Expectation]
         public void ExpectPower(){
-            TokenList tempTL = new TokenList();
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Attack));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Strike));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defence));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Charge));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Rest));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Avoid));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Sword));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Shield));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Move));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
-            tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
-            foreach(Token t in tempTL){
-                temporaryTokens.Combine(t.Yeild());
-            }
+            staticTokens.Find(GameTerms.TokenType.AttackAction).Yeild();
+            staticTokens.Find(GameTerms.TokenType.StrikeAction).Yeild();
+            staticTokens.Find(GameTerms.TokenType.DefenceAction).Yeild();
+            staticTokens.Find(GameTerms.TokenType.ChargeAction).Yeild();
+            staticTokens.Find(GameTerms.TokenType.RestAction).Yeild();
+            staticTokens.Find(GameTerms.TokenType.AvoidAction).Yeild();
+            // Debug.Log("[After Expectation]------------");
+            // Debug.Log(temporaryTokens.ToString());
         }
        
         public void CalcuateCollision(){
@@ -243,58 +272,73 @@ namespace ssm.game.structure{
         
         //------------------------------[Consequences] 
         public void FinalizePower(){
-            TokenList tempTL = new TokenList();
             switch(GetLastPlayData().motion){
                 case GameTerms.Motion.None:
                 break;
                 case GameTerms.Motion.Attack:
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Attack));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Sword));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
+                staticTokens.Find(GameTerms.TokenType.AttackAction).Yeild();
                 break;
                 case GameTerms.Motion.Strike:
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Strike));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Sword));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
+                staticTokens.Find(GameTerms.TokenType.StrikeAction).Yeild();
                 break;
                 case GameTerms.Motion.Defence:
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defence));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Shield));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
+                staticTokens.Find(GameTerms.TokenType.DefenceAction).Yeild();
                 break;
                 case GameTerms.Motion.Charge:
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Charge));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Shield));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Offensive));
+                staticTokens.Find(GameTerms.TokenType.ChargeAction).Yeild();
                 break;
                 case GameTerms.Motion.Rest:
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Rest));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Move));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
+                staticTokens.Find(GameTerms.TokenType.RestAction).Yeild();
                 break;
                 case GameTerms.Motion.Avoid:
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Avoid));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Move));
-                tempTL.AddRange(SearchTokenList(GameTerms.TokenOccasion.Defensive));
+                staticTokens.Find(GameTerms.TokenType.AvoidAction).Yeild();
                 break;
             }
-            foreach(Token t in tempTL){
-                GetLastPlayData().Combine(t.Yeild()); // Convey Powers 
-            }
+            // Debug.Log("[After FinalizePower]------------");
+            // Debug.Log(GetLastPlayData().ToString());
+        }
+        
+        public void ComparePower(){
+            TotalPower tp = GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as TotalPower;
+            tp.Yeild(); // >> Damage
+            
+            // Debug.Log("[After ComparePower]------------");
+            // Debug.Log(GetLastPlayData().ToString());
         }
 
-        public void CalculateDamage(){
-            Power myPower = GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as Power;
-            GetLastPlayData().Combine(myPower.Yeild()); // Convey Damage
+        public void ApplyConsumption(){
+            if( GetLastPlayData().Has(GameTerms.TokenType.EnergyPower) == true){
+                EnergyPower ep = GetLastPlayData().Find(GameTerms.TokenType.EnergyPower) as EnergyPower;
+                ep.Yeild(); // >> Consumtion of EPCurrent
+            }
+            TokenList consumptions = SearchTokenList(GameTerms.TokenOccasion.Consumption);
+            foreach(GameToken t in consumptions){
+                t.Yeild(); 
+            }
+            // Debug.Log("[After ApplyConsumption]------------");
+            // Debug.Log(GetLastPlayData().ToString());
         }
-        public void ModifyStats(){
-            Power myPower = GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as Power;
-            GetLastPlayData().Combine(myPower.Yeild()); // Consume & Modification
+
+        public void ApplyDamage(){
+            if(GetLastPlayData().Has(GameTerms.TokenType.Damage) == false)return;
+            Damage dm = GetLastPlayData().Find(GameTerms.TokenType.Damage) as Damage;
+            dm.Yeild(); // >> Damaeg of HPCurrent
+            TokenList damages = SearchTokenList(GameTerms.TokenOccasion.Damage);
+            foreach(GameToken t in damages){
+                t.Yeild(); 
+            }
+            // Debug.Log("[After ApplyDamage]------------");
+            // Debug.Log(GetLastPlayData().ToString());
         }
-        public void CalculateFeedback(){
-            foreach(Token t in SearchTokenList(GameTerms.TokenOccasion.Feedback)){
+        
+        public void Feedback(){
+            
+
+            foreach(GameToken t in SearchTokenList(GameTerms.TokenOccasion.Feedback)){
                 t.Yeild();
             }
+            // Debug.Log("[After Feedback]------------");
+            // Debug.Log(GetLastPlayData().ToString());
         }
         
     }

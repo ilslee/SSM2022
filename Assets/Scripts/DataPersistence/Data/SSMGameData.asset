@@ -15,6 +15,8 @@ MonoBehaviour:
   isFirstStart: 1
   worldAvailable: 1
   isHighlightLatestWorld: 1
-  currentWorld: -1
-  currnetWorldProgress: -1
-  player: {fileID: 0}
+  currentWorld: 0
+  currnetWorldProgress: 0
+  player: {fileID: 11400000, guid: 70d9412a898d7644da24633447b59fcf, type: 2}
+  leagues:
+  - {fileID: 11400000, guid: 91defc34cc1bb04458004031a99d0627, type: 2}

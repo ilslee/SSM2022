@@ -1,193 +1,226 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using ssm.data.token;
+using Unity.VisualScripting;
 using UnityEngine;
-using System.Linq;
-/*
-namespace ssm.game.structure{
-    public class GameToken 
+
+namespace ssm.game.structure.token{
+
+    [Serializable]
+    public class GameToken
     {
+        public int characterIndex;
+        public GameTerms.TokenType type;
+        public GameTerms.TokenOccasion occasion;
+        public float value0;
+        public int priority;
+        public GameToken() {
+            characterIndex = 0;
+            type = GameTerms.TokenType.None;
+            occasion = GameTerms.TokenOccasion.None;
+            value0 = 0f;    
+            priority = 50;
+        }
+        //Character Index는 Combine에서 처리
+        public GameToken(float v0) {
+            characterIndex = 0;
+            type = GameTerms.TokenType.None;
+            occasion = GameTerms.TokenOccasion.None;
+            value0 = v0;    
+            priority = 50;
+        }
+        //Power 같은 거 처리할 때
+        public GameToken(GameTerms.TokenOccasion o, float v0) {
+            characterIndex = 0;
+            type = GameTerms.TokenType.None;
+            occasion = o;
+            value0 = v0;    
+            priority = 50;
+        }
+        public GameToken(GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f){
+            characterIndex = 0;
+            type = t;
+            occasion = o;
+            value0 = v;    
+            priority = 50;     
+        }  
+        //아이템 데이터 등 특정 인덱스를 특정하지 않는 경우
         
-        public GameTerms.TokenType type = GameTerms.TokenType.None;
-        public float value = 0f;
-        public GameToken(float v = 0f){
-            value = v;
+        public GameToken Clone(){
+            GameToken returnVal = new GameToken(characterIndex);
+            returnVal.type = this.type;
+            returnVal.occasion = this.occasion;
+            returnVal.value0 = this.value0;        
+            returnVal.priority = this.priority;        
+            return returnVal;
         }
-        public virtual void OnGameStart(Character me, Character other){
-        }
-        public virtual void OnTurnStart(Character me, Character other){
-        }
-        public virtual void OnExpectation(Character me, Character other, GameTerms.Motion m){
-        }
-        public virtual void OnCalculation(Character me, Character other){
-        }
-        //public virtual void OnCombine(Character me, Character other){
-        //}
         public virtual void Combine(GameToken t){
-            value += t.value;            
+            value0 += t.value0;
+        }
+        public virtual void Yeild(){
+            // TokenList returnVal = new TokenList();
+            // return returnVal;
+        }
+        //삭제 조건을 만족하면 true 반환
+        public virtual bool IsRemobable(){
+            return false;
+        }
+        public override string ToString(){
+            return "  GameToken: " + type.ToString() + ", " +occasion.ToString() + ", " +value0.ToString() + " / " +priority.ToString() + "("+characterIndex.ToString()+")";
         }
     }
 
-    public class GameTokenList : List<GameToken>{
-        public void Calc(){
+    public static class GameTokenConverter{
+        //Static, Dynamic 기본으로 생성되는 토큰 중 개별 생성이 필요한 토큰이 있으면 그때마다 교환할 것
+        public static GameToken Convert(Token t){
+            switch(t.type){
+                case GameTerms.TokenType.HPCurrent:
+                return new HPCurrent(t.value);
+                
+                case GameTerms.TokenType.EPCurrent:
+                return new EPCurrent(t.value);
+                case GameTerms.TokenType.RestGeneration:
+                return new RestGeneration(t.value); 
+                case GameTerms.TokenType.AvoidGeneration:
+                return new AvoidGeneration(t.value); 
+                case GameTerms.TokenType.CollisionGeneration:
+                return new CollisionGeneration(t.value);
+                //Default - Static 
+                case GameTerms.TokenType.HPMax:
+                case GameTerms.TokenType.EPMax:
 
-        }
+                case GameTerms.TokenType.AttackPower:
+                case GameTerms.TokenType.AttackEfficiency:
+                case GameTerms.TokenType.StrikePower:
+                case GameTerms.TokenType.StrikeEfficiency:
+                case GameTerms.TokenType.StrikeConsumption:
 
-        public void OnGameStart(Character me, Character other){
-            this.Sort((x,y) => GetGameTokenOrder(x.type).CompareTo(GetGameTokenOrder(y.type)));
-            int GetGameTokenOrder(GameTerms.TokenType t){
-                return 0;
-                // switch (t)
-                // {
-                //     case GameTerms.TokenType.Health : return 0;
-                //     case GameTerms.TokenType.Energy : return 1;
-                //     default: return int.MaxValue; // 다른 경우에는 가장 큰 값으로 처리
-                // }
+                case GameTerms.TokenType.DefencePower:
+                case GameTerms.TokenType.DefenceEfficiency:
+                case GameTerms.TokenType.ChargePower:
+                case GameTerms.TokenType.ChargeEfficiency:
+                case GameTerms.TokenType.ChargeConsumption:
+
+                case GameTerms.TokenType.RestPower:
+                case GameTerms.TokenType.AvoidPower:
+                case GameTerms.TokenType.AvoidEfficiency:
+                case GameTerms.TokenType.AvoidAdaptiveConsumption:
+                return new GameToken(t.type, GameTerms.TokenOccasion.Static, t.value);
+                
+                break;
+                // case GameTerms.TokenType.EPMax:
+                // case GameTerms.TokenType.EPMax:
+                // case GameTerms.TokenType.EPMax:
+
+                 
             }
-            foreach(GameToken i in this){
-                i.OnGameStart(me, other);
-            }
+            return new GameToken();
         }
-        public void OnTurnStart(Character me, Character other){
+    }
+    /*
+    [Serializable]
+    public class TokenGrade:TokenBase {
+        public int grade;
+        public float[] value0;
 
+        public TokenGrade() : base(){
+            value0 = new float[3]{0f, 0f, 0f};                
         }
-       
-        public void OnCalculation(){
+        public GameToken ToToken(int g){
+            GameToken returnVal = new GameToken();
+            returnVal.category = this.category;
+            returnVal.behaviour = this.behaviour;
+            returnVal.occasion = this.occasion;
+            returnVal.target = this.target;
+            if(this.value0.Length < 1) returnVal.value0 = 0f;
+            else returnVal.value0 = this.value0[g];        
+            return returnVal;
+    }
 
+    
+}
+*/
+
+
+    [Serializable]
+    public class TokenList : List<GameToken>{
+        // public TokenList() : base(){}
+        public int characterIndex;
+        public TokenList(int index = 0){
+            characterIndex = index;
         }
-        public float GetGameTokenValue(GameTerms.TokenType t){
-            GameToken foundToken = this.Find(x=>x.type == t);
-            if(foundToken == null){
-                return 0f;
-            }else return foundToken.value;
-        }
-        public bool Has(GameToken t){
-            GameToken foundToken = this.Find(x => x.type == t.type);
-            if(foundToken == null){
-                return false;
-            }else return true;
+        
+        public void Combine(TokenList tk){
+            foreach(GameToken t in tk){
+                GameToken resulttoken = this.Find(x => x.type == t.type && x.occasion == t.occasion);
+                if(resulttoken != null ) resulttoken.Combine(t);
+                else {
+                    t.characterIndex = this.characterIndex;
+                    this.Add(t);
+                }
+            }     
         }
         public void Combine(GameToken t){
-            GameToken foundToken = this.Find(x=>x.type == t.type);
-            if(foundToken.type != t.type){
+            // Debug.Log("?????? " + t.GetType().Name);
+            GameToken resulttoken = this.Find(x => x.type == t.type && x.occasion == t.occasion);
+            if(resulttoken != null ) resulttoken.Combine(t);
+            else{
+                t.characterIndex = this.characterIndex;
                 this.Add(t);
-            }else{
-
             }
         }
-
-
-    }
-
-    public class Expectation : List<GameTokenList>{
-        public void Reset(Character me, Character other){
-            this.Clear();
-            this.Add(new GameTokenList()); // None
-            this.Add(ExpectAttack(me, other)); // Attack
-            this.Add(ExpectStrike(me, other)); // Strike
-            this.Add(ExpectDefence(me, other)); // Defence 
-            this.Add(ExpectCharge(me, other)); // Charge
-            this.Add(ExpectAvoid(me, other)); // Avoid
-            this.Add(ExpectTaunt(me, other)); // Taunt
+        // public void Subtract(GameToken tk){
+        //     GameToken resulttoken = this.Find(x => x.type == tk.type);
+        //     if(resulttoken != null ) {
+        //         resulttoken.value0 -= tk.value0;
+        //         if(resulttoken.value0 < 0 ) this.Remove(resulttoken);
+        //     }        
+        // }
+        public GameToken Find(GameTerms.TokenType t, GameTerms.TokenOccasion o = GameTerms.TokenOccasion.None){
+            // Debug.Log("??? : " + t);
+            GameToken resulttoken = o == GameTerms.TokenOccasion.None ? 
+                                this.Find(x => x.type == t):
+                                this.Find(x => x.type == t && x.occasion == o);
             
-        }
-        public GameTokenList CloneExpectationViaMotion(GameTerms.Motion m){
-            switch(m){
-                case GameTerms.Motion.Attack:
-                return this[1];
-                case GameTerms.Motion.Strike:
-                return this[2];
-                case GameTerms.Motion.Defence:
-                return this[3];
-                case GameTerms.Motion.Charge:
-                return this[4];
-                case GameTerms.Motion.Avoid:
-                return this[5];
-                case GameTerms.Motion.Taunt:
-                return this[6];
+            if(resulttoken != null ) {
+                // Debug.Log("Found Token " + t + " and Type is : " + resulttoken.GetType().Name);
+                return resulttoken;
             }
-            return this[0];
+            else {
+                // Debug.LogError("Cannot Find Token type " + t.ToString());
+                return new GameToken(0);        
+            }
         }
-        private GameTokenList ExpectAttack(Character me, Character other){
-            GameTokenList returnVal = new GameTokenList();
-            float value = me.token.GetGameTokenValue(GameTerms.TokenType.AttackPower);
-            returnVal.Add(new BasePower(value));
-            returnVal.Add(new OffensivePower(value));
-            //TODO : AdditionalPower Sword & Attack
+        
+        public TokenList FindAll(GameTerms.TokenOccasion o){
+            List<GameToken> resulttoken = this.FindAll(x => x.occasion == o);
+            TokenList returnVal = new TokenList(characterIndex);
+            foreach(GameToken tk in resulttoken){
+                returnVal.Combine(tk);
+            }
             return returnVal;
         }
 
-        private GameTokenList ExpectStrike(Character me, Character other){
-            GameTokenList returnVal = new GameTokenList();
-            float value = me.token.GetGameTokenValue(GameTerms.TokenType.StrikePower);
-            returnVal.Add(new BasePower(value));
 
-            float conversionRate = me.token.GetGameTokenValue(GameTerms.TokenType.StrikeConversionRate);
-            float conversionMax = me.token.GetGameTokenValue(GameTerms.TokenType.StrikeConversionMax);
-            float currnetE = me.GetLastPlayData().token.GetGameTokenValue(GameTerms.TokenType.Energy);
-            float conversionE = Mathf.Min(conversionMax, currnetE);
-            float conversionValue = Mathf.Floor(conversionRate * conversionE);
-            returnVal.Add(new EnergyPower(conversionValue));
-            //TODO : AdditionalPower Sword & Strike
-
-            returnVal.Add(new OffensivePower(value + conversionValue));
-            return returnVal;
+        public bool Has(GameTerms.TokenType t){
+            GameToken resulttoken = this.Find(t);
+            if(resulttoken.type == GameTerms.TokenType.None) return false;
+            else return true;
+        }
+        
+        public void RemoveGarbages(){
+            for(int i = this.Count -1 ; i >= 0 ; i --){
+                if(this[i].IsRemobable() == true) RemoveAt(i);
+            }
         }
 
-        private GameTokenList ExpectDefence(Character me, Character other){
-            GameTokenList returnVal = new GameTokenList();
-            float value = me.token.GetGameTokenValue(GameTerms.TokenType.DefencePower);
-            returnVal.Add(new BasePower(value));
-            returnVal.Add(new DefensivePower(value));
-            //TODO : AdditionalPower Shield & Defence
-            return returnVal;
-        }   
-
-        private GameTokenList ExpectCharge(Character me, Character other){
-            GameTokenList returnVal = new GameTokenList();
-            float value = me.token.GetGameTokenValue(GameTerms.TokenType.ChargePower);
-            returnVal.Add(new BasePower(value));
-
-            float conversionRate = me.token.GetGameTokenValue(GameTerms.TokenType.ChargeConversionRate);
-            float conversionMax = me.token.GetGameTokenValue(GameTerms.TokenType.ChargeConversionMax);
-            float currnetE = me.GetLastPlayData().token.GetGameTokenValue(GameTerms.TokenType.Energy);
-            float conversionE = Mathf.Min(conversionMax, currnetE);
-            float conversionValue = Mathf.Floor(conversionRate * conversionE);
-            returnVal.Add(new EnergyPower(conversionValue));
-            //TODO : AdditionalPower Sword & Attack
-
-            returnVal.Add(new OffensivePower(value + conversionValue));
-            return returnVal;
-        }
-
-        private GameTokenList ExpectAvoid(Character me, Character other){
-            GameTokenList returnVal = new GameTokenList();
-            float value = me.token.GetGameTokenValue(GameTerms.TokenType.AvoidPower);
-            returnVal.Add(new BasePower(value));
-
-            float conversionRate = me.token.GetGameTokenValue(GameTerms.TokenType.MoveConversionRate);
-            float conversionE = me.GetLastPlayData().token.GetGameTokenValue(GameTerms.TokenType.Energy);
-            float conversionValue = Mathf.Floor(conversionRate * conversionE);
-            returnVal.Add(new EnergyPower(conversionValue));
-            //TODO : AdditionalPower Sword & Attack
-
-            returnVal.Add(new DefensivePower(value + conversionValue));
-            return returnVal;
-        }
-
-        private GameTokenList ExpectTaunt(Character me, Character other){
-            GameTokenList returnVal = new GameTokenList();
-            float value = me.token.GetGameTokenValue(GameTerms.TokenType.TauntPower);
-            returnVal.Add(new BasePower(value));
-
-            float conversionRate = me.token.GetGameTokenValue(GameTerms.TokenType.MoveConversionRate);
-            float conversionE = me.GetLastPlayData().token.GetGameTokenValue(GameTerms.TokenType.Energy);
-            float conversionValue = Mathf.Floor(conversionRate * conversionE);
-            returnVal.Add(new EnergyPower(conversionValue));
-            //TODO : AdditionalPower Sword & Attack
-
-            returnVal.Add(new DefensivePower(value + conversionValue));
+        public override string ToString(){
+            string returnVal = "[GameToken List] " + this.Count.ToString();
+            foreach(GameToken tk in this){
+                returnVal += "\n" + tk.ToString();
+            }
             return returnVal;
         }
     }
 }
-*/

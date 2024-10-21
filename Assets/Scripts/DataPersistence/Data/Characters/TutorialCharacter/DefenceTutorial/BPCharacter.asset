@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114b2a4430ec764428a31aaf7ae09fb3, type: 3}
+  m_Name: BPCharacter
+  m_EditorClassIdentifier: 
+  characterName: 
+  item: []
+  core: []
+  score: 0
+  bp:
+  - motion: 07000000
+    behaviour: 00000000

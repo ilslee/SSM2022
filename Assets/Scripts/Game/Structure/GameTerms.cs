@@ -9,14 +9,17 @@ public static class GameTerms
                             AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions0
                             
                             HPCurrent, HPMax, HPStart, //Health 
-                            EPCurrent, EPMax, EPStart, //Energy
+                            EPCurrent, EPMax, EPStart, EPConsumption,//Energy
 
                             CollisionWin, CollisionLose, NoCollision,
                             AttackPower, AttackEfficiency, StrikePower, StrikeEfficiency, StrikeConsumption, // Sword power and energy
                             DefencePower, DefenceEfficiency, CollisionGeneration, ChargePower, ChargeEfficiency, ChargeConsumption, // Shield power and energy
                             RestPower, AvoidPower, AvoidEfficiency, AvoidAdaptiveConsumption, RestGeneration, AvoidGeneration, // Move power and energy
-                            BasePower, EnergyPower, AdditionalPower, TotalPower, 
-                            Damage
+                            SwrodPower, SwordEfficiency, ShieldPower, ShieldEfficiency, MovePower, MoveEfficiency,
+                            OffensivePower, OffensiveEfficiency, DefensivePower, DefensiveEfficiency,
+                            BasePower, EnergyPower, AdditionalPower, TotalPower, Efficieny,
+                            Damage,
+                            Poisonous, Poisoned, Nurture, Vigor, Regeneration, Transfusion, Circulation, Recovery // Life Tokens
                             }
 
 
@@ -25,7 +28,8 @@ public static class GameTerms
     public enum TokenOccasion { None, Static, Dynamic, 
                                 MotionNone, Attack, Strike, Defence, Charge, Avoid, Rest,
                                 Sword, Shield, Move, Offensive, Defensive, // Actions1
-                                Recover, Feedback, Give, Take
+                                Damage, Calculation, Consumption, Recover, Feedback, Give, Take,
+                                
 
     }
 
@@ -141,42 +145,20 @@ public static class GameTerms
          
 }
 
-public class BPT{
+public class BPToken{
     
-    public enum Essential{StepUp}
-    public enum Linker{And}
-    public enum Subject{}
-    public enum Object{}
-    public enum Method{}
-    public enum TimeMethod{}
-    public enum Comparison{}
+    
+    public enum Character{None, Me, Other, Both}
+    public enum ConditionType {None}
+    public enum Comparison{None}
+    public enum TimeType{None}
+    public enum BehaviourOccasion{None, Activation, Deactivation}
+    public enum BehaviourType{None, Rewind, Shffle}
+    
     public enum Motion{
-        None, Attack, Strike, Defence, Charge, Avoid, Taunt, 
+        None, Attack, Strike, Defence, Charge, Rest, Avoid, 
         Random, Prev1, Prev2, Win, Lose, Same, NotOnPrevMotion, NotOnPrevMove, OnPrevMotion, OnPrevMove, EnergyUse, EnergyNoUse
     }
     
-    public enum Behaviour{None}
-
-    public class Event{
-        public Subject subj;
-        public Object obj;
-        public Method method;
-        public Comparison comparison;
-        public float value0;
-        public float value1;
-    }
-
-    public class State{
-        public Subject subj;
-        public Object obj;
-        public Comparison comparison;
-        public float value0;
-        public float value1;
-    }
-
-    public class Time{
-        public Comparison comparison;
-        public float value0;
-        public float value1;
-    }
+    
 }

@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ssm.data;
+using ssm.data.item;
 using ssm.game.structure;
+
 
 public class TestLeagueGenerator : MonoBehaviour
 {
     [Header("Character1")]
-    public ItemData.Family character1ItemFamily = ItemData.Family.Default;
+    public ItemData.Family character1ItemFamily = ItemData.Family.Basic;
     public int character1ItemGrade = 0;
     public BPGenerator.MotionKeyword character1BPKeyword;
     [Header("Character2")]
-    public ItemData.Family character2ItemFamily = ItemData.Family.Default;
+    public ItemData.Family character2ItemFamily = ItemData.Family.Basic;
     public int character2ItemGrade = 0;
     public BPGenerator.MotionKeyword character2BPKeyword;
     
@@ -51,17 +53,17 @@ public class TestLeagueGenerator : MonoBehaviour
         
         //Item
         o.item = new List<ItemData>();
-        o.item.Add(testCore);
-        switch(itemFamily){
-            case ItemData.Family.Default:
-            o.item.Add(basicItemSet[0]);
-            o.item.Add(basicItemSet[1]);
-            o.item.Add(basicItemSet[2]);
-            o.item.Add(basicItemSet[3]);
-            o.item.Add(basicItemSet[4]);
-            o.item.Add(basicItemSet[5]);    
-            break;    
-        }
+        // o.item.Add(testCore);
+        // switch(itemFamily){
+        //     case ItemData.Family.Default:
+        //     o.item.Add(basicItemSet[0]);
+        //     o.item.Add(basicItemSet[1]);
+        //     o.item.Add(basicItemSet[2]);
+        //     o.item.Add(basicItemSet[3]);
+        //     o.item.Add(basicItemSet[4]);
+        //     o.item.Add(basicItemSet[5]);    
+        //     break;    
+        // }
 
         for (int i = 1; i < o.item.Count; i++)
         {
@@ -84,7 +86,7 @@ public class TestLeagueGenerator : MonoBehaviour
 
     // Run a game - change for later use 
     private void ExecuteGame(PlayableCharacter player1, PlayableCharacter player2){
-        game.PrepareGame(100,0f,player1,player2);
+        // game.PrepareGame(100,0f,player1,player2);
         // game.StartGame();
     }
     

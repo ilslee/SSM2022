@@ -171,10 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -223,7 +223,7 @@ RectTransform:
   - {fileID: 725768909}
   - {fileID: 1454275141}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -357,7 +357,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gameBoard
       value: 
-      objectReference: {fileID: 1741370369}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556672331716796147, guid: 8b0a06fc3a1b7f941aafee6f72f5117e,
         type: 3}
       propertyPath: targtCharacterIndex
@@ -434,7 +434,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &691670844
 GameObject:
@@ -572,7 +572,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gameBoard
       value: 
-      objectReference: {fileID: 1741370369}
+      objectReference: {fileID: 0}
     - target: {fileID: 795296225781663102, guid: 4065498310863a9419525276da79f196,
         type: 3}
       propertyPath: targtCharacterIndex
@@ -630,6 +630,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -671,7 +686,7 @@ PrefabInstance:
     - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -172
+      value: -400
       objectReference: {fileID: 0}
     - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
         type: 3}
@@ -991,7 +1006,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 614b4d632e41a4847b53394e7dc9b91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameBoard: {fileID: 1741370369}
   turn: {fileID: 1722877591}
 --- !u!114 &1722877594
 MonoBehaviour:
@@ -1071,7 +1085,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
-  gameBoard: {fileID: 1741370369}
 --- !u!1 &1741370364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,8 +1095,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1741370366}
   - component: {fileID: 1741370367}
-  - component: {fileID: 1741370368}
-  - component: {fileID: 1741370369}
   - component: {fileID: 1741370370}
   m_Layer: 0
   m_Name: GameStructure
@@ -1105,7 +1116,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1741370367
 MonoBehaviour:
@@ -1123,7 +1134,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1741370368}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TestLeagueGenerator, Assembly-CSharp
         m_MethodName: ManageGameEvent
         m_Mode: 0
@@ -1147,55 +1158,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1741370368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741370364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 488a48ee931b471419af71f5356eb203, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character1ItemFamily: 1
-  character1ItemGrade: 0
-  character1BPKeyword: 2
-  character2ItemFamily: 1
-  character2ItemGrade: 0
-  character2BPKeyword: 2
-  bluePrint: {fileID: 11400000, guid: c29fa2337bf6e59489b78189555f7498, type: 2}
-  bpCharacters: []
-  testCore: {fileID: 11400000, guid: a1e7aad54c09da2418debe821d4e1767, type: 2}
-  basicItemSet:
-  - {fileID: 11400000, guid: e5da60968c20c1940a74f2f8d93794f9, type: 2}
-  - {fileID: 11400000, guid: bd1ea73797c65394bafa68f32dc19e49, type: 2}
-  - {fileID: 11400000, guid: 8cd9caa7a7852e143aa03ad28b62cf37, type: 2}
-  - {fileID: 11400000, guid: 88b421d8195e7044f975623d754c7e67, type: 2}
-  - {fileID: 11400000, guid: cbdf947315461ed48be1bf8b3cfd527c, type: 2}
-  - {fileID: 11400000, guid: 986d8f580076b3a4a9f9932d81b924f4, type: 2}
-  lifeItemSet: []
-  deathItemSet: []
-  game: {fileID: 1741370370}
---- !u!114 &1741370369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741370364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d4fd362ffb3d444fa287ab0c3a7ea14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character1:
-    index: 0
-    isBPCharacter: 0
-  character2:
-    index: 0
-    isBPCharacter: 0
 --- !u!114 &1741370370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,7 +1171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
-  board: {fileID: 1741370369}
+  ssmData: {fileID: 11400000, guid: 656c9dc262b057b439838f59cc8f0c09, type: 2}
 --- !u!224 &2108209519 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
@@ -1228,7 +1190,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gameBoard
       value: 
-      objectReference: {fileID: 1741370369}
+      objectReference: {fileID: 0}
     - target: {fileID: 2216075545110402698, guid: 4065498310863a9419525276da79f196,
         type: 3}
       propertyPath: m_Name
@@ -1281,6 +1243,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1322,7 +1299,7 @@ PrefabInstance:
     - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 140
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 6737344752595283466, guid: 4065498310863a9419525276da79f196,
         type: 3}
@@ -1471,7 +1448,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gameBoard
       value: 
-      objectReference: {fileID: 1741370369}
+      objectReference: {fileID: 0}
     - target: {fileID: 7556672331716796147, guid: 8b0a06fc3a1b7f941aafee6f72f5117e,
         type: 3}
       propertyPath: targtCharacterIndex

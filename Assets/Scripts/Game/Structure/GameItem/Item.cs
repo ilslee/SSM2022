@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ssm.data;
-using ssm.data.token;
+using ssm.game.structure.token;
 
 namespace ssm.game.structure{
     public class Item 

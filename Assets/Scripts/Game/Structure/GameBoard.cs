@@ -4,7 +4,8 @@ using UnityEngine;
 using System.Linq;
 using ssm.data;
 using System;
-using ssm.data.token;
+using ssm.game.structure.token;
+using UnityEditor.PackageManager.Requests;
 namespace ssm.game.structure{
         
     public class GameBoard {
@@ -26,7 +27,10 @@ namespace ssm.game.structure{
         public Character FindCharacter(int id){
             if(id == 1) return character1;
             else if (id == 2) return character2;
-            else return null;
+            else {
+                Debug.LogError("GameBoard.FindCharacter : index ERROR " + id);
+                return null;
+            }
         }
         public Character FindOpponent(int id){
             if(id == 1) return character2;
@@ -38,8 +42,9 @@ namespace ssm.game.structure{
             // Clone & Convert Character data
             character1 = new Character(c1,1);   
             character2 = new Character(c2,2);  
-            //Set Max Stat and Start Stat      
-            
+            //Init Tokens
+            character1.InitializeTokens(c1);
+            character2.InitializeTokens(c2);
         }
        
         //------------------------------[Ready]------------------------------
@@ -48,7 +53,7 @@ namespace ssm.game.structure{
             character2.AddPlayData();
         }
 
-        public void CalculateOnTurnStart(){
+        public void CalculateOnRecovery(){
             // character1.GetLastPlayData().token.OnTurnStart(character1, character2);
             // character2.GetLastPlayData().token.OnTurnStart(character2, character1);
             
@@ -60,10 +65,10 @@ namespace ssm.game.structure{
         //------------------------------[Pose]------------------------------
         public void ProcessMotions(){
             //Getting Motion From BP
-            character1.GetLastPlayData().motion = character1.behaviourPattern.Calculate(character1, character2);
-            character2.GetLastPlayData().motion = character2.behaviourPattern.Calculate(character2, character1);
+            character1.GetLastPlayData().motion = character1.bpManager.Calculate(character1, character2);
+            character2.GetLastPlayData().motion = character2.bpManager.Calculate(character2, character1);
 
-            //Get Token via Motion
+            //Get GameToken via Motion
             
         }
         
@@ -77,301 +82,40 @@ namespace ssm.game.structure{
        
         
         public void CalculateConseqence(){
-            //Finalize Power
-            character1.FinalizePower();
-            character2.FinalizePower();
+            //Finalize Power : 최종 파워 결정 - Avoid는 Adaptive라는 특성이 있어 한차례 나중에 계산
+            if(character1.GetLastPlayData().motion != GameTerms.Motion.Avoid) character1.FinalizePower();
+            if(character2.GetLastPlayData().motion != GameTerms.Motion.Avoid) character2.FinalizePower();
+            if(character1.GetLastPlayData().motion == GameTerms.Motion.Avoid) character1.FinalizePower();
+            if(character2.GetLastPlayData().motion == GameTerms.Motion.Avoid) character2.FinalizePower();
             
-            //CalculateDamage
-            character1.CalculateDamage();
-            character2.CalculateDamage();
+            //ComparePower : Damage, Consumption 결정
+            character1.ComparePower();
+            character2.ComparePower();
+            
+            //Consumption : Modify Stats
+            //OnConsumption은 priority로 처리
+            character1.ApplyConsumption();
+            character2.ApplyConsumption();
 
-            //ModifyStats
-            character1.ModifyStats();
-            character2.ModifyStats();
+            //CalculateDamage : Modify Stats
+            //OnDamage은 priority로 처리
+            character1.ApplyDamage();
+            character2.ApplyDamage();
+
             
             //CalculateFeedback
-            character1.CalcuateCollision();
-            character2.CalcuateCollision();
+            character1.Feedback();
+            character2.Feedback();
         }
 
-        private void ModifyGaugePower(Character me){
-            /*
-            Token.Occasion occatsionMotion = GetOccationMotion(me.GetLastPlayData().motion);
-            Token.Occasion occatsionMove = GetOccationSSM(me.GetLastPlayData().motion);
-            
-            float swordPowerGain = GetValueFromToken(me, me.token, Token.Category.SwordPower, Token.Behaviour.Gain);
-            float swordPowerLoss = GetValueFromToken(me, me.token, Token.Category.SwordPower, Token.Behaviour.Loss);
-            float shieldPowerGain = GetValueFromToken(me, me.token, Token.Category.ShieldPower, Token.Behaviour.Gain);
-            float shieldPowerLoss = GetValueFromToken(me, me.token, Token.Category.ShieldPower, Token.Behaviour.Loss);
-            
-            Token swordPowerGainTK = new Token(Token.Category.SwordPower, Token.Behaviour.Gain);
-            swordPowerGainTK.value0 = swordPowerGain;
-            Token swordPowerLossTK = new Token(Token.Category.SwordPower, Token.Behaviour.Loss);
-            swordPowerLossTK.value0 = swordPowerLoss;
-            Token shieldPowerGainTK = new Token(Token.Category.ShieldPower, Token.Behaviour.Gain);
-            shieldPowerGainTK.value0 = shieldPowerGain;
-            Token shieldPowerLossTK = new Token(Token.Category.ShieldPower, Token.Behaviour.Loss);
-            shieldPowerLossTK.value0 = shieldPowerLoss;
-            // Debug.Log("GameBoard.ModifyGaugePower : " + swordPowerGain.ToString() + "/" + swordPowerLoss.ToString()  + "//" + 
-            // shieldPowerGain.ToString() + "/" + shieldPowerLoss.ToString());
-            me.GetLastPlayData().token.Combine(swordPowerGainTK);
-            me.GetLastPlayData().token.Combine(swordPowerLossTK);
-            me.GetLastPlayData().token.Combine(shieldPowerGainTK);
-            me.GetLastPlayData().token.Combine(shieldPowerLossTK);
-            */
+        public void Reset(){
+            GameTerms.Phase phase = GameTerms.Phase.None;
+            currentTurn = 0;
+            maxTurn = 0;
+            turnTime = 0f;
+            character1 = null;
+            character2 = null;
         }
-        private void ConvertPower(Character me){
-            /*
-            Token.Occasion motion = GetOccationMotion(me.GetLastPlayData().motion);
-            Token.Occasion move = GetOccationSSM(me.GetLastPlayData().motion);
-            Token.Category gaugeID = GetPowerGaugeTarget(me.GetLastPlayData().motion);
-            Token.Behaviour powerType = GetPowerType(me.GetLastPlayData().motion);
-            
-            //1. 에너지 변환율
-            // float energeConvertionRateMotion = me.token.Find(Token.Category.EnergyConversion, Token.Behaviour.Rate, motion).value0;
-            // float energeConvertionRateMove = me.token.Find(Token.Category.EnergyConversion, Token.Behaviour.Rate, move).value0;
-            Token energeConvertionRateTK = new Token(Token.Category.EnergyConversion, Token.Behaviour.Rate);
-            energeConvertionRateTK.value0 = GetValueFromToken(me, me.token, Token.Category.EnergyConversion, Token.Behaviour.Rate);
-            
-            //2-1. 에너지 최대치
-            float energeConsumptionionMax = GetValueFromToken(me, me.token, Token.Category.EnergyConversion, Token.Behaviour.Max);
-            //2-2. 에너지 현재값
-            float currentEnergy = me.GetLastPlayData().token.Find(Token.Category.Energy, Token.Behaviour.Current).value0;
-            float energyConsumption = Mathf.Min(currentEnergy, energeConsumptionionMax);
-            //2-3. 에너지 소모량
-            Token energeConsumptionTK = new Token(Token.Category.Energy, Token.Behaviour.Loss);
-            energeConsumptionTK.value0 = energyConsumption;
-            
-            //2-3. 에너지에서 오는 파워
-            Token powerFromEnergyTK = new Token(Token.Category.Power, Token.Behaviour.Energy);
-            powerFromEnergyTK.value0 = Mathf.Min(energeConvertionRateTK.value0 * energeConsumptionTK.value0);
-            
-            //3. 게이지에서 오는 파워
-            float gauge = me.GetLastPlayData().token.Find(gaugeID, Token.Behaviour.Current).value0;
-            Token powerFromGaugeTK = new Token(Token.Category.Power, Token.Behaviour.Gauge);
-            powerFromGaugeTK.value0 = gauge;
-            
-            //4. 추가 파워            
-            //TODO : 이거저거 추가 가능
-            Token additionalPowerTK = new Token(Token.Category.Power, Token.Behaviour.Additional);
-            additionalPowerTK.value0 = GetValueFromToken(me, me.token, Token.Category.Power, Token.Behaviour.Additional);
-
-            //5. 기본 파워
-            Token powerBaseTK = new Token(Token.Category.Power, Token.Behaviour.Base);
-            powerBaseTK.value0 = GetValueFromToken(me, me.token, Token.Category.Power, Token.Behaviour.Base);;
-
-            Token powerTK = new Token(Token.Category.Power, powerType);
-            powerTK.value0 = powerBaseTK.value0 + powerFromGaugeTK.value0 + powerFromEnergyTK.value0 + additionalPowerTK.value0;
-            // Debug.Log("Power (" + powerTK.behaviour + "/W"+ powerTK.value0 + ") b: " + powerBaseTK.value0 + " / e: " + powerFromEnergyTK.value0 + " / g: " + powerFromGaugeTK.value0 + " / a: " + additionalPowerTK.value0);
-            //PlayData에 추가
-            me.GetLastPlayData().token.Combine(energeConvertionRateTK);
-            me.GetLastPlayData().token.Combine(energeConsumptionTK);
-            me.GetLastPlayData().token.Combine(powerFromEnergyTK);
-            me.GetLastPlayData().token.Combine(powerFromGaugeTK);
-            me.GetLastPlayData().token.Combine(additionalPowerTK);
-            me.GetLastPlayData().token.Combine(powerBaseTK);
-            me.GetLastPlayData().token.Combine(powerTK);
-            */
-        }
-
-        // private float GetValueFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
-        //     float returnVal = 0f;
-        //     // float valueMotion = target.Find(c, b, GetOccationMotion(me.GetLastPlayData().motion)).value0;
-        //     // float valueMove = target.Find(c, b, GetOccationSSM(me.GetLastPlayData().motion)).value0;
-        //     // returnVal = valueMotion + valueMove;
-        //     return returnVal;
-        // }
-
-        // private bool GetAvailabilityFromToken(Character me, TokenList target, Token.Category c, Token.Behaviour b){
-        //     // bool availabilityMotion = target.Has(c, b, GetOccationMotion(me.GetLastPlayData().motion));
-        //     // bool availabilityMove = target.Has(c, b, GetOccationSSM(me.GetLastPlayData().motion));
-        //     // if(availabilityMove == true || availabilityMove == true) return true;
-        //     // else return false;
-        //     return false;
-        // }
-        private void CalcuateDamage(Character me, Character other){
-            /*
-            float myPower = me.GetLastPlayData().token.Find(Token.Category.Power, GetPowerType(me.GetLastPlayData().motion)).value0;
-            float otherPower = other.GetLastPlayData().token.Find(Token.Category.Power, GetPowerType(other.GetLastPlayData().motion)).value0;
-            float damageGive = 0f;
-            switch(GetPowerType(me.GetLastPlayData().motion)){
-                case Token.Behaviour.Offensive:
-                damageGive = myPower;
-                if(myPower > otherPower) damageGive += GetValueFromToken(me, me.token, Token.Category.Damage, Token.Behaviour.Gain);
-                Token damageGiveTk = new Token(Token.Category.Damage, Token.Behaviour.Give);
-                damageGiveTk.value0 = damageGive;
-                //최대 데미지로 토큰 배분
-                me.GetLastPlayData().token.Combine(damageGiveTk);
-                Token damageTakeTk = new Token(Token.Category.Damage, Token.Behaviour.Take);
-                damageTakeTk.value0 = damageGive;
-                other.GetLastPlayData().token.Combine(damageTakeTk);
-                
-                break;
-                case Token.Behaviour.Defensive:
-                break;
-            }
-            //Defence쪽에서 감소 적용: 이건 상대의 공방과 상관 없이 적용
-            Token damageLossTK = new Token(Token.Category.Damage, Token.Behaviour.Loss);
-            damageLossTK.value0 = otherPower;
-            other.GetLastPlayData().token.Combine(damageLossTK);
-            if(damageGive > otherPower){
-                Token damageRedueTK = new Token(Token.Category.Damage, Token.Behaviour.Reduce);
-                damageRedueTK.value0 = GetValueFromToken(other, other.token, Token.Category.Damage, Token.Behaviour.Reduce);
-                other.GetLastPlayData().token.Combine(damageRedueTK);
-            }
-            */
-        }
-        
-        private void ConvertDamageToHealthLoss(Character me){
-            // float damageTake = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Take).value0;
-            // float damageLoss = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Loss).value0;
-            // float damageReduce = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Reduce).value0;
-            // float finalDamage = damageTake - damageLoss - damageReduce;
-            // // Debug.Log("Gameterms.ConvertDamageToHealthLoss - finalDamage : " + damageTake.ToString() + " - " + damageLoss + " = " +finalDamage.ToString());
-            // if(finalDamage > 0f){
-            //     Token healthLossTk = new Token(Token.Category.Health, Token.Behaviour.Loss);
-            //     healthLossTk.value0 = finalDamage;
-            //     me.GetLastPlayData().token.Combine(healthLossTk);
-            // }
-        }
-        
-        private void ConvertEnergyConsumptionTakeBakcToEnergyGain(Character me){
-            /*
-            if(GetAvailabilityFromToken(me, me.token, Token.Category.Energy, Token.Behaviour.TakeBackExceed) == false)return;
-            
-
-            //상대방의 최대 데미지를 Damage, Loss와 ConvertedPower로 막는다
-            //상대방의 최대 데미지에서 Damage, Loss 분을 제외
-            float damageTake = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Take).value0;            
-            float damageLoss = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Loss).value0;
-            float damageReduce = me.GetLastPlayData().token.Find(Token.Category.Damage, Token.Behaviour.Reduce).value0;
-            float actualDamage = damageTake - damageLoss - damageReduce;
-            //나머지를 막기 위해 필요한 에너지 산줄(a)
-            //실제 사용한 에너지에서 (a)를 제외
-            // Debug.Log("-- TakeBalck Available!! -- actualDamage : " + actualDamage.ToString() + "/ damageTake : " + damageTake.ToString());
-            if(actualDamage > 0f) return; // 실제 데미지가 0 이상이면(변환할 게 없음) 종료.
-            float conversionValue = 0f;
-            if(damageTake <= 0f) { // 받은 공격이 없다면(싱대방이 Power, Deffencive)
-                conversionValue = damageLoss; // 사용 에너지량 전체를 회복
-            }else{
-                conversionValue = MathF.Abs(actualDamage); // 음수 데미지 양수로 전환
-            }            
-            // Debug.Log("-- TakeBalck Happens!! -- value : " + conversionValue.ToString());
-            float conversionRate = me.GetLastPlayData().token.Find(Token.Category.EnergyConversion, Token.Behaviour.Rate).value0;
-            if(conversionRate <= 0f) return; // 에너지를 사용하는 동작이 아니면 반환
-            float conversionEnergyMax = Mathf.Floor(conversionValue /  conversionRate);
-            //최대 회복량과 실제 사용양중 적은 쪽을 반환
-            float energyUsage = me.GetLastPlayData().token.Find(Token.Category.Energy, Token.Behaviour.Loss).value0;
-            float conversionEnergy = Mathf.Min(conversionEnergyMax, energyUsage);
-            // Debug.Log("-- TakeBalck Result!! -- revocer : " + conversionEnergy.ToString() + "  / usage : " + energyUsage.ToString());
-            if(conversionEnergy > 0f){
-                Token energyGain = new Token(Token.Category.Energy, Token.Behaviour.GainNextTurn);
-                energyGain.value0 = conversionEnergy;
-                me.GetLastPlayData().token.Combine(energyGain);
-            }
-            */
-        }
-
-        private void ConvertEnergeGainWithNoCollitionToEnergyGainNext(Character me){
-            /*
-            if(me.GetLastPlayData().collision == true)return;
-            float energeGainWithNoCollition = GetValueFromToken(me, me.token, Token.Category.Energy, Token.Behaviour.GainWithNoCollision);            
-            if(energeGainWithNoCollition <= 0f)return;
-            // Debug.Log("GameBoard.ConvertEnergeGainWithNoCollitionToEnergyGainNext Triggered : " + (energeGainWithNoCollition).ToString());
-            Token EnergyGainTK = new Token(Token.Category.Energy, Token.Behaviour.GainNextTurn);
-            EnergyGainTK.value0 = energeGainWithNoCollition;
-            me.GetLastPlayData().token.Combine(EnergyGainTK);
-            */
-        }
-
-        // private Token.Occasion GetOccationMotion(GameTerms.Motion m){
-        //     Token.Occasion returnVal = Token.Occasion.None;
-        //     switch(m){                
-        //         case GameTerms.Motion.None:
-        //         returnVal = Token.Occasion.OnMotionNone;
-        //         break;
-        //         case GameTerms.Motion.Attack:
-        //         returnVal = Token.Occasion.OnMotionAttack;
-        //         break;
-        //         case GameTerms.Motion.Strike:
-        //         returnVal = Token.Occasion.OnMotionStrike;
-        //         break;
-        //         case GameTerms.Motion.Defence:
-        //         returnVal = Token.Occasion.OnMotionDefence;
-        //         break;
-        //         case GameTerms.Motion.Charge:
-        //         returnVal = Token.Occasion.OnMotionCharge;
-        //         break;
-        //         case GameTerms.Motion.Avoid:
-        //         returnVal = Token.Occasion.OnMotionAvoid;
-        //         break;
-        //         case GameTerms.Motion.Taunt:
-        //         returnVal = Token.Occasion.OnMotionTaunt;
-        //         break;
-        //     }
-        //     return returnVal;
-        // }        
-        // private Token.Occasion GetOccationSSM(GameTerms.Motion m){
-        //     Token.Occasion returnVal = Token.Occasion.None;
-        //     switch(m){                
-        //         case GameTerms.Motion.None:
-        //         returnVal = Token.Occasion.OnMotionNone;
-        //         break;
-        //         case GameTerms.Motion.Attack:
-        //         case GameTerms.Motion.Strike:
-        //         returnVal = Token.Occasion.OnMotionSword;
-        //         break;
-        //         case GameTerms.Motion.Defence:
-        //         case GameTerms.Motion.Charge:
-        //         returnVal = Token.Occasion.OnMotionShield;
-        //         break;
-        //         case GameTerms.Motion.Avoid:
-        //         case GameTerms.Motion.Taunt:
-        //         returnVal = Token.Occasion.OnMotionMove;
-        //         break;
-        //     }
-        //     return returnVal;
-        // }
-        // private Token.Behaviour GetPowerType(GameTerms.Motion m){
-        //     Token.Behaviour returnVal = Token.Behaviour.Defensive;
-        //     switch(m){                
-        //         case GameTerms.Motion.None:
-        //         case GameTerms.Motion.Defence:
-        //         case GameTerms.Motion.Avoid:
-        //         case GameTerms.Motion.Taunt:
-        //         returnVal = Token.Behaviour.Defensive;
-        //         break;
-        //         case GameTerms.Motion.Attack:
-        //         case GameTerms.Motion.Strike:
-        //         case GameTerms.Motion.Charge:
-        //         returnVal = Token.Behaviour.Offensive;
-        //         break;
-                
-        //     }
-        //     return returnVal;
-        // }        
-        // private Token.Category GetPowerGaugeTarget(GameTerms.Motion m){
-        //     Token.Category returnVal = Token.Category.None;
-        //     switch(m){                
-        //         case GameTerms.Motion.None:
-        //         case GameTerms.Motion.Avoid:
-        //         case GameTerms.Motion.Taunt:
-        //         returnVal = Token.Category.None;
-        //         break;
-        //         case GameTerms.Motion.Attack:
-        //         case GameTerms.Motion.Strike:
-        //         returnVal = Token.Category.SwordPower;
-        //         break;
-                
-        //         case GameTerms.Motion.Defence:
-        //         case GameTerms.Motion.Charge:
-        //         returnVal = Token.Category.ShieldPower;
-        //         break;                
-        //     }
-        //     return returnVal;
-        // }
-        
-        
     }
     
     

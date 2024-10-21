@@ -18,33 +18,33 @@ public class BPGenerator : MonoBehaviour
     public enum TimeKeyword{
         None
     }
-    private List<BPT.Motion> motionBase;
-    private List<BPT.Motion> motionOffensive;
-    private List<BPT.Motion> motionDefensive;
-    private List<BPT.Motion> motionMoreSword;
-    private List<BPT.Motion> motionMoreShield;
-    private List<BPT.Motion> motionMoreMove;
-    private List<BPT.Motion> motionMoreAttack;
-    private List<BPT.Motion> motionMoreStrike;
-    private List<BPT.Motion> motionMoreDefence;
-    private List<BPT.Motion> motionMoreCharge;
-    private List<BPT.Motion> motionMoreAvoid;
-    private List<BPT.Motion> motionMoreTaunt;
-    private List<BPT.Motion> motionMoreEnergy;
-    private List<BPT.Motion> motionMoreSwordPower;
-    private List<BPT.Motion> motionMoreShieldPower;
-    private List<BPT.Motion> motionSpecialRandom;
-    private List<BPT.Motion> motionSpecialOthersPrev1;
-    private List<BPT.Motion> motionSpecialOthersPrev2;
-    private List<BPT.Motion> motionSpecialWin;
-    private List<BPT.Motion> motionSpecialLose;
-    private List<BPT.Motion> motionSpecialSame;
-    private List<BPT.Motion> motionSpecialNotOnPrevMotion;
-    private List<BPT.Motion> motionSpecialNotOnPrevMove;
-    private List<BPT.Motion> motionSpecialOnPrevMotion;
-    private List<BPT.Motion> motionSpecialOnPrevMove;
-    private List<BPT.Motion> motionSpecialEnergyUse;
-    private List<BPT.Motion> motionSpecialNoEnergyUse;
+    private List<BPToken.Motion> motionBase;
+    private List<BPToken.Motion> motionOffensive;
+    private List<BPToken.Motion> motionDefensive;
+    private List<BPToken.Motion> motionMoreSword;
+    private List<BPToken.Motion> motionMoreShield;
+    private List<BPToken.Motion> motionMoreMove;
+    private List<BPToken.Motion> motionMoreAttack;
+    private List<BPToken.Motion> motionMoreStrike;
+    private List<BPToken.Motion> motionMoreDefence;
+    private List<BPToken.Motion> motionMoreCharge;
+    private List<BPToken.Motion> motionMoreAvoid;
+    private List<BPToken.Motion> motionMoreTaunt;
+    private List<BPToken.Motion> motionMoreEnergy;
+    private List<BPToken.Motion> motionMoreSwordPower;
+    private List<BPToken.Motion> motionMoreShieldPower;
+    private List<BPToken.Motion> motionSpecialRandom;
+    private List<BPToken.Motion> motionSpecialOthersPrev1;
+    private List<BPToken.Motion> motionSpecialOthersPrev2;
+    private List<BPToken.Motion> motionSpecialWin;
+    private List<BPToken.Motion> motionSpecialLose;
+    private List<BPToken.Motion> motionSpecialSame;
+    private List<BPToken.Motion> motionSpecialNotOnPrevMotion;
+    private List<BPToken.Motion> motionSpecialNotOnPrevMove;
+    private List<BPToken.Motion> motionSpecialOnPrevMotion;
+    private List<BPToken.Motion> motionSpecialOnPrevMove;
+    private List<BPToken.Motion> motionSpecialEnergyUse;
+    private List<BPToken.Motion> motionSpecialNoEnergyUse;
     
 
     public enum MotionKeyword{None, Even, Random}
@@ -53,216 +53,210 @@ public class BPGenerator : MonoBehaviour
     public void Start(){
         
     }
-    public BPT.Event GenerateEvent(){
-        return new BPT.Event();
-    }
-
-    public BPT.State GenerateState(){
-        return new BPT.State();
-    }
+    
     private void InitMotions(){
         // 기본 모션 풀 : 공공공스스방방방차차회회회타
-        motionBase = new List<BPT.Motion>();
-        motionBase.Add(BPT.Motion.Attack);
-        motionBase.Add(BPT.Motion.Attack);
-        motionBase.Add(BPT.Motion.Attack);
-        motionBase.Add(BPT.Motion.Strike);
-        motionBase.Add(BPT.Motion.Strike);
-        motionBase.Add(BPT.Motion.Defence);
-        motionBase.Add(BPT.Motion.Defence);
-        motionBase.Add(BPT.Motion.Defence);
-        motionBase.Add(BPT.Motion.Charge);
-        motionBase.Add(BPT.Motion.Charge);
-        motionBase.Add(BPT.Motion.Avoid);
-        motionBase.Add(BPT.Motion.Avoid);
-        motionBase.Add(BPT.Motion.Avoid);
-        motionBase.Add(BPT.Motion.Taunt);
+        motionBase = new List<BPToken.Motion>();
+        motionBase.Add(BPToken.Motion.Attack);
+        motionBase.Add(BPToken.Motion.Attack);
+        motionBase.Add(BPToken.Motion.Attack);
+        motionBase.Add(BPToken.Motion.Strike);
+        motionBase.Add(BPToken.Motion.Strike);
+        motionBase.Add(BPToken.Motion.Defence);
+        motionBase.Add(BPToken.Motion.Defence);
+        motionBase.Add(BPToken.Motion.Defence);
+        motionBase.Add(BPToken.Motion.Charge);
+        motionBase.Add(BPToken.Motion.Charge);
+        motionBase.Add(BPToken.Motion.Avoid);
+        motionBase.Add(BPToken.Motion.Avoid);
+        motionBase.Add(BPToken.Motion.Avoid);
+        motionBase.Add(BPToken.Motion.Rest);
 
-        motionOffensive = new List<BPT.Motion>();
-        motionOffensive.Add(BPT.Motion.Attack);
-        motionOffensive.Add(BPT.Motion.Attack);
-        motionOffensive.Add(BPT.Motion.Strike);
-        motionOffensive.Add(BPT.Motion.Strike);
-        motionOffensive.Add(BPT.Motion.Charge);
-        motionOffensive.Add(BPT.Motion.Charge);
+        motionOffensive = new List<BPToken.Motion>();
+        motionOffensive.Add(BPToken.Motion.Attack);
+        motionOffensive.Add(BPToken.Motion.Attack);
+        motionOffensive.Add(BPToken.Motion.Strike);
+        motionOffensive.Add(BPToken.Motion.Strike);
+        motionOffensive.Add(BPToken.Motion.Charge);
+        motionOffensive.Add(BPToken.Motion.Charge);
 
-        motionDefensive = new List<BPT.Motion>();
-        motionDefensive.Add(BPT.Motion.Defence);
-        motionDefensive.Add(BPT.Motion.Defence);
-        motionDefensive.Add(BPT.Motion.Defence);
-        motionDefensive.Add(BPT.Motion.Avoid);
-        motionDefensive.Add(BPT.Motion.Avoid);
-        motionDefensive.Add(BPT.Motion.Taunt);
+        motionDefensive = new List<BPToken.Motion>();
+        motionDefensive.Add(BPToken.Motion.Defence);
+        motionDefensive.Add(BPToken.Motion.Defence);
+        motionDefensive.Add(BPToken.Motion.Defence);
+        motionDefensive.Add(BPToken.Motion.Avoid);
+        motionDefensive.Add(BPToken.Motion.Avoid);
+        motionDefensive.Add(BPToken.Motion.Rest);
 
-        motionMoreSword = new List<BPT.Motion>();
-        motionMoreSword.Add(BPT.Motion.Attack);
-        motionMoreSword.Add(BPT.Motion.Attack);
-        motionMoreSword.Add(BPT.Motion.Attack);
-        motionMoreSword.Add(BPT.Motion.Strike);
-        motionMoreSword.Add(BPT.Motion.Strike);
-        motionMoreSword.Add(BPT.Motion.Strike);
+        motionMoreSword = new List<BPToken.Motion>();
+        motionMoreSword.Add(BPToken.Motion.Attack);
+        motionMoreSword.Add(BPToken.Motion.Attack);
+        motionMoreSword.Add(BPToken.Motion.Attack);
+        motionMoreSword.Add(BPToken.Motion.Strike);
+        motionMoreSword.Add(BPToken.Motion.Strike);
+        motionMoreSword.Add(BPToken.Motion.Strike);
 
-        motionMoreShield = new List<BPT.Motion>();
-        motionMoreShield.Add(BPT.Motion.Defence);
-        motionMoreShield.Add(BPT.Motion.Defence);
-        motionMoreShield.Add(BPT.Motion.Defence);
-        motionMoreShield.Add(BPT.Motion.Charge);
-        motionMoreShield.Add(BPT.Motion.Charge);
-        motionMoreShield.Add(BPT.Motion.Charge);
+        motionMoreShield = new List<BPToken.Motion>();
+        motionMoreShield.Add(BPToken.Motion.Defence);
+        motionMoreShield.Add(BPToken.Motion.Defence);
+        motionMoreShield.Add(BPToken.Motion.Defence);
+        motionMoreShield.Add(BPToken.Motion.Charge);
+        motionMoreShield.Add(BPToken.Motion.Charge);
+        motionMoreShield.Add(BPToken.Motion.Charge);
 
-        motionMoreMove = new List<BPT.Motion>();
-        motionMoreMove.Add(BPT.Motion.Avoid);
-        motionMoreMove.Add(BPT.Motion.Avoid);
-        motionMoreMove.Add(BPT.Motion.Avoid);
-        motionMoreMove.Add(BPT.Motion.Avoid);
-        motionMoreMove.Add(BPT.Motion.Taunt);
-        motionMoreMove.Add(BPT.Motion.Taunt);
+        motionMoreMove = new List<BPToken.Motion>();
+        motionMoreMove.Add(BPToken.Motion.Avoid);
+        motionMoreMove.Add(BPToken.Motion.Avoid);
+        motionMoreMove.Add(BPToken.Motion.Avoid);
+        motionMoreMove.Add(BPToken.Motion.Avoid);
+        motionMoreMove.Add(BPToken.Motion.Rest);
+        motionMoreMove.Add(BPToken.Motion.Rest);
 
-        motionMoreAttack = new List<BPT.Motion>();
-        motionMoreAttack.Add(BPT.Motion.Attack);
-        motionMoreAttack.Add(BPT.Motion.Attack);
-        motionMoreAttack.Add(BPT.Motion.Attack);
-        motionMoreAttack.Add(BPT.Motion.Attack);
-        motionMoreAttack.Add(BPT.Motion.Attack);
-        motionMoreAttack.Add(BPT.Motion.Attack);
+        motionMoreAttack = new List<BPToken.Motion>();
+        motionMoreAttack.Add(BPToken.Motion.Attack);
+        motionMoreAttack.Add(BPToken.Motion.Attack);
+        motionMoreAttack.Add(BPToken.Motion.Attack);
+        motionMoreAttack.Add(BPToken.Motion.Attack);
+        motionMoreAttack.Add(BPToken.Motion.Attack);
+        motionMoreAttack.Add(BPToken.Motion.Attack);
 
-        motionMoreStrike = new List<BPT.Motion>();
-        motionMoreStrike.Add(BPT.Motion.Strike);
-        motionMoreStrike.Add(BPT.Motion.Strike);
-        motionMoreStrike.Add(BPT.Motion.Strike);
-        motionMoreStrike.Add(BPT.Motion.Strike);
+        motionMoreStrike = new List<BPToken.Motion>();
+        motionMoreStrike.Add(BPToken.Motion.Strike);
+        motionMoreStrike.Add(BPToken.Motion.Strike);
+        motionMoreStrike.Add(BPToken.Motion.Strike);
+        motionMoreStrike.Add(BPToken.Motion.Strike);
 
-        motionMoreDefence = new List<BPT.Motion>();
-        motionMoreDefence.Add(BPT.Motion.Defence);
-        motionMoreDefence.Add(BPT.Motion.Defence);
-        motionMoreDefence.Add(BPT.Motion.Defence);
-        motionMoreDefence.Add(BPT.Motion.Defence);
-        motionMoreDefence.Add(BPT.Motion.Defence);
-        motionMoreDefence.Add(BPT.Motion.Defence);
+        motionMoreDefence = new List<BPToken.Motion>();
+        motionMoreDefence.Add(BPToken.Motion.Defence);
+        motionMoreDefence.Add(BPToken.Motion.Defence);
+        motionMoreDefence.Add(BPToken.Motion.Defence);
+        motionMoreDefence.Add(BPToken.Motion.Defence);
+        motionMoreDefence.Add(BPToken.Motion.Defence);
+        motionMoreDefence.Add(BPToken.Motion.Defence);
 
-        motionMoreCharge = new List<BPT.Motion>();
-        motionMoreCharge.Add(BPT.Motion.Charge);
-        motionMoreCharge.Add(BPT.Motion.Charge);
-        motionMoreCharge.Add(BPT.Motion.Charge);
-        motionMoreCharge.Add(BPT.Motion.Charge);
+        motionMoreCharge = new List<BPToken.Motion>();
+        motionMoreCharge.Add(BPToken.Motion.Charge);
+        motionMoreCharge.Add(BPToken.Motion.Charge);
+        motionMoreCharge.Add(BPToken.Motion.Charge);
+        motionMoreCharge.Add(BPToken.Motion.Charge);
 
-        motionMoreAvoid = new List<BPT.Motion>();
-        motionMoreAvoid.Add(BPT.Motion.Avoid);
-        motionMoreAvoid.Add(BPT.Motion.Avoid);
-        motionMoreAvoid.Add(BPT.Motion.Avoid);
-        motionMoreAvoid.Add(BPT.Motion.Avoid);
-        motionMoreAvoid.Add(BPT.Motion.Avoid);
-        motionMoreAvoid.Add(BPT.Motion.Avoid);
+        motionMoreAvoid = new List<BPToken.Motion>();
+        motionMoreAvoid.Add(BPToken.Motion.Avoid);
+        motionMoreAvoid.Add(BPToken.Motion.Avoid);
+        motionMoreAvoid.Add(BPToken.Motion.Avoid);
+        motionMoreAvoid.Add(BPToken.Motion.Avoid);
+        motionMoreAvoid.Add(BPToken.Motion.Avoid);
+        motionMoreAvoid.Add(BPToken.Motion.Avoid);
 
-        motionMoreTaunt = new List<BPT.Motion>();
-        motionMoreTaunt.Add(BPT.Motion.Taunt);
-        motionMoreTaunt.Add(BPT.Motion.Taunt);
+        motionMoreTaunt = new List<BPToken.Motion>();
+        motionMoreTaunt.Add(BPToken.Motion.Rest);
+        motionMoreTaunt.Add(BPToken.Motion.Rest);
 
-        motionMoreEnergy = new List<BPT.Motion>();
-        motionMoreEnergy.Add(BPT.Motion.Defence);
-        motionMoreEnergy.Add(BPT.Motion.Defence);
-        motionMoreEnergy.Add(BPT.Motion.Avoid);
-        motionMoreEnergy.Add(BPT.Motion.Avoid);
-        motionMoreEnergy.Add(BPT.Motion.Taunt);
-        motionMoreEnergy.Add(BPT.Motion.Taunt);
+        motionMoreEnergy = new List<BPToken.Motion>();
+        motionMoreEnergy.Add(BPToken.Motion.Defence);
+        motionMoreEnergy.Add(BPToken.Motion.Defence);
+        motionMoreEnergy.Add(BPToken.Motion.Avoid);
+        motionMoreEnergy.Add(BPToken.Motion.Avoid);
+        motionMoreEnergy.Add(BPToken.Motion.Rest);
+        motionMoreEnergy.Add(BPToken.Motion.Rest);
 
-        motionMoreSwordPower = new List<BPT.Motion>();
-        motionMoreSwordPower.Add(BPT.Motion.Attack);
-        motionMoreSwordPower.Add(BPT.Motion.Attack);
-        motionMoreSwordPower.Add(BPT.Motion.Attack);
-        motionMoreSwordPower.Add(BPT.Motion.Avoid);
-        motionMoreSwordPower.Add(BPT.Motion.Avoid);
+        motionMoreSwordPower = new List<BPToken.Motion>();
+        motionMoreSwordPower.Add(BPToken.Motion.Attack);
+        motionMoreSwordPower.Add(BPToken.Motion.Attack);
+        motionMoreSwordPower.Add(BPToken.Motion.Attack);
+        motionMoreSwordPower.Add(BPToken.Motion.Avoid);
+        motionMoreSwordPower.Add(BPToken.Motion.Avoid);
 
-        motionMoreShieldPower = new List<BPT.Motion>();
-        motionMoreShieldPower.Add(BPT.Motion.Defence);
-        motionMoreShieldPower.Add(BPT.Motion.Defence);
-        motionMoreShieldPower.Add(BPT.Motion.Defence);
-        motionMoreShieldPower.Add(BPT.Motion.Avoid);
-        motionMoreShieldPower.Add(BPT.Motion.Avoid);
+        motionMoreShieldPower = new List<BPToken.Motion>();
+        motionMoreShieldPower.Add(BPToken.Motion.Defence);
+        motionMoreShieldPower.Add(BPToken.Motion.Defence);
+        motionMoreShieldPower.Add(BPToken.Motion.Defence);
+        motionMoreShieldPower.Add(BPToken.Motion.Avoid);
+        motionMoreShieldPower.Add(BPToken.Motion.Avoid);
         //-----------------------------------------------------------------
-        motionSpecialRandom = new List<BPT.Motion>();
-        motionSpecialRandom.Add(BPT.Motion.Random);
-        motionSpecialRandom.Add(BPT.Motion.Random);
-        motionSpecialRandom.Add(BPT.Motion.Random);
-        motionSpecialRandom.Add(BPT.Motion.Random);
-        motionSpecialRandom.Add(BPT.Motion.Random);
-        motionSpecialRandom.Add(BPT.Motion.Random);
+        motionSpecialRandom = new List<BPToken.Motion>();
+        motionSpecialRandom.Add(BPToken.Motion.Random);
+        motionSpecialRandom.Add(BPToken.Motion.Random);
+        motionSpecialRandom.Add(BPToken.Motion.Random);
+        motionSpecialRandom.Add(BPToken.Motion.Random);
+        motionSpecialRandom.Add(BPToken.Motion.Random);
+        motionSpecialRandom.Add(BPToken.Motion.Random);
 
-        motionSpecialOthersPrev1 = new List<BPT.Motion>();
-        motionSpecialOthersPrev1.Add(BPT.Motion.Prev1);
-        motionSpecialOthersPrev1.Add(BPT.Motion.Prev1);
-        motionSpecialOthersPrev1.Add(BPT.Motion.Prev1);
-        motionSpecialOthersPrev1.Add(BPT.Motion.Prev1);
-        motionSpecialOthersPrev1.Add(BPT.Motion.Prev1);
-        motionSpecialOthersPrev1.Add(BPT.Motion.Prev1);
+        motionSpecialOthersPrev1 = new List<BPToken.Motion>();
+        motionSpecialOthersPrev1.Add(BPToken.Motion.Prev1);
+        motionSpecialOthersPrev1.Add(BPToken.Motion.Prev1);
+        motionSpecialOthersPrev1.Add(BPToken.Motion.Prev1);
+        motionSpecialOthersPrev1.Add(BPToken.Motion.Prev1);
+        motionSpecialOthersPrev1.Add(BPToken.Motion.Prev1);
+        motionSpecialOthersPrev1.Add(BPToken.Motion.Prev1);
         
-        motionSpecialOthersPrev2 = new List<BPT.Motion>();
-        motionSpecialOthersPrev2.Add(BPT.Motion.Prev2);
-        motionSpecialOthersPrev2.Add(BPT.Motion.Prev2);
-        motionSpecialOthersPrev2.Add(BPT.Motion.Prev2);
-        motionSpecialOthersPrev2.Add(BPT.Motion.Prev2);
-        motionSpecialOthersPrev2.Add(BPT.Motion.Prev2);
-        motionSpecialOthersPrev2.Add(BPT.Motion.Prev2);
+        motionSpecialOthersPrev2 = new List<BPToken.Motion>();
+        motionSpecialOthersPrev2.Add(BPToken.Motion.Prev2);
+        motionSpecialOthersPrev2.Add(BPToken.Motion.Prev2);
+        motionSpecialOthersPrev2.Add(BPToken.Motion.Prev2);
+        motionSpecialOthersPrev2.Add(BPToken.Motion.Prev2);
+        motionSpecialOthersPrev2.Add(BPToken.Motion.Prev2);
+        motionSpecialOthersPrev2.Add(BPToken.Motion.Prev2);
 
-        motionSpecialWin = new List<BPT.Motion>();
-        motionSpecialWin.Add(BPT.Motion.Win);
-        motionSpecialWin.Add(BPT.Motion.Win);
-        motionSpecialWin.Add(BPT.Motion.Win);
+        motionSpecialWin = new List<BPToken.Motion>();
+        motionSpecialWin.Add(BPToken.Motion.Win);
+        motionSpecialWin.Add(BPToken.Motion.Win);
+        motionSpecialWin.Add(BPToken.Motion.Win);
 
-        motionSpecialLose = new List<BPT.Motion>();
-        motionSpecialLose.Add(BPT.Motion.Lose);
-        motionSpecialLose.Add(BPT.Motion.Lose);
-        motionSpecialLose.Add(BPT.Motion.Lose);
+        motionSpecialLose = new List<BPToken.Motion>();
+        motionSpecialLose.Add(BPToken.Motion.Lose);
+        motionSpecialLose.Add(BPToken.Motion.Lose);
+        motionSpecialLose.Add(BPToken.Motion.Lose);
 
-        motionSpecialSame = new List<BPT.Motion>();
-        motionSpecialSame.Add(BPT.Motion.Same);
-        motionSpecialSame.Add(BPT.Motion.Same);
-        motionSpecialSame.Add(BPT.Motion.Same);
-        motionSpecialSame.Add(BPT.Motion.Same);
-        motionSpecialSame.Add(BPT.Motion.Same);
-        motionSpecialSame.Add(BPT.Motion.Same);
+        motionSpecialSame = new List<BPToken.Motion>();
+        motionSpecialSame.Add(BPToken.Motion.Same);
+        motionSpecialSame.Add(BPToken.Motion.Same);
+        motionSpecialSame.Add(BPToken.Motion.Same);
+        motionSpecialSame.Add(BPToken.Motion.Same);
+        motionSpecialSame.Add(BPToken.Motion.Same);
+        motionSpecialSame.Add(BPToken.Motion.Same);
 
-        motionSpecialNotOnPrevMotion = new List<BPT.Motion>();
-        motionSpecialNotOnPrevMotion.Add(BPT.Motion.NotOnPrevMotion);
-        motionSpecialNotOnPrevMotion.Add(BPT.Motion.NotOnPrevMotion);
-        motionSpecialNotOnPrevMotion.Add(BPT.Motion.NotOnPrevMotion);
-        motionSpecialNotOnPrevMotion.Add(BPT.Motion.NotOnPrevMotion);
-        motionSpecialNotOnPrevMotion.Add(BPT.Motion.NotOnPrevMotion);
-        motionSpecialNotOnPrevMotion.Add(BPT.Motion.NotOnPrevMotion);
+        motionSpecialNotOnPrevMotion = new List<BPToken.Motion>();
+        motionSpecialNotOnPrevMotion.Add(BPToken.Motion.NotOnPrevMotion);
+        motionSpecialNotOnPrevMotion.Add(BPToken.Motion.NotOnPrevMotion);
+        motionSpecialNotOnPrevMotion.Add(BPToken.Motion.NotOnPrevMotion);
+        motionSpecialNotOnPrevMotion.Add(BPToken.Motion.NotOnPrevMotion);
+        motionSpecialNotOnPrevMotion.Add(BPToken.Motion.NotOnPrevMotion);
+        motionSpecialNotOnPrevMotion.Add(BPToken.Motion.NotOnPrevMotion);
 
-        motionSpecialNotOnPrevMove = new List<BPT.Motion>();
-        motionSpecialNotOnPrevMove.Add(BPT.Motion.NotOnPrevMove);
-        motionSpecialNotOnPrevMove.Add(BPT.Motion.NotOnPrevMove);
-        motionSpecialNotOnPrevMove.Add(BPT.Motion.NotOnPrevMove);
+        motionSpecialNotOnPrevMove = new List<BPToken.Motion>();
+        motionSpecialNotOnPrevMove.Add(BPToken.Motion.NotOnPrevMove);
+        motionSpecialNotOnPrevMove.Add(BPToken.Motion.NotOnPrevMove);
+        motionSpecialNotOnPrevMove.Add(BPToken.Motion.NotOnPrevMove);
 
-        motionSpecialOnPrevMotion = new List<BPT.Motion>();
-        motionSpecialOnPrevMotion.Add(BPT.Motion.OnPrevMotion);
-        motionSpecialOnPrevMotion.Add(BPT.Motion.OnPrevMotion);
-        motionSpecialOnPrevMotion.Add(BPT.Motion.OnPrevMotion);
+        motionSpecialOnPrevMotion = new List<BPToken.Motion>();
+        motionSpecialOnPrevMotion.Add(BPToken.Motion.OnPrevMotion);
+        motionSpecialOnPrevMotion.Add(BPToken.Motion.OnPrevMotion);
+        motionSpecialOnPrevMotion.Add(BPToken.Motion.OnPrevMotion);
 
-        motionSpecialOnPrevMove = new List<BPT.Motion>();
-        motionSpecialOnPrevMove.Add(BPT.Motion.OnPrevMove);
-        motionSpecialOnPrevMove.Add(BPT.Motion.OnPrevMove);
-        motionSpecialOnPrevMove.Add(BPT.Motion.OnPrevMove);
-        motionSpecialOnPrevMove.Add(BPT.Motion.OnPrevMove);
-        motionSpecialOnPrevMove.Add(BPT.Motion.OnPrevMove);
-        motionSpecialOnPrevMove.Add(BPT.Motion.OnPrevMove);
+        motionSpecialOnPrevMove = new List<BPToken.Motion>();
+        motionSpecialOnPrevMove.Add(BPToken.Motion.OnPrevMove);
+        motionSpecialOnPrevMove.Add(BPToken.Motion.OnPrevMove);
+        motionSpecialOnPrevMove.Add(BPToken.Motion.OnPrevMove);
+        motionSpecialOnPrevMove.Add(BPToken.Motion.OnPrevMove);
+        motionSpecialOnPrevMove.Add(BPToken.Motion.OnPrevMove);
+        motionSpecialOnPrevMove.Add(BPToken.Motion.OnPrevMove);
 
-        motionSpecialEnergyUse = new List<BPT.Motion>();
-        motionSpecialEnergyUse.Add(BPT.Motion.EnergyUse);
-        motionSpecialEnergyUse.Add(BPT.Motion.EnergyUse);
-        motionSpecialEnergyUse.Add(BPT.Motion.EnergyUse);
-        motionSpecialEnergyUse.Add(BPT.Motion.EnergyUse);
-        motionSpecialEnergyUse.Add(BPT.Motion.EnergyUse);
-        motionSpecialEnergyUse.Add(BPT.Motion.EnergyUse);
+        motionSpecialEnergyUse = new List<BPToken.Motion>();
+        motionSpecialEnergyUse.Add(BPToken.Motion.EnergyUse);
+        motionSpecialEnergyUse.Add(BPToken.Motion.EnergyUse);
+        motionSpecialEnergyUse.Add(BPToken.Motion.EnergyUse);
+        motionSpecialEnergyUse.Add(BPToken.Motion.EnergyUse);
+        motionSpecialEnergyUse.Add(BPToken.Motion.EnergyUse);
+        motionSpecialEnergyUse.Add(BPToken.Motion.EnergyUse);
 
-        motionSpecialNoEnergyUse = new List<BPT.Motion>();
-        motionSpecialNoEnergyUse.Add(BPT.Motion.EnergyNoUse);
-        motionSpecialNoEnergyUse.Add(BPT.Motion.EnergyNoUse);
-        motionSpecialNoEnergyUse.Add(BPT.Motion.EnergyNoUse);
-        motionSpecialNoEnergyUse.Add(BPT.Motion.EnergyNoUse);
-        motionSpecialNoEnergyUse.Add(BPT.Motion.EnergyNoUse);
-        motionSpecialNoEnergyUse.Add(BPT.Motion.EnergyNoUse);
+        motionSpecialNoEnergyUse = new List<BPToken.Motion>();
+        motionSpecialNoEnergyUse.Add(BPToken.Motion.EnergyNoUse);
+        motionSpecialNoEnergyUse.Add(BPToken.Motion.EnergyNoUse);
+        motionSpecialNoEnergyUse.Add(BPToken.Motion.EnergyNoUse);
+        motionSpecialNoEnergyUse.Add(BPToken.Motion.EnergyNoUse);
+        motionSpecialNoEnergyUse.Add(BPToken.Motion.EnergyNoUse);
+        motionSpecialNoEnergyUse.Add(BPToken.Motion.EnergyNoUse);
     }
     public void SetBPGenerationBlueprint(int difficulty){
 
@@ -272,47 +266,39 @@ public class BPGenerator : MonoBehaviour
         // BPData data = ScriptableObject.CreateInstance("BPData") as BPData;
         
         BPData data = new BPData();
-        data.conditionEvent = GenerateBPConditionEvent(evtKey);
-        data.conditionStatus = GenerateBPConditionStatus(stsKey);
-        data.conditionTime = GenerateBPConditionTime(timKey);
+        // data.conditionEvent = GenerateBPConditionEvent(evtKey);
+        // data.conditionStatus = GenerateBPConditionStatus(stsKey);
+        // data.conditionTime = GenerateBPConditionTime(timKey);
         // data.condition = GenerateBPCondition(conKey);
 
-        data.motion = GenerateBPMotion(moKey, length);
-        data.behaviour = GenerateBPBehaviour(behavKey);
+        // data.motion = GenerateBPMotion(moKey, length);
+        // data.behaviour = GenerateBPBehaviour(behavKey);
         return data;
     }
-    private BPT.Event GenerateBPConditionEvent(EventKeyword keyword){
-        return new BPT.Event();
-    }
-    private BPT.State GenerateBPConditionStatus(StatusKeyword keyword){
-        return new BPT.State();
-    }
-    private BPT.Time GenerateBPConditionTime(TimeKeyword keyword){
-        return new BPT.Time();
-    }
+   
     // private List<object> GenerateBPCondition(ConditionKeyword key){
     //     List<object> bpCondition = new List<object>();
     //     switch(key){
             
     //         //return empty - default;
-    //         // bpCondition.Add(BPT.Essential.StepUp);
+    //         // bpCondition.Add(BPToken.Essential.StepUp);
 
     //         break;
     //     }
     //     return bpCondition;
     // }
-    private List<BPT.Motion> GenerateBPMotion(MotionKeyword key, int length){
-        List<BPT.Motion> bpMotion = new List<BPT.Motion>();
-        List<BPT.Motion> bpMotionCandicate = new List<BPT.Motion>();
+    private List<BPToken.Motion> GenerateBPMotion(MotionKeyword key, int length){
+        List<BPToken.Motion> bpMotion = new List<BPToken.Motion>();
+        List<BPToken.Motion> bpMotionCandicate = new List<BPToken.Motion>();
         int bpMotionID = 0;
         switch(key){
             case MotionKeyword.Even:
-            bpMotionCandicate.Add(BPT.Motion.Attack);
-            bpMotionCandicate.Add(BPT.Motion.Strike);
-            bpMotionCandicate.Add(BPT.Motion.Defence);
-            bpMotionCandicate.Add(BPT.Motion.Charge);
-            bpMotionCandicate.Add(BPT.Motion.Avoid);
-            bpMotionCandicate.Add(BPT.Motion.Taunt);            
+            bpMotionCandicate.Add(BPToken.Motion.Attack);
+            bpMotionCandicate.Add(BPToken.Motion.Strike);
+            bpMotionCandicate.Add(BPToken.Motion.Defence);
+            bpMotionCandicate.Add(BPToken.Motion.Charge);
+            bpMotionCandicate.Add(BPToken.Motion.Avoid);
+            bpMotionCandicate.Add(BPToken.Motion.Rest);            
             for (int i = 0; i < length; i++)
             {
                 bpMotionID = MathTool.GetRandomIndex(bpMotionCandicate.Count);
@@ -322,7 +308,7 @@ public class BPGenerator : MonoBehaviour
             break;
 
             case MotionKeyword.Random:
-            bpMotion.Add(BPT.Motion.Random);
+            bpMotion.Add(BPToken.Motion.Random);
             break;
             case MotionKeyword.None:
             Debug.LogError("BPGenerator.GenerateBPMotion : No Motion Keyword.");
@@ -331,9 +317,9 @@ public class BPGenerator : MonoBehaviour
         }
         return bpMotion;
 
-        List<BPT.Motion> ContainLeastOneOffensiveMotion(List<BPT.Motion> originalMotion){
+        List<BPToken.Motion> ContainLeastOneOffensiveMotion(List<BPToken.Motion> originalMotion){
             bool noOffinsiveMotion = true;
-            foreach(BPT.Motion item in originalMotion){
+            foreach(BPToken.Motion item in originalMotion){
                 if(IsOffensiveMotion(item) == true){
                     noOffinsiveMotion = false;
                     break;
@@ -341,10 +327,10 @@ public class BPGenerator : MonoBehaviour
             }
             if(noOffinsiveMotion == true){ // change one motion to offensive if ther is no offensive motion
                 int targetID = MathTool.GetRandomIndex(originalMotion.Count);
-                List<BPT.Motion> offiensiveMOtionCandicate = new List<BPT.Motion>();
-                offiensiveMOtionCandicate.Add(BPT.Motion.Attack);
-                offiensiveMOtionCandicate.Add(BPT.Motion.Strike);
-                offiensiveMOtionCandicate.Add(BPT.Motion.Charge);
+                List<BPToken.Motion> offiensiveMOtionCandicate = new List<BPToken.Motion>();
+                offiensiveMOtionCandicate.Add(BPToken.Motion.Attack);
+                offiensiveMOtionCandicate.Add(BPToken.Motion.Strike);
+                offiensiveMOtionCandicate.Add(BPToken.Motion.Charge);
                 int offensiveMotionID = MathTool.GetRandomIndex(offiensiveMOtionCandicate.Count);
                 originalMotion.RemoveAt(targetID);
                 originalMotion.Insert(targetID, offiensiveMOtionCandicate[offensiveMotionID]);
@@ -353,26 +339,17 @@ public class BPGenerator : MonoBehaviour
             return originalMotion;
         }
 
-        bool IsOffensiveMotion(BPT.Motion motion){
+        bool IsOffensiveMotion(BPToken.Motion motion){
             switch(motion){
-                case BPT.Motion.Attack:
-                case BPT.Motion.Strike:
-                case BPT.Motion.Charge:                
+                case BPToken.Motion.Attack:
+                case BPToken.Motion.Strike:
+                case BPToken.Motion.Charge:                
                 return true;
             }
             return false;
         }
     }
 
-    private List<BPT.Behaviour> GenerateBPBehaviour(BehaviourKeyword key){
-        List<BPT.Behaviour> bpBehaviour = new List<BPT.Behaviour>();
-        switch(key){
-            case BehaviourKeyword.None:
-            //return empty - default;
-            break;
-        }
-        return bpBehaviour;
-    }
     /*
     public List<BPData.Condition> GenerateCondition(){
         List<BPData.Condition> condition = new List<BPData.Condition>();
@@ -413,7 +390,7 @@ public class BPGenerator : MonoBehaviour
             m = GameTerms.BPMotion.Avoid;
             break;
             case 5:
-            m = GameTerms.BPMotion.Taunt;
+            m = GameTerms.BPMotion.Rest;
             break;
         }
         return m;

@@ -3,111 +3,62 @@ using System.Collections.Generic;
 using UnityEngine;
 using ssm.data;
 using System;
+using Unity.VisualScripting;
 namespace ssm.game.structure{
     public class BehaviourPattern
     {
+        public int characterIndex;
         public int motionIndex;
         public bool isActivated;
         public int activationCount;
-        private BPData data;
+        // private BPData data;
+
+        private BPCondition condition;
+        private BPTime time;
+        private BPBehaviour behaviour;
+        private BPMotion motion;
+        
         // List<List<object>> parsedCondition; // 임의의 예비 길이로 선언
         public int motionCount;
-        public BehaviourPattern(BPData bpData){
+        public BehaviourPattern(int chaId, BPData bpData){
             //데이터 이관
-            data = bpData;
+            characterIndex = chaId;
             activationCount = 0;
             motionCount = bpData.motion.Count;
             motionIndex = -1;
             isActivated = false;
-            
+
+            condition = new BPCondition(characterIndex, bpData.condition);
+            time = new BPTime(characterIndex, bpData.time);
+            motion = new BPMotion(characterIndex, bpData.motion);
+            behaviour = new BPBehaviour(characterIndex, bpData.behaviour);
         }
-        public bool CheckActivation(Character me, Character other){
-            return true;
-            //TODO : Condition 체크 내용 작성 필요
-           
-            /*
-            bool CheckConditionEssential(List<object> data){
-                switch(data[0]){
-                    case GameTerms.BPCondition.STATIC_ALWAYS:
-                    return true;
-                    case GameTerms.BPCondition.STATIC_STEP_UP:
-                    return true; //TODO : 여기 조건 재정의해줘야 함
-                }
-                return false;
-            }
-            bool CheckConditionTime(List<object> data){
-                // switch(data[0]){
-                //     case GameTerms.BPCondition.STATIC_ALWAYS:
-                //     return true;
-                //     case GameTerms.BPCondition.STATIC_STEP_UP:
-                //     return true;
-                // }
-                return false;
-            }
-            bool CheckConditionCharcter(List<object> data){
-                // switch(data[0]){
-                //     case GameTerms.BPCondition.STATIC_ALWAYS:
-                //     return true;
-                //     case GameTerms.BPCondition.STATIC_STEP_UP:
-                //     return true;
-                // }
-                return false;
-            }
-            */
+        public bool CheckActivation(){
+            return condition.IsAvailable();
         }
         
 
         public void Activate(){
+            Debug.Log("Activate BP");
             isActivated = true;
             activationCount ++;
+            behaviour.OnActivation();
         }
         public void Proceed(){
-            motionIndex++;
+            if(motion.IsLast(motionIndex) == true) Deactivate();
+            else motionIndex++;
         }
         public void Deactivate(){
-            // Debug.Log("BehaviourPattern.Deactivate called");
+            Debug.Log("Deactivate BP");
             motionIndex = -1;
             isActivated = false;
+            // Debug.Log("BehaviourPattern.Deactivate called");
+            behaviour.OnDeactivation();
         }
         
         public GameTerms.Motion GetMotion(){
-            Debug.Log("BehaviourPattern.GetMotion : converting - " + data.motion[motionIndex]);
-            switch(data.motion[motionIndex]){
-                case BPT.Motion.Attack:
-                return GameTerms.Motion.Attack;
-                case BPT.Motion.Strike:
-                return GameTerms.Motion.Strike;
-                case BPT.Motion.Defence:
-                return GameTerms.Motion.Defence;
-                case BPT.Motion.Charge:
-                return GameTerms.Motion.Charge;
-                case BPT.Motion.Avoid:
-                return GameTerms.Motion.Avoid;
-                case BPT.Motion.Taunt:
-                return GameTerms.Motion.Taunt;
-                case BPT.Motion.Random:
-                return GetRandomMotion();
-            }            
-            return GameTerms.Motion.None;
-
-            GameTerms.Motion GetRandomMotion(){
-                int id = MathTool.GetRandomIndex(6);
-                switch(id){
-                    case 0:
-                    return GameTerms.Motion.Attack;
-                    case 1:
-                    return GameTerms.Motion.Strike;
-                    case 2:
-                    return GameTerms.Motion.Defence;
-                    case 3:
-                    return GameTerms.Motion.Charge;
-                    case 4:
-                    return GameTerms.Motion.Avoid;
-                    case 5:
-                    return GameTerms.Motion.Taunt;
-                }
-                return GameTerms.Motion.None;
-            }
+            Debug.Log("GetMotion" + motionIndex);
+            return motion.Yield(motionIndex);
         }
         
     }

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ssm.data.item;
 namespace ssm.data{
     public class BPCharacterGenerator : MonoBehaviour
     {
@@ -121,18 +121,18 @@ namespace ssm.data{
             }
             
             float healthVal = (float)MathTool.GetRandomIntWithin(healthMin, healthMax);
-            Token healthMaxToken = new Token();
+            GameToken healthMaxToken = new GameToken();
             healthMaxToken.type = GameTerms.TokenType.HPMax;
             healthMaxToken.occasion = GameTerms.TokenOccasion.None;
             healthMaxToken.value0 = healthVal;
 
-            Token healthCurToken = new Token();
+            GameToken healthCurToken = new GameToken();
             healthCurToken.type = GameTerms.TokenType.HPCurrent;
             healthCurToken.occasion = GameTerms.TokenOccasion.None;
             healthCurToken.value0 = healthVal;
 
             float energyVal = (float)MathTool.GetRandomIntWithin(energyMin, energyMax);
-            Token energyMaxToken = new Token();
+            GameToken energyMaxToken = new GameToken();
             energyMaxToken.type = GameTerms.TokenType.EPMax;
             energyMaxToken.occasion = GameTerms.TokenOccasion.None;
             energyMaxToken.value0 = energyVal;
