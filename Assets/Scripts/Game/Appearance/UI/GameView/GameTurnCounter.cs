@@ -13,7 +13,11 @@ namespace ssm.game.appearance{
         public void ManageGameEvent(string type, int index, int value){
             switch(type){
                 case GameEvent.READY_PHASE_OVER:
-                turn.text = "Turn " + GameBoard.Instance().currentTurn.ToString();
+                turn.text =  GameBoard.Instance().currentTurn.ToString();
+                break;
+                case GameEvent.TEST_UPDATE_TUNR:
+                int currentTurn = int.Parse(turn.text);
+                turn.text = (currentTurn+1).ToString();
                 break;
             }
         }

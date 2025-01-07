@@ -21,10 +21,19 @@ namespace ssm.game.structure{
         public const string TURN_START = "TurnStart";
         public const string GAME_START = "GameStart";
         public const string GAME_END = "GameEnd";
+
+        //User Input
+        public const string MOTION_SELECTED = "MotionSelected";
+        public const string MOTION_INSPECT = "MotionInspect";
         
+        //UI
         //Test
-        public const string TEST_WHEEL_OPNE = "TestWheelOpen";
-        public const string TEST_WHEEL_CLOSE = "TestWheelClose";
+        public const string TEST_WHEEL_ENABLE = "TestWheelEnable";
+        public const string TEST_WHEEL_DISABLE = "TestWheelDisable";
+        public const string TEST_POWERINFO_TOGGLE_BP = "TestPowerInfoToggleBP";
+        public const string TEST_POWERINFO_TOGGLE_OPEN = "TestPowerInfoToggleOPEN";
+        public const string TEST_UPDATE_TUNR = "TestUpdateTurn";
+        
         private List<GameEventListener> listeners = new List<GameEventListener>();
         public void RegisterListener(GameEventListener listener){
             listeners.Add(listener);
@@ -32,16 +41,16 @@ namespace ssm.game.structure{
         public void UnregisterListener(GameEventListener listener){
             listeners.Remove(listener);
         }
-        /*
-        public void Raise(string s, string v){
+        
+        public void Raise(string s, int v1){
             
             for (int i = listeners.Count - 1 ; i >= 0; --i)
             {
-                listeners[i].RaiseEvent(s, v);
+                listeners[i].RaiseEvent(s, v1, 0);
             }
             
         }
-        */
+        
         public void Raise(string s){
             
             for (int i = listeners.Count - 1 ; i >= 0; --i)
@@ -50,24 +59,7 @@ namespace ssm.game.structure{
             }
             
         }
-        /*
-        public void Raise(string s, Scoreboard.Phase p){
-            string v = "";
-            foreach(KeyValuePair<string, Scoreboard.Phase> pDic in phaseDic){
-                if(pDic.Value == p) {
-                    v = pDic.Key;
-                    break;
-                }
-            }
-            for (int i = listeners.Count - 1 ; i >= 0; --i)
-            {
-                listeners[i].RaiseEvent(s, v);
-            }
-        }
         
-        public static Scoreboard.Phase StringToPhase(string s){
-            return phaseDic[s];
-        }
-        */
+        
     }
 }
