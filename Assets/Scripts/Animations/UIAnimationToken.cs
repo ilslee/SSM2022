@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ssm.game.appearance;
 using UnityEngine;
 
 public class UIAnimationToken 
@@ -93,3 +94,17 @@ public class UIAnimationScale : UIAnimationToken{
         target.localScale = transformValue;
     }
 }   
+
+public class UIAnimationGauge : UIAnimationToken{
+    private float start;
+    private float end;
+    public UIAnimationGauge(RectTransform t, float s, float e, float d, AnimationCurve c) : base(t,d,c){
+        start = s;
+        end = e;
+    }    
+    internal override void ApplyAnimation(float curveVal){
+        GaugeManager gauge = target.gameObject.GetComponent<GaugeManager>();
+        float value = Mathf.LerpUnclamped(start, end, curveVal);
+        gauge.SetGauge(value);
+    }
+}  
