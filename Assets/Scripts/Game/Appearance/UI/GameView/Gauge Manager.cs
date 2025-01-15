@@ -7,17 +7,6 @@ namespace ssm.game.appearance{
     public class GaugeManager : MonoBehaviour
     {
         private int gaugeLength = 10;
-        public Color bg; 
-        public Color group0;
-        public Color group1; 
-        public Color group2; 
-        public Color group3; 
-        public Color group4; 
-        public Color group5; 
-        public Color group6; 
-        public Color group7; 
-        public Color group8; 
-        public Color group9;  
         public Color gaugeBGColor; 
         public List<Color> gaugeColor;
         public List<Image> gauge;

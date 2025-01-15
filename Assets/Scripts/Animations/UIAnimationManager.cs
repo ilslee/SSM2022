@@ -15,8 +15,10 @@ public class UIAnimationManager : MonoBehaviour
         if(animations.Count > 0){
             for (int i = animations.Count-1; i >= 0; i--)
             {
-                if(animations[i].isAnimationFinished() == true)animations.Remove(animations[i]);
-                else animations[i].Yield();
+                if(animations[i].isAnimationFinished() == true){
+                    animations[i].OnAnimationFinished();
+                    animations.Remove(animations[i]);
+                }else animations[i].Yield();
             }
             
         }

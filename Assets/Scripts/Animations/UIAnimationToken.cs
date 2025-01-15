@@ -35,6 +35,7 @@ public class UIAnimationToken
         timer += Time.deltaTime;
     }
     internal virtual void ApplyAnimation(float curveVal){}
+    internal virtual void OnAnimationFinished(){}
     public bool isAnimationFinished(){
         if(timer > duration)return true;
         else return false;
