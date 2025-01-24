@@ -34,7 +34,10 @@ namespace ssm.game.structure{
         //게임 처음 시작시
         public virtual void ManageStartPhase(){
             GameBoard.Instance().phase = GameTerms.Phase.StartGame;
-            gameEvent.Raise(GameEvent.START_PHASE_OVER);
+            //시작 준비 완료. 
+            //게임 UI 업데이트, 캐릭터 아이들 모션
+            //Todo 카운트다운으로 이동
+            gameEvent.Raise(GameEvent.START_PHASE_OVER); 
         }
         //입력 
         public virtual void ManageReadyPhase(){

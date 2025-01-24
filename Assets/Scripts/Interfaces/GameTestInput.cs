@@ -20,6 +20,7 @@ namespace ssm.game.input{
         private void InputTurn(){
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("GameTestInput.InputTurn : Current Phase " + GameBoard.Instance().phase);
                 switch(GameBoard.Instance().phase){
                     case GameTerms.Phase.None:
                     case GameTerms.Phase.FinishGame:

@@ -19,4 +19,4 @@ MonoBehaviour:
   currnetWorldProgress: 0
   player: {fileID: 11400000, guid: 70d9412a898d7644da24633447b59fcf, type: 2}
   leagues:
-  - {fileID: 11400000, guid: 91defc34cc1bb04458004031a99d0627, type: 2}
+  - {fileID: 11400000, guid: e24599be7ff736f4486d5b63b3025093, type: 2}

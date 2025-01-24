@@ -14,7 +14,7 @@ namespace ssm.game.appearance{
         public UIAnimationManager anim;
 
         public void Start(){
-            SetGauge(13f);
+            // SetGauge(13f);
         }
         public void SetGauge(float v){
             if(gauge.Count < gaugeLength || gaugeColor.Count < gaugeLength){
