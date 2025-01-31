@@ -4,6 +4,36 @@ using UnityEngine;
 
 public static class GameTool
 {
+    public enum Direction{None, Left, Right, Top, Bottom}
+    public static void SetUIItemLayout(RectTransform target, Direction h, Direction v){
+        Vector2 result = Vector2.zero;
+        switch(h){
+            case Direction.Left:
+            result.x = 0f;
+            break;
+            case Direction.Right:
+            result.x = 1f;
+            break;
+            default:
+            result.x = 0.5f;
+            break;
+        }
+        switch(v){
+            case Direction.Bottom:
+            result.y = 0f;
+            break;
+            case Direction.Top:
+            result.y = 1f;
+            break;
+            default:
+            result.y = 0.5f;
+            break;
+        }
+        target.anchorMin = result;
+        target.anchorMax = result;
+        target.pivot = result;
+    }
+    
     public static bool CheckIndexValidity(int index, int length = 0){
         if(length == 0){
             if(index >= 0) return true;

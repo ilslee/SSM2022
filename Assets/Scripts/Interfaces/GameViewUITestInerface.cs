@@ -57,6 +57,8 @@ namespace ssm.game.input{
                 //Turn Counter
                 // Debug.Log("Test Update Turn");
                 gameEvent.Raise(GameEvent.TEST_UPDATE_TUNR); // Done
+            }else if(Input.GetKeyDown(KeyCode.H)){ // History
+                gameEvent.Raise(GameEvent.TEST_ADD_HISTORY_SWORD); 
             }
         }
     }

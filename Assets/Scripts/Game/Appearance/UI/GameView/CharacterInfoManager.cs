@@ -14,8 +14,8 @@ namespace ssm.game.appearance{
         // Start is called before the first frame update
         public void Start()
         {
-            hp.SetGauge(0f);
-            ep.SetGauge(0f);
+            // hp.SetGauge(0f);
+            // ep.SetGauge(0f);
         }
 
         

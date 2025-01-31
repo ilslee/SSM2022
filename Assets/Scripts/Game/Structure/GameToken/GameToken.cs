@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ssm.data.token;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ssm.game.structure.token{
@@ -108,7 +107,7 @@ namespace ssm.game.structure.token{
                 case GameTerms.TokenType.AvoidAdaptiveConsumption:
                 return new GameToken(t.type, GameTerms.TokenOccasion.Static, t.value);
                 
-                break;
+                //break;
                 // case GameTerms.TokenType.EPMax:
                 // case GameTerms.TokenType.EPMax:
                 // case GameTerms.TokenType.EPMax:

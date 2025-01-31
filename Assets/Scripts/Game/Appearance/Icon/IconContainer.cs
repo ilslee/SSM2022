@@ -17,6 +17,7 @@ namespace ssm.game.appearance{
     public class Icon{
         public GameTerms.TokenType type;
         public string name;
+        public int id;
         [TextArea]
         public string explanation;
         public Sprite image;

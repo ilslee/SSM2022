@@ -33,6 +33,7 @@ namespace ssm.game.structure{
         public const string TEST_POWERINFO_TOGGLE_BP = "TestPowerInfoToggleBP";
         public const string TEST_POWERINFO_TOGGLE_OPEN = "TestPowerInfoToggleOPEN";
         public const string TEST_UPDATE_TUNR = "TestUpdateTurn";
+        public const string TEST_ADD_HISTORY_SWORD = "TestAddhistorySword";
         
         private List<GameEventListener> listeners = new List<GameEventListener>();
         public void RegisterListener(GameEventListener listener){
