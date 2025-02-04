@@ -4,15 +4,36 @@ using UnityEngine;
 using ssm.data;
 namespace ssm.game.structure{
     /* Game
-    게임 흐름을 제어 가능하도록 구조만 가지고 있음
+    게임 흐름을 제어 가능하도록 구조만 가지고 있음 + 애니메이션을 위한 흐름도 제어
     이를 상속하는 하위 클래스에서 구체적인 게임 흐름을 제어
+    GameStart
+    Countdown(3+0.05)
+        TurnReady
+            Animation_Idle(Loop)
+        TurnCalculate : Calc result, CheckGameEnd
+            Animation_Calc1 : Basic Action(1)
+            Animation_Calc2 : Follow-up Action(1)
+        TurnCheckGameEnd
+        ...
+            (Optional)
+            Animation_End1 : To Idle or FallDown(1)
+            Animation_End2 : Dead or Victory(Loop)
+    GameEnd
+
     */
     public class Game : MonoBehaviour
     {
         public GameEvent gameEvent;
         public SSMGameData ssmData;
         
+        public float gameSpeed = 1f;
+        private float timeUnit = 1f; // 애니메이션 한 동작이 일어나는 단위 시간 (s)
+        private void Start(){
 
+        }
+        private void Update(){
+            
+        }
         public virtual void PrepareGame(){
 
             // GameBoard.Instance().maxTurn = maxTurn;
@@ -21,7 +42,8 @@ namespace ssm.game.structure{
             // GameBoard.Instance().Initialize(c1,c2);
             // GameLogDisplayer.LogGamePreparation();
         }
-        
+
+
         public void StartGame(){
             PrepareGame();
             ManageStartPhase();
