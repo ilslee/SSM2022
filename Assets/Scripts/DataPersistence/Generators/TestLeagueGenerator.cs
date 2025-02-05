@@ -95,7 +95,7 @@ public class TestLeagueGenerator : MonoBehaviour
         // switch (type)
         // {
         //     case GameEvent.READY_PHASE_OVER:
-        //     game.ManageCalculateMEPhase();
+        //     game.ManageTurnCalculateMEPhase();
         //     break;
         //     case GameEvent.BEHAVIOUR_PHASE_OVER:
         //     game.OverrideDirection();

@@ -1627,6 +1627,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
   ssmData: {fileID: 11400000, guid: 656c9dc262b057b439838f59cc8f0c09, type: 2}
+  displayLog: 1
+  gameSpeed: 5
   aiGameData: {fileID: 11400000, guid: 9fd065b10ac25794da3c7ceb98593208, type: 2}
 --- !u!4 &622991015
 Transform:
@@ -1650,7 +1652,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622991013}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b15d2782136fc064086988592c1cb30d, type: 3}
   m_Name: 
@@ -1663,7 +1665,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622991013}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adccbd1897faf0d4581b40f8c3d78082, type: 3}
   m_Name: 

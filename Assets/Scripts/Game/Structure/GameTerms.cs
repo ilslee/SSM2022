@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 public static class GameTerms
 {
-    public enum Phase{  None, StartGame, FinishGame, Recovery, Expectation, InputReady, Motion, Calculation, Feedback    }
+    public enum Phase{  None, StartGame, FinishGame, Recovery, Expectation, InputReady, Motion, Calculation, Feedback,
+                        Game_Start, TransitionEnter, Countdown, Turn_Ready, Animation_Idle, Turn_Calculate, Animation_Calc1, Animation_Calc2, 
+                        Turn_CheckGameEnd, Animation_End1, Animation_End2, Game_End, TransitionExit}
     
     public enum TokenType { None,                             
                             AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions0

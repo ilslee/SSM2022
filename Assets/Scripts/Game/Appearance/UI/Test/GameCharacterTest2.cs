@@ -67,7 +67,7 @@ namespace ssm.game.appearance{
             float curEP = current.Find(GameTerms.TokenType.EPCurrent).value0;
             currentStat.text = curHP + "\n" + curEP;
         }
-        public void ManageGameEvent(string type, int index, int value){
+        public void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.START_PHASE_OVER:
                 InitText();

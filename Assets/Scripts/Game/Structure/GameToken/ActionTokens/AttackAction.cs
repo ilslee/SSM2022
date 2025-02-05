@@ -22,7 +22,7 @@ namespace ssm.game.structure.token{
             float attackEfficiency = SearchEfficiency().value0;
             float energyPower = Mathf.Floor(currentEnergy * attackEfficiency); 
             float totalPower = attackBasePower + energyPower;
-            if(GameBoard.Instance().phase == GameTerms.Phase.Expectation){
+            if(GameBoard.Instance().phase == GameTerms.Phase.Turn_Ready){
                 TokenList expextation = GameBoard.Instance().FindCharacter(characterIndex).temporaryTokens;
                 expextation.Combine(new Power(GameTerms.TokenType.BasePower, o, isOffensive, attackBasePower));
                 expextation.Combine(new Power(GameTerms.TokenType.EnergyPower, o, isOffensive, energyPower));

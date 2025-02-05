@@ -88,7 +88,7 @@ namespace ssm.game.appearance{
         public void OnAnimationFinished(){
 
         }
-        public void ManageGameEvent(string type, int index, int value){
+        public void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.TEST_ADD_HISTORY_SWORD:
                 AddHistory(GameTerms.Motion.None);

@@ -169,7 +169,7 @@ namespace ssm.game.appearance{
             }
         }
         
-        public void ManageGameEvent(string type, int index, int value){
+        public void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.TEST_WHEEL_ENABLE:
                 AnimateWheelEnabled();
