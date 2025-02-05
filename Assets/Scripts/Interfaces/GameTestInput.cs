@@ -23,11 +23,10 @@ namespace ssm.game.input{
                 Debug.Log("GameTestInput.InputTurn : Current Phase " + GameBoard.Instance().phase);
                 switch(GameBoard.Instance().phase){
                     case GameTerms.Phase.None:
-                    case GameTerms.Phase.FinishGame:
-                    gameEvent.Raise(GameEvent.GAME_START);
+                    gameEvent.Raise(GameEvent.GAME_START_START);
                     break;
-                    case GameTerms.Phase.Feedback:
-                    gameEvent.Raise(GameEvent.TURN_START);
+                    case GameTerms.Phase.Turn_Ready:
+                    gameEvent.Raise(GameEvent.TURN_CALCULATE_START);
                     break;
                     default:
                     Debug.LogError("GameTestInput : Not Appropriate phase to send input.");

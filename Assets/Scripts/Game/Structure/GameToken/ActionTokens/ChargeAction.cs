@@ -21,7 +21,7 @@ namespace ssm.game.structure.token{
             float energyPower = Mathf.Floor(energyConsumption * efficiency); 
             float totalPower = basePower + energyPower;
 
-            if(GameBoard.Instance().phase == GameTerms.Phase.Expectation){
+            if(GameBoard.Instance().phase == GameTerms.Phase.Turn_Ready){
                 TokenList expextation = GameBoard.Instance().FindCharacter(characterIndex).temporaryTokens;
                 expextation.Combine(new Power(GameTerms.TokenType.BasePower, o, isOffensive, basePower));
                 expextation.Combine(new Power(GameTerms.TokenType.EnergyPower, o, isOffensive, energyPower));

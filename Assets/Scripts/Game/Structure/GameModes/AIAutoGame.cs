@@ -23,7 +23,6 @@ namespace ssm.game.structure{
             if(isGameStart == true && gameCurrent < gameMax){
                 
                 Debug.Log("------------------------------ AI Auto Game: Game number [" + gameCurrent.ToString() + "]-------------------------");
-                base.StartGame();
                 gameCurrent++;
             }
         }
@@ -43,7 +42,11 @@ namespace ssm.game.structure{
             GameLogDisplayer.LogGamePreparation("AIAutoGame");
         }
        
-
+        internal override void ManageAnimationCalc2(){
+            Debug.LogError("AIAutoGame.ManageAnimationCalc2");
+            if(CheckGameEnd() == true) EndPhase(GameEvent.GAME_END_START, 1);
+            //else // 입력 대기
+        }
         public override bool CheckGameEnd(){
             Debug.Log("--Check Game End");
             if( GameBoard.Instance().currentTurn >= GameBoard.Instance().maxTurn){
@@ -58,7 +61,7 @@ namespace ssm.game.structure{
             }
             return false;
         }
-
+/*
         public override void ManageFinishPhase(){
             GameBoard.Instance().phase = GameTerms.Phase.FinishGame;
             float char1HP = GameBoard.Instance().FindCharacter(1).GetLastPlayData().Find(GameTerms.TokenType.HPCurrent).value0;
@@ -76,40 +79,7 @@ namespace ssm.game.structure{
             appearacne.UpdateText(char1Score, char2Score, gameCurrent);
             gameEvent.Raise(GameEvent.START_FINISH_PHASE);
         }
-
-         public override void ManageGameEvent(string type, int index, int value){
-            switch(type){
-                case GameEvent.GAME_START:
-                isGameStart = true;
-                break;
-                case GameEvent.START_PHASE_OVER:
-                gameEvent.Raise(GameEvent.TURN_START);
-                break;
-                case GameEvent.TURN_START:
-                Debug.Log("------------------------------[" + GameBoard.Instance().currentTurn.ToString() + "]-------------------------");
-                ManageReadyPhase();
-                break;
-                case GameEvent.READY_PHASE_OVER:
-                ManagePosePhase();
-                break;
-                case GameEvent.POSE_PHASE_OVER:
-                ManageCalculatePhase();
-                break;
-                case GameEvent.CALCULATIION_PHASE_OVER:
-                ManageResult();
-                break;
-                case GameEvent.RESULT_PHASE_OVER:
-                if(CheckGameEnd() == true) ManageFinishPhase();
-                else gameEvent.Raise(GameEvent.TURN_START);
-                break;
-                case GameEvent.START_FINISH_PHASE:
-                Debug.Log("GameEnd : " + gameCurrent.ToString() + " / " + gameMax.ToString());
-                if(gameCurrent < gameMax){
-                    gameEvent.Raise(GameEvent.GAME_START);
-                }
-
-                break;
-            }
-        }
+*/
+        
     }
 }

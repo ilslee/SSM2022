@@ -106,6 +106,16 @@ namespace ssm.game.structure{
             //CalculateFeedback
             character1.Feedback();
             character2.Feedback();
+
+            //Log Report
+            Report(character1);
+            Report(character2);
+            void Report(Character c){
+                string returnValue = "<Log Report> \n";
+                returnValue += "Motion : " + c.GetLastPlayData().motion.ToString()+"\n";
+                returnValue += "Power : " + c.GetLastPlayData().Find(GameTerms.TokenType.TotalPower).value0.ToString();
+                Debug.Log(returnValue);
+            }
         }
 
         public void Reset(){

@@ -23,30 +23,18 @@ namespace ssm.game.structure{
             GameBoard.Instance().Initialize(aiGameData.opponent,aiGameData.opponent2);
             GameLogDisplayer.LogGamePreparation("AIGameEveryTurn");
         }
-        public override void ManageStartPhase(){
-            Debug.Log("------------AIGame : Game Start-");
-            base.ManageStartPhase();
-        }
-        public override void ManageReadyPhase(){
-            Debug.Log("--------TURN [" + (GameBoard.Instance().currentTurn +1).ToString() +"]-");
-            base.ManageReadyPhase();
-        }
-        
-        public override void ManageCalculatePhase(){
-            Debug.Log("----Calculate");
-            base.ManageCalculatePhase();            
-        }
         
         public override bool CheckGameEnd(){
-            Debug.Log("--Check Game End");
+
+            Debug.Log("--Check Game End : " + (GameBoard.Instance().currentTurn >= GameBoard.Instance().maxTurn).ToString());
             if( GameBoard.Instance().currentTurn >= GameBoard.Instance().maxTurn){
                 return true;
             }
             return false;
         
         }
-        
-        public override void ManageGameEvent(string type, int index, int value){
+        /*
+        public override void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.GAME_START:
                 base.StartGame();
@@ -55,20 +43,20 @@ namespace ssm.game.structure{
                 gameEvent.Raise(GameEvent.TURN_START);
                 break;
                 case GameEvent.TURN_START:
-                ManageReadyPhase();
+                ManageTurnReady();
                 break;
                 case GameEvent.READY_PHASE_OVER:
                 ManagePosePhase();
                 break;
                 case GameEvent.POSE_PHASE_OVER:
-                ManageCalculatePhase();
+                ManageTurnCalculate();
                 break;
                 case GameEvent.CALCULATIION_PHASE_OVER:
                 ManageResult();
                 break;
                 case GameEvent.RESULT_PHASE_OVER:
                 if(CheckGameEnd() == true) ManageFinishPhase();
-                // else ManageReadyPhase(); // 여기서 일시 정지
+                // else ManageTurnReady(); // 여기서 일시 정지
                 
                 break;
                 case GameEvent.START_FINISH_PHASE:
@@ -78,6 +66,6 @@ namespace ssm.game.structure{
 
             }
         }
-        
+        */
     }
 }

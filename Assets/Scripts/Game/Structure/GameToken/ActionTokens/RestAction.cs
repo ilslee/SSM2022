@@ -17,7 +17,7 @@ namespace ssm.game.structure.token{
             bool isOffensive = false;
             float basePower = SearchPower().value0; 
             
-            if(GameBoard.Instance().phase == GameTerms.Phase.Expectation){
+            if(GameBoard.Instance().phase == GameTerms.Phase.Turn_Ready){
                 TokenList expextation = GameBoard.Instance().FindCharacter(characterIndex).temporaryTokens;
                 expextation.Combine(new Power(GameTerms.TokenType.BasePower, o, isOffensive, basePower));
                 expextation.Combine(new Power(GameTerms.TokenType.TotalPower, o, isOffensive, basePower));

@@ -98,7 +98,7 @@ namespace ssm.game.appearance{
             return value.ToString();
         }
 
-        public void ManageGameEvent(string type, int index, int value){
+        public void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.START_PHASE_OVER:
                 //게임 시작 : 캐릭터 이름, 

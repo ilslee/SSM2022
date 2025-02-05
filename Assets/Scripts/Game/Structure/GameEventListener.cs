@@ -11,7 +11,7 @@ namespace ssm.game.structure{
         public GameEventResponser response;
         
         [System.Serializable]
-        public class GameEventResponser : UnityEvent<string, int, int>
+        public class GameEventResponser : UnityEvent<string, float>
         {
             private string type;
             private string id;
@@ -41,8 +41,8 @@ namespace ssm.game.structure{
     private void OnDisable(){
         gameEvent.UnregisterListener(this);
     }
-    public void RaiseEvent(string s, int i, int v){
-        response.Invoke(s,i, v);
+    public void RaiseEvent(string s, float v){
+        response.Invoke(s,v);
     }
         
     }

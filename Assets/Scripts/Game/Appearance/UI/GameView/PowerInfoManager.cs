@@ -67,7 +67,7 @@ namespace ssm.game.appearance{
             anim.AddAnimation(new UIAnimationSizeDelta(powerGroup, powerEnd, 0.28f, anim.acc.fastsmooth1));
         }
         
-        public void ManageGameEvent(string type, int index, int value){
+        public void ManageGameEvent(string type, float value){
             
             switch(type){
                 case GameEvent.TEST_POWERINFO_TOGGLE_BP:
