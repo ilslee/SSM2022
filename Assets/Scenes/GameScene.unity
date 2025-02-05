@@ -1242,6 +1242,7 @@ GameObject:
   - component: {fileID: 473413700}
   - component: {fileID: 473413703}
   - component: {fileID: 473413704}
+  - component: {fileID: 473413705}
   m_Layer: 5
   m_Name: History
   m_TagString: Untagged
@@ -1335,7 +1336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 1
-  anim: {fileID: 0}
+  anim: {fileID: 473413705}
   icon: {fileID: 8513609387909690169, guid: 7222fec38cab60b45a1a2e11c97d6cae, type: 3}
 --- !u!114 &473413704
 MonoBehaviour:
@@ -1365,6 +1366,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &473413705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473413698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c981f49f970e6489c8dc0dbb37018c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acc: {fileID: 11400000, guid: 86b18f41ea8eda643a62275d3d3cbd54, type: 2}
 --- !u!1 &513187173
 GameObject:
   m_ObjectHideFlags: 0

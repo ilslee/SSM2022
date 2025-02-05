@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using ssm.game.structure;
 
 // using System.Numerics;
@@ -62,32 +63,31 @@ namespace ssm.game.appearance{
 
             for (int i = 0; i < icons.Count; i++) 
             {
-                /*
-                int positionId = id+i;
-                int iconId = positionId % icons.Count;
-                if(id > icons.Count) positionId -= icons.Count;
-                Debug.Log("Icon " + iconId +" to " + positionId);
-                float position = (float) positionId * animationDirection * iconGap;
+                float pageId = Mathf.Floor((float)id / (float)icons.Count) * (float)icons.Count;
+                float positionId = pageId + (float) i;
+                if(positionId > id) positionId -= (float)icons.Count;
+                if(positionId < 0) positionId += (float)icons.Count;
+                float position = positionId * animationDirection * iconGap;
+                // Debug.Log("Page is "+ pageId + " / Icon " + i +" to " + positionId);
+                icons[i].GetComponent<RectTransform>().anchoredPosition = Vector2.left * position;
                 
-                icons[iconId].GetComponent<RectTransform>().anchoredPosition = Vector2.left * position;
-                */
                 
             }
 
         }
         public void AddHistory(GameTerms.Motion m){
-            id ++;
-            float destPos = (float)id * iconGap;
-            //0번의 아이콘을 세팅
-            
-            //컨테이너 밀기
-            // anim.AddAnimation(new UIAnimationPosition())
-            //끝나면 재정렬
+            //시작 전 재정렬
             RearrangeIcons();
+            id ++;
+            Vector2 destPos = Vector2.right * ((float)id * iconGap * animationDirection);
+            //아이콘을 세팅
+            int iconId = id % icons.Count;
+            //컨테이너 밀기
+            anim.AddAnimation(new UIAnimationPosition(container, destPos, 0.5f, anim.acc.fastsmooth1));
+            //끝나면 재정렬
+            
         }
-        public void OnAnimationFinished(){
-
-        }
+        
         public void ManageGameEvent(string type, int index, int value){
             switch(type){
                 case GameEvent.TEST_ADD_HISTORY_SWORD:
