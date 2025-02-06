@@ -35,7 +35,7 @@ public static class GameTerms
 
     }
 
-
+    public enum Layout{ None, Left, Right, Top, Bottom}
 
     public enum MTType{  None, 
                                     Health, AdaptiveHealth, Energy, AdaptiveEnergy,

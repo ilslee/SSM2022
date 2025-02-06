@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 namespace ssm.game.appearance{
     public class IconManager : MonoBehaviour
     {
@@ -10,6 +10,10 @@ namespace ssm.game.appearance{
         private Image image;
         public GameTerms.TokenType iconType;
         // public int duration;
+        public GameTerms.Layout layout = GameTerms.Layout.None;
+
+        private TMP_Text textField;
+        
         private void Start() {
             image = gameObject.GetComponent<Image>();
             SetTransparent(false);
