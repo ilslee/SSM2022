@@ -17,7 +17,7 @@ namespace ssm.game.appearance{
             RearangeAllStatus();
         }
 
-        public void RemoveStatus(GameTerms.TokenType t){
+        public void RemoveStatus(Icon.IconType t){
             IconManager removingIcon = statusContainer.Find(x => x.iconType == t);
             RearangeAllStatus();
         }

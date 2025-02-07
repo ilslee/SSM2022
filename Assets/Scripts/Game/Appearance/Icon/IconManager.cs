@@ -8,7 +8,7 @@ namespace ssm.game.appearance{
     {
         public IconContainer icons;
         private Image image;
-        public GameTerms.TokenType iconType;
+        public Icon.IconType iconType;
         // public int duration;
         public GameTerms.Layout layout = GameTerms.Layout.None;
 
@@ -18,16 +18,16 @@ namespace ssm.game.appearance{
             image = gameObject.GetComponent<Image>();
             SetTransparent(false);
         }
-        public void SetIcon(GameTerms.TokenType t){
+        public void SetIcon(Icon.IconType t){
             Icon ic = icons.container.Find(x => x.type==t);
-            if(ic == null)ic = icons.container.Find(x => x.type==GameTerms.TokenType.None); // 어셋이 제작되지 않은 아이콘 호출 시..
+            if(ic == null)ic = icons.container.Find(x => x.type==Icon.IconType.None); // 어셋이 제작되지 않은 아이콘 호출 시..
             else iconType = t;
             image.sprite = ic.image;
         }
         
         public void SetIcon(int num){
             Icon ic = icons.container.Find(x => x.id==num);
-            if(ic == null)ic = icons.container.Find(x => x.type==GameTerms.TokenType.None); // 어셋이 제작되지 않은 아이콘 호출 시..
+            if(ic == null)ic = icons.container.Find(x => x.type==Icon.IconType.None); // 어셋이 제작되지 않은 아이콘 호출 시..
             else iconType = ic.type;
             image.sprite = ic.image;
         }

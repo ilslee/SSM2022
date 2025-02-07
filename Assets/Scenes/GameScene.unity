@@ -1335,6 +1335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f0f5730b46bb1498a75282af0af096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charcterIndex: 1
   direction: 1
   anim: {fileID: 473413705}
   icon: {fileID: 8513609387909690169, guid: 7222fec38cab60b45a1a2e11c97d6cae, type: 3}
@@ -1666,7 +1667,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622991013}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b15d2782136fc064086988592c1cb30d, type: 3}
   m_Name: 

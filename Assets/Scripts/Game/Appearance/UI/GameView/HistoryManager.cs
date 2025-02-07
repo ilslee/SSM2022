@@ -8,6 +8,7 @@ using UnityEngine;
 namespace ssm.game.appearance{
     public class HistoryManager : MonoBehaviour
     {
+        public int charcterIndex = 0;
         public enum Direction {None, Left, Right}
         public Direction direction;
         private float animationDirection;
@@ -75,23 +76,50 @@ namespace ssm.game.appearance{
             }
 
         }
-        public void AddHistory(GameTerms.Motion m){
+        public void AddHistory(){
             //시작 전 재정렬
             RearrangeIcons();
             id ++;
             Vector2 destPos = Vector2.right * ((float)id * iconGap * animationDirection);
             //아이콘을 세팅
             int iconId = id % icons.Count;
+            SetIconImageViaMotion();
             //컨테이너 밀기
             anim.AddAnimation(new UIAnimationPosition(container, destPos, 0.5f, anim.acc.fastsmooth1));
             //끝나면 재정렬
             
+            void SetIconImageViaMotion(){
+                Debug.Log("SetIconImageViaMotion" + charcterIndex + " / " + GameBoard.Instance().FindCharacter(charcterIndex).playData.Count);
+                GameTerms.Motion m = GameBoard.Instance().FindCharacter(charcterIndex).GetLastPlayData().motion;
+                Debug.Log("SetIconImageViaMotion" + m.ToString());
+                switch(m){
+                    case GameTerms.Motion.Attack:
+                    icons[iconId].SetIcon(Icon.IconType.Attack);
+                    return;
+                    case GameTerms.Motion.Strike:
+                    icons[iconId].SetIcon(Icon.IconType.Strike);
+                    return;
+                    case GameTerms.Motion.Defence:
+                    icons[iconId].SetIcon(Icon.IconType.Defence);
+                    return;
+                    case GameTerms.Motion.Charge:
+                    icons[iconId].SetIcon(Icon.IconType.Charge);
+                    return;
+                    case GameTerms.Motion.Rest:
+                    icons[iconId].SetIcon(Icon.IconType.Rest);
+                    return;
+                    case GameTerms.Motion.Avoid:
+                    icons[iconId].SetIcon(Icon.IconType.Avoid);
+                    return;
+                }
+            }
         }
         
-        public void ManageGameEvent(string type, int index, int value){
+        public void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.TEST_ADD_HISTORY_SWORD:
-                AddHistory(GameTerms.Motion.None);
+                case GameEvent.TURN_CALCULATE:
+                AddHistory();
                 break;
             }
         }
