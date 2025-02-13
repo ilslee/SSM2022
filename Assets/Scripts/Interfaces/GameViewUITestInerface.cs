@@ -27,8 +27,8 @@ namespace ssm.game.input{
                     gameEvent.Raise(GameEvent.TEST_WHEEL_ENABLE);
                 }
                 Debug.Log("GameViewUITestInerface : Wheel Enable - " + toggleWheelEnable);
-            }else if(Input.GetKeyDown(KeyCode.S)){
-                //Open-Close Start View
+            }else if(Input.GetKeyDown(KeyCode.C)){
+                //Open-Close Countdown
             }else if(Input.GetKeyDown(KeyCode.N)){
                 //Open-Close End View
             }else if(Input.GetKeyDown(KeyCode.B)){
@@ -51,7 +51,7 @@ namespace ssm.game.input{
                 //Modify Opponent HP to Random Value
             }else if(Input.GetKeyDown(KeyCode.R)){
                 //Modify Character Status
-            }else if(Input.GetKeyDown(KeyCode.F)){
+            }else if(Input.GetKeyDown(KeyCode.S)){
                 //Modify Opponent Status
             }else if(Input.GetKeyDown(KeyCode.T)){
                 //Turn Counter

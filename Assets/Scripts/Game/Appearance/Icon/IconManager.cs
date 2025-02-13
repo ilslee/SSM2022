@@ -13,10 +13,28 @@ namespace ssm.game.appearance{
         public GameTerms.Layout layout = GameTerms.Layout.None;
 
         private TMP_Text textField;
+        private RectTransform newIcon;
+        private float defaultSize;
+        private float defaultTextfieldFontSize;
+        private float defaultTextfieldWidth;
+        private float defaultTextfieldHeight;
+        private float defaultNewSize;
+        
         
         private void Start() {
+            //Init Layout
+            defaultSize = gameObject.GetComponent<RectTransform>().sizeDelta.x; // 128
+            textField = gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
+            defaultTextfieldWidth = textField.GetComponent<RectTransform>().sizeDelta.x;
+            defaultTextfieldHeight = textField.GetComponent<RectTransform>().sizeDelta.y;
+            defaultTextfieldFontSize = textField.fontSize;
+            newIcon = gameObject.transform.GetChild(1).GetComponent<RectTransform>();
+            defaultNewSize = newIcon.sizeDelta.x;
+
             image = gameObject.GetComponent<Image>();
-            SetTransparent(false);
+            
+            SetTransparent(true);
+
         }
         public void SetIcon(Icon.IconType t){
             Icon ic = icons.container.Find(x => x.type==t);
@@ -38,6 +56,12 @@ namespace ssm.game.appearance{
         }
         public void SetSize(float s){
             gameObject.GetComponent<RectTransform>().sizeDelta = Vector2.one * s;
+
+            float sizeRatio = s / defaultSize;
+            textField.fontSize = Mathf.Floor(defaultTextfieldFontSize * sizeRatio);            
+            textField.GetComponent<RectTransform>().sizeDelta = new Vector2(defaultTextfieldWidth, defaultTextfieldHeight) * sizeRatio;
+
+            newIcon.sizeDelta =  Vector2.one * defaultNewSize * sizeRatio;
         }
     }
 }

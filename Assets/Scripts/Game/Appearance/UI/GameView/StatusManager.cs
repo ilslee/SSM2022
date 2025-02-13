@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ssm.data.league;
 using UnityEngine;
 namespace ssm.game.appearance{
     public class StatusManager : MonoBehaviour
@@ -11,9 +12,14 @@ namespace ssm.game.appearance{
         private float iconGap = 50f;
         private List<IconManager> statusContainer;
         public UIAnimationManager anim;
-       
+        private List<StatusTestData> statusTestData;
+        private void Start(){
+            statusTestData = new List<StatusTestData>();
+        }
         public void AddStatus(){
-            statusContainer.Add(Instantiate(icon, this.transform));
+            IconManager newStatus = Instantiate(icon, this.transform) as IconManager;;
+            newStatus.SetSize(iconGap-2f);
+            statusContainer.Add(newStatus);
             RearangeAllStatus();
         }
 
@@ -51,5 +57,13 @@ namespace ssm.game.appearance{
             }
         }
 
+    }
+    public class StatusTestData{
+        public GameTerms.TokenType statusType;
+        public int statusCount;
+        public StatusTestData(){
+            statusType = GameTerms.TokenType.None;
+            statusCount = (int)MathTool.GetRandomIntRange(1,5);
+        }   
     }
 }
