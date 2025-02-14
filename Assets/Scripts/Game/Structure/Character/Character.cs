@@ -167,9 +167,9 @@ namespace ssm.game.structure{
             return resultValue;
         }
        
-        //------------------------------[Recovery]
-        public void CalculateRecoveries(){
-            foreach(GameToken t in SearchTokenList(GameTerms.TokenOccasion.Recover)){
+        //------------------------------[TurnStart] : 
+        public void ApplyTurnStart(){
+            foreach(GameToken t in SearchTokenList(GameTerms.TokenOccasion.TurnStart)){
                 t.Yeild();
             }
         }

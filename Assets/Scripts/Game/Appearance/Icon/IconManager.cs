@@ -21,10 +21,11 @@ namespace ssm.game.appearance{
         private float defaultNewSize;
         
         
-        private void Start() {
+        private void OnEnable() {
             //Init Layout
             defaultSize = gameObject.GetComponent<RectTransform>().sizeDelta.x; // 128
             textField = gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
+            Debug.Log("textField ? " + textField);
             defaultTextfieldWidth = textField.GetComponent<RectTransform>().sizeDelta.x;
             defaultTextfieldHeight = textField.GetComponent<RectTransform>().sizeDelta.y;
             defaultTextfieldFontSize = textField.fontSize;
@@ -33,8 +34,8 @@ namespace ssm.game.appearance{
 
             image = gameObject.GetComponent<Image>();
             
-            SetTransparent(true);
-
+            SetTransparent(false);
+            SetNewIcon(false);
         }
         public void SetIcon(Icon.IconType t){
             Icon ic = icons.container.Find(x => x.type==t);
@@ -52,7 +53,7 @@ namespace ssm.game.appearance{
 
         public void SetTransparent(bool b){
             if(b == true) image.color = new Color(1f, 1f, 1f, .5f);
-            else image.color = new Color(1f, 1f, 1f, .1f); 
+            else image.color = new Color(1f, 1f, 1f, 1f); 
         }
         public void SetSize(float s){
             gameObject.GetComponent<RectTransform>().sizeDelta = Vector2.one * s;
@@ -62,6 +63,10 @@ namespace ssm.game.appearance{
             textField.GetComponent<RectTransform>().sizeDelta = new Vector2(defaultTextfieldWidth, defaultTextfieldHeight) * sizeRatio;
 
             newIcon.sizeDelta =  Vector2.one * defaultNewSize * sizeRatio;
+        }
+        public void SetNewIcon(bool newIconStatus){
+            if(newIconStatus == true) newIcon.GetComponent<Image>().enabled = true;
+            else newIcon.GetComponent<Image>().enabled = false;
         }
     }
 }

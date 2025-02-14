@@ -4,13 +4,18 @@ using UnityEngine;
 using ssm.game.structure;
 using Unity.IO.LowLevel.Unsafe;
 namespace ssm.game.structure.token{
+    /*
+    [중독됨]
+    작동 : d 턴동안 Feedback 시 H-1
+    추가 : d 증가
+    */
     public class Poisoned : GameToken
     {
         int curDuration = 0;
         int maxDuration = 0;
         public Poisoned(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Poisoned;
-            occasion = GameTerms.TokenOccasion.Dynamic;
+            occasion = GameTerms.TokenOccasion.Feedback;
             maxDuration = (int)v0;
             curDuration = maxDuration;
             priority = 40;

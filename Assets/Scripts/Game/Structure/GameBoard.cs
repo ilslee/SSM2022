@@ -54,8 +54,8 @@ namespace ssm.game.structure{
         }
 
         public void CalculateOnRecovery(){
-            // character1.GetLastPlayData().token.OnTurnStart(character1, character2);
-            // character2.GetLastPlayData().token.OnTurnStart(character2, character1);
+            character1.ApplyTurnStart();
+            character2.ApplyTurnStart();
             
         }
         public void CalculateExpectations(){

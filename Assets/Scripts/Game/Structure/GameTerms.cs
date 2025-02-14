@@ -26,11 +26,18 @@ public static class GameTerms
 
 
 
-
+    /* TokenOccasion
+    Static : 변하지 않는 스탯류 (Max 어쩌구..)
+    Dynamic : 항상 변하는 스탯류
+    Motions : 동작 계산시 발생하는 것들
+    TurnStart : 턴 시작 시 발생 - 주로 턴 흐름과 관련된 
+    Calculation : 충돌 시 발생
+    Feedback : 충돌 이후 발생
+    */
     public enum TokenOccasion { None, Static, Dynamic, 
                                 MotionNone, Attack, Strike, Defence, Charge, Avoid, Rest,
                                 Sword, Shield, Move, Offensive, Defensive, // Actions1
-                                Damage, Calculation, Consumption, Recover, Feedback, Give, Take,
+                                Damage, Calculation, Consumption, TurnStart, Feedback, Give, Take,
                                 
 
     }
