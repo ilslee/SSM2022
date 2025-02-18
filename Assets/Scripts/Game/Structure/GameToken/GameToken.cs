@@ -14,12 +14,14 @@ namespace ssm.game.structure.token{
         public GameTerms.TokenOccasion occasion;
         public float value0;
         public int priority;
+        public bool isDisplayed; //UI창에 표시 여부
         public GameToken() {
             characterIndex = 0;
             type = GameTerms.TokenType.None;
             occasion = GameTerms.TokenOccasion.None;
             value0 = 0f;    
             priority = 50;
+            isDisplayed = true;
         }
         //Character Index는 Combine에서 처리
         public GameToken(float v0) {
@@ -67,6 +69,16 @@ namespace ssm.game.structure.token{
         }
         public override string ToString(){
             return "  GameToken: " + type.ToString() + ", " +occasion.ToString() + ", " +value0.ToString() + " / " +priority.ToString() + "("+characterIndex.ToString()+")";
+        }
+        //토큰이 숫자를 포함하는 경우 반환. UI 표기 시 사용
+        public virtual int GetTokenValue(){
+            return -1;
+        }
+        internal Character Me(){
+            return GameBoard.Instance().FindCharacter(characterIndex);
+        }
+        internal Character Other(){
+            return GameBoard.Instance().FindOpponent(characterIndex);
         }
     }
 

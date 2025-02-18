@@ -21,7 +21,7 @@ public static class GameTerms
                             OffensivePower, OffensiveEfficiency, DefensivePower, DefensiveEfficiency,
                             BasePower, EnergyPower, AdditionalPower, TotalPower, Efficieny,
                             Damage,
-                            Poisonous, Poisoned, Nurture, Vigor, Regeneration, Transfusion, Circulation, Recovery // Life Tokens
+                            Poisonous, Poisoned, Nurture, Vigor, Regeneration, Transfusion, Circulation, Circulating, Recovery // Life Tokens
                             }
 
 

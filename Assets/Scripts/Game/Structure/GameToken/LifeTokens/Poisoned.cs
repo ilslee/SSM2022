@@ -12,12 +12,11 @@ namespace ssm.game.structure.token{
     public class Poisoned : GameToken
     {
         int curDuration = 0;
-        int maxDuration = 0;
+        // int maxDuration = 0;
         public Poisoned(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Poisoned;
             occasion = GameTerms.TokenOccasion.Feedback;
-            maxDuration = (int)v0;
-            curDuration = maxDuration;
+            curDuration = (int)v0;
             priority = 40;
         }
 
@@ -25,7 +24,7 @@ namespace ssm.game.structure.token{
         {
             // CurDuration이 남아있으면 Damage 1반납하고 횟수 차감
             if(curDuration > 0) {
-                GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData().Combine(new Damage(false, 1f));
+                Me().GetLastPlayData().Combine(new Damage(false, 1f));
                 curDuration --;
             }
             
@@ -33,8 +32,7 @@ namespace ssm.game.structure.token{
 
         public override void Combine(GameToken t)
         {
-            maxDuration = (int)t.value0;
-            curDuration = maxDuration;
+            curDuration += (int)t.value0;
         }
 
         public override bool IsRemobable()
@@ -42,6 +40,10 @@ namespace ssm.game.structure.token{
             //횟수 없어지면 PlayData에서 제거
             if(curDuration <= 0) return true;
             else return false;
+        }
+        public override int GetTokenValue()
+        {
+            return curDuration;
         }
     }
 }
