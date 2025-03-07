@@ -15,9 +15,8 @@ namespace ssm.game.appearance{
     }
     [Serializable]
     public class Icon{
-        public enum IconType{   None, Question, HP, EP, History, Status, 
-                                Attack, Strike, Defence, Charge, Rest, Avoid}
-        public IconType type;
+        
+        public GameTerms.TokenType type;
         public string name;
         public int id;
         [TextArea]

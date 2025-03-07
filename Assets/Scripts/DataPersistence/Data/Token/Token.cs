@@ -13,5 +13,10 @@ namespace ssm.data.token{
             type = GameTerms.TokenType.None;
             value = 0f;
         }
+
+        public Token(GameTerms.TokenType t, float v){
+            type = t;
+            value = v;
+        }
     }
 }

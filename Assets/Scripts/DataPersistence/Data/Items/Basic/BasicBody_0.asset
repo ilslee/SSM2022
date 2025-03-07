@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4198aaeae6d46944db96b9b4c68a6e9a, type: 3}
+  m_Name: BasicBody_0
+  m_EditorClassIdentifier: 
+  family: 1
+  part: 1
+  grade: 0
+  price: 0
+  tokens:
+  - type: 8
+    value: 5
+  - type: 7
+    value: 5
+  - type: 11
+    value: 3
+  - type: 10
+    value: 0

@@ -94,22 +94,22 @@ namespace ssm.game.appearance{
                 Debug.Log("SetIconImageViaMotion" + m.ToString());
                 switch(m){
                     case GameTerms.Motion.Attack:
-                    icons[iconId].SetIcon(Icon.IconType.Attack);
+                    icons[iconId].SetIcon(GameTerms.TokenType.AttackAction);
                     return;
                     case GameTerms.Motion.Strike:
-                    icons[iconId].SetIcon(Icon.IconType.Strike);
+                    icons[iconId].SetIcon(GameTerms.TokenType.StrikeAction);
                     return;
                     case GameTerms.Motion.Defence:
-                    icons[iconId].SetIcon(Icon.IconType.Defence);
+                    icons[iconId].SetIcon(GameTerms.TokenType.DefenceAction);
                     return;
                     case GameTerms.Motion.Charge:
-                    icons[iconId].SetIcon(Icon.IconType.Charge);
+                    icons[iconId].SetIcon(GameTerms.TokenType.ChargeAction);
                     return;
                     case GameTerms.Motion.Rest:
-                    icons[iconId].SetIcon(Icon.IconType.Rest);
+                    icons[iconId].SetIcon(GameTerms.TokenType.RestAction);
                     return;
                     case GameTerms.Motion.Avoid:
-                    icons[iconId].SetIcon(Icon.IconType.Avoid);
+                    icons[iconId].SetIcon(GameTerms.TokenType.AvoidAction);
                     return;
                 }
             }

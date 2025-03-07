@@ -7,7 +7,8 @@ public static class GameTerms
                         Game_Start, TransitionEnter, Countdown, Turn_Ready, Animation_Idle, Turn_Calculate, Animation_Calc1, Animation_Calc2, 
                         Turn_CheckGameEnd, Animation_End1, Animation_End2, Game_End, TransitionExit}
     
-    public enum TokenType { None,                             
+    public enum TokenType { None,      
+                            Question, History, Status,//아이콘에만 사용되는 인덱스 설정
                             AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions0
                             
                             HPCurrent, HPMax, HPStart, //Health 
@@ -31,7 +32,7 @@ public static class GameTerms
     Dynamic : 항상 변하는 스탯류
     Motions : 동작 계산시 발생하는 것들
     TurnStart : 턴 시작 시 발생 - 주로 턴 흐름과 관련된 
-    Calculation : 충돌 시 발생
+    Calculation : 충돌 시 발생(Power 비교 시)
     Feedback : 충돌 이후 발생
     */
     public enum TokenOccasion { None, Static, Dynamic, 

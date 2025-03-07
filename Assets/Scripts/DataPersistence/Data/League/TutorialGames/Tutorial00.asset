@@ -15,5 +15,5 @@ MonoBehaviour:
   preGameDialogue: {fileID: 11400000, guid: e10cf497d44708b4bab6093f596fcb37, type: 2}
   postGameDialogue: {fileID: 11400000, guid: 201a7b44faf17a74189003cd96451db1, type: 2}
   player: {fileID: 0}
-  opponent: {fileID: 11400000, guid: 70d9412a898d7644da24633447b59fcf, type: 2}
+  opponent: {fileID: 11400000, guid: dd901967337557f44abdc0a6ea707de9, type: 2}
   opponent2: {fileID: 11400000, guid: 70d9412a898d7644da24633447b59fcf, type: 2}

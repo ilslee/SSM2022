@@ -10,13 +10,15 @@ namespace ssm.game.structure.token{
     */
     public class Regeneration : GameToken
     {
-        public int timer;
-        private int currentTime;
+        internal int timer;
+        internal int currentTime;
         public Regeneration() : base(){
             type = GameTerms.TokenType.Regeneration;
             occasion = GameTerms.TokenOccasion.TurnStart;
             timer = 7;            
             currentTime = timer;
+            isDisplayed = true;
+            
         }
 
         public override void Yeild()
@@ -32,7 +34,10 @@ namespace ssm.game.structure.token{
             return currentTime + 1;
 
         }
-        
+        public override bool IsRemobable()
+        {
+            return base.IsRemobable();
+        }
     }
 
 }

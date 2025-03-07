@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f20859da7a1afa48aaa573aac60faa9, type: 3}
-  m_Name: BasicSword0
+  m_Name: BasicSword_2
   m_EditorClassIdentifier: 
   family: 1
   part: 4
-  grade: 0
+  grade: 2
   price: 0
   tokens:
-  - type: 17
-    value: 3
-  - type: 18
-    value: 0.5
-  - type: 19
-    value: 2
   - type: 20
-    value: 3
+    value: 4
   - type: 21
-    value: 2
+    value: 0.5
+  - type: 22
+    value: 3
+  - type: 23
+    value: 3
+  - type: 24
+    value: 3

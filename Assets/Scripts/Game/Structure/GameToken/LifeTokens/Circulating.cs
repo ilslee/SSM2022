@@ -15,6 +15,7 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.TurnStart;
             duration = (int)v0;
             priority = 40;
+            isDisplayed = true;
         }
         public override void Combine(GameToken t)
         {
@@ -22,7 +23,7 @@ namespace ssm.game.structure.token{
         }
         public override void Yeild()
         {
-            // CurDuration이 남아있으면 Damage 1반납하고 횟수 차감
+            // CurDuration이 남아있으면 EP Current +1하고 횟수 차감
             if(duration > 0) {
                 Me().GetLastPlayData().Combine(new EPCurrent(1f));
                 duration --;

@@ -21,7 +21,7 @@ namespace ssm.game.structure{
         public TokenList staticTokens;                
         public List<PlayData> playData;
         
-        public TokenList temporaryTokens;
+        public TokenList temporaryTokens; // expectation 임시 보관용
         
         public Character(PlayableCharacter data, int index){
             Debug.Log("Character : Initiate character as index = " + index);

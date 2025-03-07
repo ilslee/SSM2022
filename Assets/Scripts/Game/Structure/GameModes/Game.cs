@@ -162,7 +162,7 @@ namespace ssm.game.structure{
             GameBoard.Instance().CalculateOnRecovery();
             // GameBoard.Instance().phase = GameTerms.Phase.Turn_Ready;
             GameBoard.Instance().CalculateExpectations();
-            gameEvent.Raise(GameEvent.TURN_READY);
+            // gameEvent.Raise(GameEvent.TURN_READY);
             EndPhase(GameEvent.TURN_READY_END);
         }
         // 상호 Pose 선택        
@@ -172,7 +172,8 @@ namespace ssm.game.structure{
             GameBoard.Instance().ProcessMotions();
             GameBoard.Instance().CalcuateCollision();
             GameBoard.Instance().CalculateConseqence();
-            gameEvent.Raise(GameEvent.TURN_CALCULATE);
+            // gameEvent.Raise(GameEvent.TURN_CALCULATE);
+            EndPhase(GameEvent.TURN_CALCULATE_END);
             EndPhase(GameEvent.ANIMATION_CALC1);
         }
         internal void ManageAnimationCalc1(){

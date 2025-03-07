@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ssm.data.token;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace ssm.game.structure.token{
@@ -21,7 +23,7 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.None;
             value0 = 0f;    
             priority = 50;
-            isDisplayed = true;
+            isDisplayed = false;
         }
         //Character Index는 Combine에서 처리
         public GameToken(float v0) {
@@ -170,7 +172,8 @@ namespace ssm.game.structure.token{
                     t.characterIndex = this.characterIndex;
                     this.Add(t);
                 }
-            }     
+            }
+            SortByPriority();
         }
         public void Combine(GameToken t){
             // Debug.Log("?????? " + t.GetType().Name);
@@ -180,6 +183,10 @@ namespace ssm.game.structure.token{
                 t.characterIndex = this.characterIndex;
                 this.Add(t);
             }
+            SortByPriority();
+        }
+        private void SortByPriority(){
+            this.Sort((t1,t2) => t1.priority.CompareTo(t2));
         }
         // public void Subtract(GameToken tk){
         //     GameToken resulttoken = this.Find(x => x.type == tk.type);

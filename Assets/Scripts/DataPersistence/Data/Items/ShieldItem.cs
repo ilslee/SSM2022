@@ -9,35 +9,74 @@ namespace ssm.data.item{
         public override void Reset(){
             base.Reset();
             part = Part.Shield;
-            tokens = new List<Token>();
+            family = Family.None;
             
-            Token defencePower = new Token();
-            defencePower.type = GameTerms.TokenType.DefencePower;
-            defencePower.value = 0f;
-            Token defenceEfficiency = new Token();
-            defenceEfficiency.type = GameTerms.TokenType.DefenceEfficiency  ;
-            defenceEfficiency.value = 0f;
+        }
+        private ShieldItemDataContainer GetData(){
+            switch(family){
+                case Family.Basic:
+                switch(grade){
+                    case 0:
+                    return new ShieldItemDataContainer(5f, .5f, 1f, 1f, 3f, 3f, GameTerms.TokenType.None, 0f);
+                    case 1:
+                    return new ShieldItemDataContainer(5f, .5f, 1f, 1f, 3f, 3f, GameTerms.TokenType.None, 0f);
+                    case 2:
+                    return new ShieldItemDataContainer(6f, .5f, 2f, 2f, 3f, 4f, GameTerms.TokenType.None, 0f);
+                    case 3:
+                    return new ShieldItemDataContainer(7f, .5f, 3f, 3f, 3f, 5f, GameTerms.TokenType.None, 0f);
+                }
+                break;
+                case Family.Life:
+                switch(grade){
+                    case 0:
+                    return new ShieldItemDataContainer(7f, .5f, 1f, 1f, 3f, 3f, GameTerms.TokenType.None, 0f);
+                    case 1:
+                    return new ShieldItemDataContainer(7f, .5f, 1f, 1f, 3f, 3f, GameTerms.TokenType.Nurture, 0f);
+                    case 2:
+                    return new ShieldItemDataContainer(8f, .5f, 2f, 2f, 3f, 4f, GameTerms.TokenType.Nurture, 0f);
+                    case 3:
+                    return new ShieldItemDataContainer(9f, .5f, 3f, 3f, 3f, 5f, GameTerms.TokenType.Nurture, 0f);
+                }
+                break;
+            }
+            return new ShieldItemDataContainer(0f, 0f, 0f, 0f, 0f, 0f, GameTerms.TokenType.None, 0f);
+        }
+        public override void UpdateItemData()
+        {
+            ShieldItemDataContainer s = GetData();
+            tokens = new List<Token>();
+            tokens.Add(new Token(GameTerms.TokenType.DefencePower, s.defencePower));
+            tokens.Add(new Token(GameTerms.TokenType.DefenceEfficiency, s.defenceEfficiency));
+            tokens.Add(new Token(GameTerms.TokenType.CollisionGeneration, s.collisionGeneration));
+            tokens.Add(new Token(GameTerms.TokenType.ChargePower, s.chargePower));
+            tokens.Add(new Token(GameTerms.TokenType.ChargeEfficiency, s.chargeEfficiency));
+            tokens.Add(new Token(GameTerms.TokenType.ChargeConsumption, s.chargeConsumption));
+            if(s.additionalToken == GameTerms.TokenType.None)return;
+            else{
+                tokens.Add(new Token(s.additionalToken, s.additionalValue));
+            }
+        }
+        private class ShieldItemDataContainer{
+            internal float defencePower;
+            internal float defenceEfficiency;
+            internal float collisionGeneration;
+            internal float chargePower;
+            internal float chargeEfficiency;
+            internal float chargeConsumption;
+            internal GameTerms.TokenType additionalToken;
+            internal float additionalValue;
 
-            Token collisionGeneration = new Token();
-            collisionGeneration.type = GameTerms.TokenType.CollisionGeneration;
-            collisionGeneration.value = 1f;
+            internal ShieldItemDataContainer(float dp, float de, float cg, float cp, float ce, float cc, GameTerms.TokenType adt, float adv){
+                defencePower = dp;
+                defenceEfficiency = dp;
+                collisionGeneration = dp;
+                chargePower = cp;
+                chargeEfficiency = ce;
+                chargeConsumption = cc;
+                additionalToken = adt;
+                additionalValue = adv;
 
-            Token chargePower = new Token();
-            chargePower.type = GameTerms.TokenType.ChargePower;
-            chargePower.value = 0f;
-            Token chargeEfficiency = new Token();
-            chargeEfficiency.type = GameTerms.TokenType.ChargeEfficiency;
-            chargeEfficiency.value = 0f;
-            Token chargeConsumption = new Token();
-            chargeConsumption.type = GameTerms.TokenType.ChargeConsumption;
-            chargeConsumption.value = 0f;
-
-            tokens.Add(defencePower);   
-            tokens.Add(defenceEfficiency);   
-            tokens.Add(collisionGeneration);   
-            tokens.Add(chargePower);   
-            tokens.Add(chargeEfficiency);   
-            tokens.Add(chargeConsumption);   
+            }
         }
     }
 }

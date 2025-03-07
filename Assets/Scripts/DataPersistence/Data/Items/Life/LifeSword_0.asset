@@ -17,13 +17,13 @@ MonoBehaviour:
   grade: 0
   price: -1
   tokens:
-  - type: 17
-    value: 4
-  - type: 18
-    value: 0.5
-  - type: 19
-    value: 3
   - type: 20
-    value: 3
+    value: 4
   - type: 21
+    value: 0.5
+  - type: 22
+    value: 3
+  - type: 23
+    value: 3
+  - type: 24
     value: 2

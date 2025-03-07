@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using ssm.data.token;
 namespace ssm.data.item{
     [CreateAssetMenu(fileName = "Item", menuName = "SSM/Item/Item")]
     public class ItemData : ScriptableObject
     {
         public enum Family {None, Basic, Assassin, Blacksmith, Clown, Dancer, Death, Emperor, Fighter, Life, Orator, Soldier};
-        public enum Part {None, Body, Leg, Shield, Sword, Accessory};
+        public enum Part {None, Body, Leg, Shield, Sword, Set, Accessory};
         public Family family;
         public Part part;
         public int grade;
@@ -21,6 +22,24 @@ namespace ssm.data.item{
             price = -1f;
             tokens = new List<Token>();   
         }
-             
+        public void OnValidate()
+        {
+            UpdateItemData();
+        }
+        public virtual void UpdateItemData(){
+
+        }
+        
+    }
+    [CustomEditor(typeof(ItemData))]    
+    public class ResetItemData:Editor{
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();                
+            ItemData i = (ItemData)target;
+            if(GUILayout.Button("Reset Data")){
+                i.UpdateItemData();
+            }            
+        }
     }
 }

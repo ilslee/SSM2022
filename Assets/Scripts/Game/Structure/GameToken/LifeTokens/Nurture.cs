@@ -14,6 +14,7 @@ namespace ssm.game.structure.token{
         public Nurture() : base(){
             type = GameTerms.TokenType.Nurture;
             occasion = GameTerms.TokenOccasion.Feedback;
+            isDisplayed = true;
         }
 
         public override void Yeild()

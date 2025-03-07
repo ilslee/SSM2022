@@ -17,6 +17,7 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.Calculation;
             duration = (int)v0;
             priority = 60;
+            isDisplayed = true;
         }
 
         public override void Yeild()
