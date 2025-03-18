@@ -11,11 +11,12 @@ namespace ssm.game.structure.token{
     */
     public class Circulation : GameToken
     {
-        private int circulationDuration;
-        public Circulation() : base(){
+        public Circulation(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Circulation;
             occasion = GameTerms.TokenOccasion.Feedback;
-            circulationDuration = 2;
+            value0 = v0; // circulationDuration
+            isDynamic = false;
+            isDisplayed = true;
         }
 
         public override void Yeild()
@@ -24,13 +25,13 @@ namespace ssm.game.structure.token{
                 float lastHP = Me().GetLastPlayData(1).Find(GameTerms.TokenType.HPCurrent).value0;
                 float currentHP = Me().GetLastPlayData().Find(GameTerms.TokenType.HPCurrent).value0;
                 if(currentHP > lastHP){
-                    Me().GetLastPlayData().Combine(new Circulating((float)circulationDuration));
+                    Me().GetLastPlayData().Combine(new Circulating(value0));
                 }
             }
             
         }
         public override int GetTokenValue(){
-            return circulationDuration;
+            return (int)value0;
         }
     }
 

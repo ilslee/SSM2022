@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   family: 9
   part: 3
-  grade: 0
+  grade: 3
   price: -1
   tokens:
-  - type: 22
-    value: 9
-  - type: 23
-    value: 0.5
-  - type: 24
-    value: 1
   - type: 25
-    value: 3
+    value: 9
   - type: 26
-    value: 3
+    value: 9
   - type: 27
+    value: 9
+  - type: 28
+    value: 3
+  - type: 29
+    value: 3
+  - type: 30
     value: 5
-  - type: 52
+  - type: 55
     value: 1

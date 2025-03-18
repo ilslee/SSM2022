@@ -5,7 +5,9 @@ namespace ssm.game.structure.token{
     public class EnergyPower : Power
     {
         //Power의 Occation은 각 동작, 혹은 Offensive, Diffensive 적용 가능
-        public EnergyPower(GameTerms.TokenOccasion o, bool isOffensive, float v0 = 0f) : base(GameTerms.TokenType.EnergyPower, o, isOffensive, v0){}
+        public EnergyPower(GameTerms.TokenOccasion o, bool isOffensive, float v0 = 0f) : base(GameTerms.TokenType.EnergyPower, o, isOffensive, v0){
+            isDynamic = true;
+        }
 
         public override void Yeild()
         {

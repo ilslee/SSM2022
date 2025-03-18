@@ -26,7 +26,7 @@ namespace ssm.game.appearance{
             //Init Layout
             defaultSize = gameObject.GetComponent<RectTransform>().sizeDelta.x; // 128
             textField = gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
-            Debug.Log("textField ? " + textField);
+            // Debug.Log("textField ? " + textField);
             defaultTextfieldWidth = textField.GetComponent<RectTransform>().sizeDelta.x;
             defaultTextfieldHeight = textField.GetComponent<RectTransform>().sizeDelta.y;
             defaultTextfieldFontSize = textField.fontSize;
@@ -39,7 +39,8 @@ namespace ssm.game.appearance{
             SetNewIcon(false);
         }
         public void SetIcon(GameTerms.TokenType t =  GameTerms.TokenType.None){
-            Icon ic = icons.container.Find(x => x.type==t);
+            tokenType = t;
+            Icon ic = icons.container.Find(x => x.type==t);            
             if(ic == null)ic = icons.container.Find(x => x.type==GameTerms.TokenType.None); // 어셋이 제작되지 않은 아이콘 호출 시..            
             image.sprite = ic.image;            
         }

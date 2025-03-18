@@ -16,6 +16,8 @@ namespace ssm.game.structure.token{
         public GameTerms.TokenOccasion occasion;
         public float value0;
         public int priority;
+        //isDynamic : PlayData History상 비교 판단할 필요가 있는 정보면 dynamic
+        public bool isDynamic; //static Token List(false) 혹은 playdata(true) 배치 여부
         public bool isDisplayed; //UI창에 표시 여부
         public GameToken() {
             characterIndex = 0;
@@ -23,30 +25,37 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.None;
             value0 = 0f;    
             priority = 50;
+            isDynamic = false;
             isDisplayed = false;
         }
         //Character Index는 Combine에서 처리
-        public GameToken(float v0) {
+        public GameToken(float v0, bool dynamic = false) {
             characterIndex = 0;
             type = GameTerms.TokenType.None;
             occasion = GameTerms.TokenOccasion.None;
             value0 = v0;    
             priority = 50;
+            isDynamic = dynamic;
+            isDisplayed = false;
         }
         //Power 같은 거 처리할 때
-        public GameToken(GameTerms.TokenOccasion o, float v0) {
+        public GameToken(GameTerms.TokenOccasion o, float v0, bool dynamic = false) {
             characterIndex = 0;
             type = GameTerms.TokenType.None;
             occasion = o;
             value0 = v0;    
             priority = 50;
+            isDynamic = dynamic;
+            isDisplayed = false;
         }
-        public GameToken(GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f){
+        public GameToken(GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f, bool dynamic = false){
             characterIndex = 0;
             type = t;
             occasion = o;
             value0 = v;    
-            priority = 50;     
+            priority = 50;   
+            isDynamic = dynamic;
+            isDisplayed = false;  
         }  
         //아이템 데이터 등 특정 인덱스를 특정하지 않는 경우
         
@@ -99,7 +108,26 @@ namespace ssm.game.structure.token{
                 return new AvoidGeneration(t.value); 
                 case GameTerms.TokenType.CollisionGeneration:
                 return new CollisionGeneration(t.value);
-                //Default - Static 
+                //Life
+                case GameTerms.TokenType.Circulation:
+                return new Circulation(t.value);
+                case GameTerms.TokenType.Circulating:
+                return new Circulating(t.value);
+                case GameTerms.TokenType.Nurture:
+                return new Nurture(t.value);
+                case GameTerms.TokenType.Poisoned:
+                return new Poisoned(t.value);
+                case GameTerms.TokenType.Poisonous:
+                return new Poisonous(t.value);
+                case GameTerms.TokenType.Recovery:
+                return new Recovery(t.value);
+                case GameTerms.TokenType.Regeneration:
+                return new Regeneration(t.value);
+                case GameTerms.TokenType.Transfusion:
+                return new Transfusion(t.value);
+                case GameTerms.TokenType.Vigor:
+                return new Vigor(t.value);
+                //Default  
                 case GameTerms.TokenType.HPMax:
                 case GameTerms.TokenType.EPMax:
 
@@ -173,7 +201,7 @@ namespace ssm.game.structure.token{
                     this.Add(t);
                 }
             }
-            SortByPriority();
+            this.Sort(ComparePriority);            
         }
         public void Combine(GameToken t){
             // Debug.Log("?????? " + t.GetType().Name);
@@ -183,10 +211,10 @@ namespace ssm.game.structure.token{
                 t.characterIndex = this.characterIndex;
                 this.Add(t);
             }
-            SortByPriority();
+            this.Sort(ComparePriority);
         }
-        private void SortByPriority(){
-            this.Sort((t1,t2) => t1.priority.CompareTo(t2));
+        private int ComparePriority(GameToken t1, GameToken t2){
+            return t1.priority.CompareTo(t2.priority);
         }
         // public void Subtract(GameToken tk){
         //     GameToken resulttoken = this.Find(x => x.type == tk.type);

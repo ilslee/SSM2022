@@ -18,6 +18,7 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.Feedback;
             curDuration = (int)v0;
             priority = 40;
+            isDynamic = false;
             isDisplayed = true;
         }
 

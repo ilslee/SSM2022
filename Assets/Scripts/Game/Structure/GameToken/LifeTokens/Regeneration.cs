@@ -12,11 +12,12 @@ namespace ssm.game.structure.token{
     {
         internal int timer;
         internal int currentTime;
-        public Regeneration() : base(){
+        public Regeneration(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Regeneration;
             occasion = GameTerms.TokenOccasion.TurnStart;
-            timer = 7;            
+            timer = (int)v0;            
             currentTime = timer;
+            isDynamic = false;
             isDisplayed = true;
             
         }

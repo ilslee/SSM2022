@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: ItemPigBasic
   m_EditorClassIdentifier: 
   characterName: ItemPigBasic
-  item:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  itemContainer: {fileID: 11400000, guid: db896fdf00bd7b7449f8e6102ee8e545, type: 2}
+  part:
+  - {fileID: 11400000, guid: aa5cfca32ea75c44aa61abaa8b5f85dd, type: 2}
+  - {fileID: 11400000, guid: bf2f80362bdf5a649933acb596d00d23, type: 2}
+  - {fileID: 11400000, guid: 80432631670e77b4487fd33945800830, type: 2}
+  - {fileID: 11400000, guid: df69ec8195ede494fb3775d07c8858b7, type: 2}
+  accessory: []
+  accessoryCapability: 0
+  set: []
   core:
   - type: 11
     value: 100
@@ -28,4 +32,5 @@ MonoBehaviour:
   - type: 13
     value: 0
   score: 0
-  bp: []
+  bp:
+  - {fileID: 11400000, guid: 167414a0c6a07174c9666ed9c0859bd4, type: 2}

@@ -10,6 +10,7 @@ namespace ssm.game.structure.token{
         public Power2(GameTerms.TokenType t, GameTerms.TokenOccasion o, bool isOffensive, float v0 = 0f, float v1 = 0f) : base(t, o, isOffensive, v0){
             this.isOffensive = isOffensive;
             value1 = v1;
+            isDynamic = true;
         }
         public new Power2 Clone()
         {

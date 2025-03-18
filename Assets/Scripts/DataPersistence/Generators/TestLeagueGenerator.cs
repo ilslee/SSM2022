@@ -52,7 +52,7 @@ public class TestLeagueGenerator : MonoBehaviour
         BPCharacter o = ScriptableObject.CreateInstance("BPCharacter") as BPCharacter;
         
         //Item
-        o.item = new List<ItemData>();
+        o.part = new List<ItemData>();
         // o.item.Add(testCore);
         // switch(itemFamily){
         //     case ItemData.Family.Default:
@@ -65,9 +65,9 @@ public class TestLeagueGenerator : MonoBehaviour
         //     break;    
         // }
 
-        for (int i = 1; i < o.item.Count; i++)
+        for (int i = 1; i < o.part.Count; i++)
         {
-            o.item[i].grade = itemGrade;
+            o.part[i].grade = itemGrade;
         }        
         
         

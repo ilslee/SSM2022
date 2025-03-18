@@ -31,11 +31,11 @@ namespace ssm.data.item{
                     case 0:
                     return new ShieldItemDataContainer(7f, .5f, 1f, 1f, 3f, 3f, GameTerms.TokenType.None, 0f);
                     case 1:
-                    return new ShieldItemDataContainer(7f, .5f, 1f, 1f, 3f, 3f, GameTerms.TokenType.Nurture, 0f);
+                    return new ShieldItemDataContainer(7f, .5f, 1f, 1f, 3f, 3f, GameTerms.TokenType.Nurture, 1f);
                     case 2:
-                    return new ShieldItemDataContainer(8f, .5f, 2f, 2f, 3f, 4f, GameTerms.TokenType.Nurture, 0f);
+                    return new ShieldItemDataContainer(8f, .5f, 2f, 2f, 3f, 4f, GameTerms.TokenType.Nurture, 1f);
                     case 3:
-                    return new ShieldItemDataContainer(9f, .5f, 3f, 3f, 3f, 5f, GameTerms.TokenType.Nurture, 0f);
+                    return new ShieldItemDataContainer(9f, .5f, 3f, 3f, 3f, 5f, GameTerms.TokenType.Nurture, 1f);
                 }
                 break;
             }

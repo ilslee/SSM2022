@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ssm.game.structure.token;
+using ssm.game.structure;
+//게임 관련 자주 사용하는 기능 모음
 public static class GameTool
 {
     public enum Direction{None, Left, Right, Top, Bottom}
@@ -33,7 +35,11 @@ public static class GameTool
         target.anchorMax = result;
         target.pivot = result;
     }
-    
+    public static bool IsGivingDamage(int characterIndex){
+        Damage currentDamage = GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData().Find(GameTerms.TokenType.Damage) as Damage;
+        if(currentDamage == null || currentDamage.type == GameTerms.TokenType.None) return false;
+        else return currentDamage.isGivingDamage;
+    }
     public static bool CheckIndexValidity(int index, int length = 0){
         if(length == 0){
             if(index >= 0) return true;

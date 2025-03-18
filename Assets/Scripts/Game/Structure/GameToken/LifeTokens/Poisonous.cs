@@ -17,14 +17,14 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.Calculation;
             duration = (int)v0;
             priority = 60;
+            isDynamic = false;
             isDisplayed = true;
         }
 
         public override void Yeild()
         {
             //이번 턴에 공격 성공하였으면 상대에게 Poisoned(d) 전달
-            Damage currentDamage = GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData().Find(GameTerms.TokenType.Damage) as Damage;
-            if(currentDamage.isGivingDamage == true){
+            if(GameTool.IsGivingDamage(characterIndex) == true){
                 GameBoard.Instance().FindOpponent(characterIndex).GetLastPlayData().Combine(new Poisoned((float)duration));
             }
         }

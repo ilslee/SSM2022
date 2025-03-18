@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126c48596d2ada643a6027d724e12501, type: 3}
+  m_Name: SSMItemContainer
+  m_EditorClassIdentifier: 
+  itemFamilyCount: 7
+  basic:
+  - {fileID: 11400000, guid: 4aba8b39b9095f84b8c3f0384b8f7ffd, type: 2}
+  - {fileID: 11400000, guid: 2ad2b6619fac7474385543951776f4bd, type: 2}
+  - {fileID: 11400000, guid: f5304dc9b87e38144bcd90c22245de5b, type: 2}
+  - {fileID: 11400000, guid: aa5cfca32ea75c44aa61abaa8b5f85dd, type: 2}
+  - {fileID: 11400000, guid: ba7e236708f7e294fb1dcf9b4eaa9a50, type: 2}
+  - {fileID: 11400000, guid: e575e64903cd08a4d87ab2e08e844816, type: 2}
+  - {fileID: 11400000, guid: b8f9c58318268ae44a6a24378b194452, type: 2}
+  - {fileID: 11400000, guid: bf2f80362bdf5a649933acb596d00d23, type: 2}
+  - {fileID: 11400000, guid: efde1b98fe028c84aa3d6eb95ffeead0, type: 2}
+  - {fileID: 11400000, guid: f8c0a49f5e473e2458967c31a3bb121a, type: 2}
+  - {fileID: 11400000, guid: ea0326d3639643343a9021dfccfe2a07, type: 2}
+  - {fileID: 11400000, guid: 80432631670e77b4487fd33945800830, type: 2}
+  - {fileID: 11400000, guid: 47226c96771137146bd4e663d7aa818a, type: 2}
+  - {fileID: 11400000, guid: 9e53123c7dd6760489f19538dd097419, type: 2}
+  - {fileID: 11400000, guid: 00cbf79437d2f764c90a8ef23458a827, type: 2}
+  - {fileID: 11400000, guid: df69ec8195ede494fb3775d07c8858b7, type: 2}
+  assassin: []
+  blacksmith: []
+  clown: []
+  dancer: []
+  death: []
+  emperor: []
+  fighter: []
+  life:
+  - {fileID: 11400000, guid: 59c7328dfe622fe4ea398ce585d1236b, type: 2}
+  - {fileID: 11400000, guid: 3a4ef07f1bd751440ae72a9b74f98c14, type: 2}
+  - {fileID: 11400000, guid: 6f217d41b6b86aa40bba72c07b620538, type: 2}
+  - {fileID: 11400000, guid: 3b5554576763b3340a04b2529803c670, type: 2}
+  - {fileID: 11400000, guid: 9b8006499dd0caa4590eff1486ca3c35, type: 2}
+  - {fileID: 11400000, guid: a83f946e7eb4ce24bbb7baa0d5ae3e00, type: 2}
+  - {fileID: 11400000, guid: 6bb722eb63cebe14dadbe9d0c428ba54, type: 2}
+  - {fileID: 11400000, guid: 5cdfdb4a41dc77442b39097ac2ed51b1, type: 2}
+  - {fileID: 11400000, guid: cfee88b4e2aff4442859fafdcb5cd0b7, type: 2}
+  - {fileID: 11400000, guid: a0e7c7faf5e0cb245bafe768f33b0070, type: 2}
+  - {fileID: 11400000, guid: 7bc0e92c20836774cb733e509ba598e6, type: 2}
+  - {fileID: 11400000, guid: 6bdbde4aac67da142a04babff1ba56dd, type: 2}
+  - {fileID: 11400000, guid: ce8f128225b2d4a44bf93d15a167430a, type: 2}
+  - {fileID: 11400000, guid: 242b398214acdd34db9421b0747408c3, type: 2}
+  - {fileID: 11400000, guid: 92022cbc93792944193bd6da70d69a76, type: 2}
+  - {fileID: 11400000, guid: e19218d09faed384dbf03a5fc394920b, type: 2}
+  orator: []
+  soldier: []
+  setAssasin: []
+  setBlacksmith: []
+  setClown: []
+  setDancer: []
+  setDeath: []
+  setEmperor: []
+  setFighter: []
+  setLife:
+  - {fileID: 11400000, guid: c86414b9f15033a45aaf69e482987b41, type: 2}
+  - {fileID: 11400000, guid: b0d3be8c10f1f7b498e55f0ffa50068a, type: 2}
+  - {fileID: 11400000, guid: 551aa59c0618fa84490b9ab23606d78b, type: 2}
+  setOrator: []
+  setSoldier: []
+  accessory: []

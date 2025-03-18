@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114b2a4430ec764428a31aaf7ae09fb3, type: 3}
   m_Name: Life1_Random
   m_EditorClassIdentifier: 
-  characterName: 
-  item:
-  - {fileID: 11400000, guid: 242b398214acdd34db9421b0747408c3, type: 2}
-  - {fileID: 11400000, guid: a0e7c7faf5e0cb245bafe768f33b0070, type: 2}
-  - {fileID: 11400000, guid: a83f946e7eb4ce24bbb7baa0d5ae3e00, type: 2}
-  - {fileID: 11400000, guid: 3a4ef07f1bd751440ae72a9b74f98c14, type: 2}
+  characterName: Life Max
+  itemContainer: {fileID: 0}
+  part: []
+  accessory: []
+  accessoryCapability: 0
+  set: []
   core:
   - type: 8
     value: 10

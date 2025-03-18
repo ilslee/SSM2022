@@ -9,19 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4198aaeae6d46944db96b9b4c68a6e9a, type: 3}
-  m_Name: BasicBody_0
+  m_Script: {fileID: 11500000, guid: dbaddc19fbb7c61409ea318951dddeca, type: 3}
+  m_Name: AlwaysLose
   m_EditorClassIdentifier: 
-  family: 1
-  part: 1
-  grade: 0
-  price: 0
-  tokens:
-  - type: 11
-    value: 5
-  - type: 10
-    value: 5
-  - type: 14
-    value: 3
-  - type: 13
+  condition: []
+  time: []
+  behaviour:
+  - occasion: 2
+    type: 1
     value: 0
+  motion: 0b000000

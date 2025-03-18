@@ -9,11 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f20859da7a1afa48aaa573aac60faa9, type: 3}
-  m_Name: SwordItem
+  m_Script: {fileID: 11500000, guid: 4992447491c938f4cb2e10ef0f7f67f7, type: 3}
+  m_Name: BasicLeg_1
   m_EditorClassIdentifier: 
-  family: 0
-  part: 0
-  grade: 0
+  family: 1
+  part: 2
+  grade: 1
   price: 0
-  tokens: []
+  tokens:
+  - type: 31
+    value: 0
+  - type: 35
+    value: 1
+  - type: 32
+    value: 1
+  - type: 33
+    value: 1
+  - type: 34
+    value: 0
+  - type: 36
+    value: 1

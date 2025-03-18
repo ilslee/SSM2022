@@ -10,7 +10,7 @@ namespace ssm.game.structure.token{
             type = GameTerms.TokenType.Damage;
             occasion = GameTerms.TokenOccasion.Calculation;
             isGivingDamage = i;
-            
+            isDynamic = true;
         }
         public override void Yeild()
         {

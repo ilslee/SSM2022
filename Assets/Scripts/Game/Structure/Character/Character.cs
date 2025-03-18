@@ -65,47 +65,37 @@ namespace ssm.game.structure{
             TokenList tempPlayData = new TokenList(index);
             //Core의 스탯을 분배
             ConvertAndDistributeToken(data.core);
-            foreach(ItemData i in data.item){
-                //itemData의 TokenData를 GameToken으로 변환하여 재분배
-                ConvertAndDistributeToken(i.tokens);
-            }
-            
+            //Parts의 데이터를 토큰으로 변환
+            foreach(ItemData i in data.part) ConvertAndDistributeToken(i.tokens);            
+            //Set의 데이터를 토큰으로 변환
+            foreach(ItemData s in data.set) ConvertAndDistributeToken(s.tokens);            
+            //Accessories의 데이터를 토큰으로 변환
+            foreach(ItemData a in data.accessory) ConvertAndDistributeToken(a.tokens);            
+                
             void ConvertAndDistributeToken(List<Token> tokenList){
+                
                 foreach(ssm.data.token.Token t in tokenList){
                     GameToken gameToken = GameTokenConverter.Convert(t);
-                    if(gameToken.occasion == GameTerms.TokenOccasion.Dynamic) tempPlayData.Add(gameToken);
-                    else tempStaticToken.Add(gameToken);
+                    gameToken.characterIndex = index;
+                    if(gameToken.isDynamic == false) staticTokens.Combine(gameToken);
+                    else GetLastPlayData().Combine(gameToken);                    
                 }
             }
-            
-            staticTokens.Combine(tempStaticToken);
             // Debug.Log(staticTokens.ToString());
-            GetLastPlayData().Combine(tempPlayData);
             // Debug.Log(GetLastPlayData().ToString());
-            void AddSetItems(){
-                List<ItemData> setItems = new List<ItemData>();
-                int familyCount = System.Enum.GetValues(typeof(ItemData.Family)).Length;
-                for (int i = 0; i < familyCount; i++)
-                {
-                    ItemData.Family f = (ItemData.Family)i;
-                    if(f == ItemData.Family.None || f == ItemData.Family.Basic){
-                        
-                    }else{
-                        if(data.item.Count(t => t.family == f && t.grade >= 2) >= 6){
-                            Debug.Log("Add Set Item of " + f.ToString() + " with grade 2");
-                            // setItems.Add(itemContainer.ConvertItem(new ItemIndexer(f, GameTerms.ItemPart.Set, 2)));
-                        }else if(data.item.Count(t => t.family == f && t.grade >= 1) >= 4){
-                            Debug.Log("Add Set Item of " + f.ToString() + " with grade 1");
-                            // setItems.Add(itemContainer.ConvertItem(new ItemIndexer(f, GameTerms.ItemPart.Set, 1)));                            
-                        }else if(data.item.Count(t => t.family == f && t.grade >= 0) >= 2){
-                            Debug.Log("Add Set Item of " + f.ToString() + " with grade 0");
-                            // setItems.Add(itemContainer.ConvertItem(new ItemIndexer(f, GameTerms.ItemPart.Set, 0)));
-                        }                       
-                    }
-                }
-                
-                // item.AddRange(setItems);
-            } 
+            //토큰 후처리가 필요한 것들이 있음
+            //Vigor : 비율로 표시된 point를 값으로 변환 - HP Max의 등록이 완료된 후 처리되어야 함
+            GameToken v = SearchToken(GameTerms.TokenType.Vigor);
+            // Debug.Log(v.ToString());
+            if(v.type == GameTerms.TokenType.Vigor) (v as Vigor).SetVigorPoint();
+
+            string reslt = "[Character " + index + "'s Token List]";
+            reslt += "\n ----------<Static>----------";
+            foreach(GameToken s in staticTokens) reslt += "\n" + s.ToString() + " / disp : " + s.isDisplayed.ToString();
+            reslt += "\n ----------<PlayData>----------";
+            foreach(GameToken p in GetLastPlayData()) reslt += "\n" + p.ToString() + " / disp : " + p.isDisplayed.ToString();
+            Debug.Log(reslt);
+
         }
 
         public void AddPlayData(){
@@ -142,14 +132,15 @@ namespace ssm.game.structure{
             else return -1;
         }
         
-        //Static, Temp, LastPlayData에서 지정 타입의 토큰을 찾는다
+        //Static, LastPlayData, Temp에서 순서대로 지정 타입의 토큰을 찾는다. 
         public GameToken SearchToken(GameTerms.TokenType t, GameTerms.TokenOccasion o = GameTerms.TokenOccasion.None){
-            GameToken resultValue =  new GameToken(t, o);
-            resultValue.characterIndex = index;
-            resultValue.Combine(staticTokens.Find(t, o));
-            resultValue.Combine(temporaryTokens.Find(t, o));
-            resultValue.Combine(GameBoard.Instance().FindCharacter(index).GetLastPlayData().Find(t, o));
-            return resultValue;
+            GameToken s = staticTokens.Find(t, o);
+            if(s.type != GameTerms.TokenType.None) return s;
+            GameToken p = GameBoard.Instance().FindCharacter(index).GetLastPlayData().Find(t, o);
+            if(p.type != GameTerms.TokenType.None) return p;
+            GameToken e = temporaryTokens.Find(t, o);
+            if(e.type != GameTerms.TokenType.None) return e;
+            return new GameToken(0);
         }
         //Static, Temp, LastPlayData에서 지정 상황의 토큰 리스트를 찾는다
         private TokenList SearchTokenList(GameTerms.TokenOccasion o){

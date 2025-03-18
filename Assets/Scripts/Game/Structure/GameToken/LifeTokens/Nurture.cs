@@ -11,9 +11,12 @@ namespace ssm.game.structure.token{
     */
     public class Nurture : GameToken
     {
-        public Nurture() : base(){
+        
+        public Nurture(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Nurture;
             occasion = GameTerms.TokenOccasion.Feedback;
+            value0 = v0; // heal other amount
+            isDynamic = false;
             isDisplayed = true;
         }
 
@@ -23,7 +26,7 @@ namespace ssm.game.structure.token{
             PlayData lastPlayData = GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData();
             Damage damageTaken = lastPlayData.Find(GameTerms.TokenType.Damage) as Damage;
             if(lastPlayData.motion == GameTerms.Motion.Defence && lastPlayData.collision == true && damageTaken.isGivingDamage == false){
-                HPCurrent hpRecovery = new HPCurrent(1f);
+                HPCurrent hpRecovery = new HPCurrent(value0);
                 GameBoard.Instance().FindOpponent(characterIndex).GetLastPlayData().Combine(hpRecovery);
             }
         }

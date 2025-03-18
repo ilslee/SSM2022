@@ -15,6 +15,7 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.TurnStart;
             duration = (int)v0;
             priority = 40;
+            isDynamic = false;
             isDisplayed = true;
         }
         public override void Combine(GameToken t)

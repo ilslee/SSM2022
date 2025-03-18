@@ -17,15 +17,15 @@ MonoBehaviour:
   grade: 0
   price: -1
   tokens:
-  - type: 28
-    value: 0
-  - type: 29
-    value: 1
-  - type: 30
-    value: 1
   - type: 31
     value: 0
+  - type: 35
+    value: 1
   - type: 32
-    value: 2
+    value: 1
   - type: 33
+    value: 2
+  - type: 34
+    value: 0
+  - type: 36
     value: 1

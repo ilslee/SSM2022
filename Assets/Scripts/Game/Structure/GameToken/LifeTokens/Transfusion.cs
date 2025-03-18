@@ -4,28 +4,32 @@ using UnityEngine;
 
 namespace ssm.game.structure.token{
     /* 
-    [중독]
-    작동 : Poisonous - 데미지를 주면 - 상대방 Poisoned:d
+    [수혈]
+    작동 : Calculation - 데미지를 주면 - 상대방 Poisoned:d
     추가 : -
     */
     public class Transfusion : GameToken
     {
-        private float transfusionAmount;    
-        public Transfusion() : base(){
-            transfusionAmount = 1f;
+        // private float transfusionAmount;    
+        public Transfusion(float v0 = 0f) : base(v0){
+            type = GameTerms.TokenType.Transfusion;
+            occasion = GameTerms.TokenOccasion.Calculation;
+            isDynamic = false;
+            isDisplayed = true;
+
+            value0 = v0; // transfusionAmount
         }
 
         public override void Yeild()
         {
-            //이번 턴에 공격 성공하였으면 상대에게 Poisoned(d) 전달
-            Damage currentDamage = Me().GetLastPlayData().Find(GameTerms.TokenType.Damage) as Damage;
-            if(currentDamage.isGivingDamage == true){
-                Me().GetLastPlayData().Combine(new HPCurrent((float)transfusionAmount));
+            //이번 턴에 공격 성공하였으면 체력 회복 transfusionAmount
+            if(GameTool.IsGivingDamage(characterIndex) == true){
+                Me().GetLastPlayData().Combine(new HPCurrent((float)value0));
             }
         }
         public override int GetTokenValue()
         {
-            return (int)transfusionAmount;
+            return (int)value0;
         }
     }
 

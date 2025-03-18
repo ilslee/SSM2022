@@ -11,11 +11,12 @@ namespace ssm.game.structure.token{
     public class Recovery : Regeneration
     {
         
-        public Recovery() : base(){
+        public Recovery(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Recovery;
             occasion = GameTerms.TokenOccasion.TurnStart;
-            timer = 5;            
+            timer = (int)v0;            
             currentTime = timer;
+            isDynamic = false;
             isDisplayed = true;
             
             //강화 전 토큰 강제 삭제. Recovery는 세트 추가시 발생하니까 꼬일 일 없음

@@ -8,6 +8,7 @@ namespace ssm.game.structure.token{
         public HPCurrent(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.HPCurrent;
             occasion = GameTerms.TokenOccasion.Dynamic;
+            isDynamic = true;
         }
 
         

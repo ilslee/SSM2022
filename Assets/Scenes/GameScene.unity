@@ -427,6 +427,7 @@ GameObject:
   - component: {fileID: 208263806}
   - component: {fileID: 208263809}
   - component: {fileID: 208263808}
+  - component: {fileID: 208263810}
   m_Layer: 5
   m_Name: Status (1)
   m_TagString: Untagged
@@ -517,10 +518,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9f19db9c7623e43b8ad34edc38ceeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterIndex: 1
   columnCount: 5
   direction: 1
   icon: {fileID: 8513609387909690169, guid: 7222fec38cab60b45a1a2e11c97d6cae, type: 3}
   anim: {fileID: 208263808}
+--- !u!114 &208263810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208263804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a78aed7026f6374d8249d42176f7942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 208263809}
+        m_TargetAssemblyTypeName: ssm.game.appearance.StatusManager, Assembly-CSharp
+        m_MethodName: ManageGameEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &208658037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1624,7 @@ MonoBehaviour:
   ssmData: {fileID: 11400000, guid: 656c9dc262b057b439838f59cc8f0c09, type: 2}
   displayLog: 1
   gameSpeed: 5
-  aiGameData: {fileID: 11400000, guid: 9fd065b10ac25794da3c7ceb98593208, type: 2}
+  aiGameData: {fileID: 11400000, guid: 293ea68dbbe67fb448a396f6fec27b51, type: 2}
 --- !u!4 &622991015
 Transform:
   m_ObjectHideFlags: 0

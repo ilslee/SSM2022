@@ -9,6 +9,7 @@ namespace ssm.game.structure.token{
         public EPCurrent(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.EPCurrent;
             occasion = GameTerms.TokenOccasion.Dynamic;
+            isDynamic = true;
         }
         /*
         public override void Yeild()
