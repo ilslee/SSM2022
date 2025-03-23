@@ -19,7 +19,7 @@ namespace ssm.data.item{
                     case 3:
                     s.Add(new Token(GameTerms.TokenType.Transfusion, 1f));
                     s.Add(new Token(GameTerms.TokenType.Circulation, 2f));
-                    s.Add(new Token(GameTerms.TokenType.Regeneration, 5f));
+                    s.Add(new Token(GameTerms.TokenType.Recovery, 5f));
                     break;
                     case 2:
                     s.Add(new Token(GameTerms.TokenType.Transfusion, 1f));

@@ -150,6 +150,7 @@ namespace ssm.game.appearance{
                         returnVal.Add(new TempStatusToken(st.type, st.GetTokenValue()));
                     }
                 }
+                
                 foreach(GameToken tt in GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData()){
                     if(tt.isDisplayed == true) {
                         returnVal.Add(new TempStatusToken(tt.type, tt.GetTokenValue()));
@@ -162,13 +163,17 @@ namespace ssm.game.appearance{
         //List순번에 따라 아이콘 배치
         private void RearangeAllStatus(){
             float d = 0f; // arrange direction
+            Vector2 anchor = Vector2.zero;
             switch (direction)
             {
                 case Direction.Left:
                 d = -1f;
+                anchor = new Vector2(1f,1f);
                 break;
-                case Direction.Right:
+                case Direction.Right:                
                 d = 1f;
+                anchor = new Vector2(0f,1f);
+
                 break;
                 default:
                 d = 0f;
@@ -179,7 +184,10 @@ namespace ssm.game.appearance{
             {
                 float rowId = Mathf.Floor((float)i / (float)columnCount);
                 float colId = Mathf.Floor(((float)i % (float)columnCount));
-                statusContainer[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(colId * d, rowId) * iconGap;
+                statusContainer[i].GetComponent<RectTransform>().anchorMin = anchor;
+                statusContainer[i].GetComponent<RectTransform>().anchorMax = anchor;
+                statusContainer[i].GetComponent<RectTransform>().pivot = anchor;
+                statusContainer[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(colId * d, rowId * -1f) * iconGap;
             }
         }
 

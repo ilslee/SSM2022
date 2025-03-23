@@ -19,14 +19,14 @@ namespace ssm.game.structure.token{
             isDynamic = false;
             isDisplayed = true;
             
-            //강화 전 토큰 강제 삭제. Recovery는 세트 추가시 발생하니까 꼬일 일 없음
-            Regeneration regen = Me().GetLastPlayData().Find(GameTerms.TokenType.Regeneration) as Regeneration;
-            Me().GetLastPlayData().Remove(regen);
-            
         }
 
         
-        
+        public void RemoveRegeneration(){
+            //강화 전 토큰 강제 삭제. Recovery는 세트 추가시 발생하니까 꼬일 일 없음
+            Regeneration regen = Me().SearchToken(GameTerms.TokenType.Regeneration) as Regeneration;
+            Me().GetLastPlayData().Remove(regen);
+        }
 
     }
 

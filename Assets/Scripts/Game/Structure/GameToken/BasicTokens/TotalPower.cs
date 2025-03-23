@@ -16,8 +16,8 @@ namespace ssm.game.structure.token{
             PlayData pd = GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData();
             TotalPower otherPower = GameBoard.Instance().FindOpponent(characterIndex).GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as TotalPower;
             // Debug.Log("TotalPower.Yield is called : " + (value0 - otherPower.value0).ToString());
-            bool isMeOffensive = (GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as TotalPower).isOffensive; 
-            bool isOtherOffensive = (GameBoard.Instance().FindOpponent(characterIndex).GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as TotalPower).isOffensive; 
+            bool isMeOffensive = (GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.TotalPower) as TotalPower).isOffensive; 
+            bool isOtherOffensive = (GameBoard.Instance().FindOpponent(characterIndex).SearchToken(GameTerms.TokenType.TotalPower) as TotalPower).isOffensive; 
             if(GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData().collision == true){
                 float deltaPower =  value0 - otherPower.value0;
                 if(deltaPower < 0 && isOtherOffensive == true){

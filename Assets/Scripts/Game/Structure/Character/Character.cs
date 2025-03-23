@@ -85,9 +85,11 @@ namespace ssm.game.structure{
             // Debug.Log(GetLastPlayData().ToString());
             //토큰 후처리가 필요한 것들이 있음
             //Vigor : 비율로 표시된 point를 값으로 변환 - HP Max의 등록이 완료된 후 처리되어야 함
-            GameToken v = SearchToken(GameTerms.TokenType.Vigor);
-            // Debug.Log(v.ToString());
-            if(v.type == GameTerms.TokenType.Vigor) (v as Vigor).SetVigorPoint();
+            GameToken vig = SearchToken(GameTerms.TokenType.Vigor);
+            if(vig is Vigor) (vig as Vigor).SetVigorPoint();
+            //recovery : Regenration 제거
+            Recovery rec = SearchToken(GameTerms.TokenType.Recovery) as Recovery;
+            if(rec is Recovery) (rec as Recovery).RemoveRegeneration();
 
             string reslt = "[Character " + index + "'s Token List]";
             reslt += "\n ----------<Static>----------";
@@ -140,7 +142,7 @@ namespace ssm.game.structure{
             if(p.type != GameTerms.TokenType.None) return p;
             GameToken e = temporaryTokens.Find(t, o);
             if(e.type != GameTerms.TokenType.None) return e;
-            return new GameToken(0);
+            return new GameToken();
         }
         //Static, Temp, LastPlayData에서 지정 상황의 토큰 리스트를 찾는다
         private TokenList SearchTokenList(GameTerms.TokenOccasion o){

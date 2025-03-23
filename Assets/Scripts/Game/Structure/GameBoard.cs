@@ -89,6 +89,10 @@ namespace ssm.game.structure{
             if(character2.GetLastPlayData().motion == GameTerms.Motion.Avoid) character2.FinalizePower();
             
             //ComparePower : Damage, Consumption 결정
+            // string ttPower = "[Check Total Power]";
+            // ttPower += "\n Character 1 : " + character1.SearchToken(GameTerms.TokenType.TotalPower).ToString();
+            // ttPower += "\n Character 2 : " + character2.SearchToken(GameTerms.TokenType.TotalPower).ToString();
+            // Debug.Log(ttPower);
             character1.ComparePower();
             character2.ComparePower();
             
