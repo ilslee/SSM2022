@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ssm.game.structure;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ssm.ui;
 namespace ssm.game.appearance{
     public class PowerInfoManager : MonoBehaviour
     {

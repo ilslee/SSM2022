@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using ssm.game.structure;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.iOS;
-using UnityEngine.UI;
+using ssm.ui;
 namespace ssm.game.appearance{
     public class WheelInterfaceManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,IDragHandler
     {

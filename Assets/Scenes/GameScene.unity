@@ -4777,6 +4777,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844195985}
   m_CullTransparentMesh: 1
+--- !u!1 &1850920112 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8222310356750702406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1876409958
 GameObject:
   m_ObjectHideFlags: 0
@@ -6394,6 +6400,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HP Gauge
       objectReference: {fileID: 0}
+    - target: {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      propertyPath: characterIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3900198839274870563, guid: e806dcb809f714146ad2841d4159b5c7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -6502,7 +6513,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8222310356750702412}
   m_SourcePrefab: {fileID: 100100000, guid: e806dcb809f714146ad2841d4159b5c7, type: 3}
 --- !u!224 &8222310356750702407 stripped
 RectTransform:
@@ -6510,6 +6525,46 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8222310356750702406}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8222310356750702409 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8222310356750702406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850920112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c5885ba49d0c042ad4314be7d9302c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8222310356750702412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850920112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a78aed7026f6374d8249d42176f7942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8222310356750702409}
+        m_TargetAssemblyTypeName: ssm.game.appearance.GaugeManager, Assembly-CSharp
+        m_MethodName: ManageGameEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &8700323799957388031
 RectTransform:
   m_ObjectHideFlags: 0

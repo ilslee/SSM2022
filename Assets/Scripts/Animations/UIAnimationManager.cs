@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ssm.ui;
 public class UIAnimationManager : MonoBehaviour
 {
     public AnimationCurveContainer acc;
@@ -17,18 +17,20 @@ public class UIAnimationManager : MonoBehaviour
             {
                 if(animations[i].isAnimationFinished() == true){
                     animations[i].OnAnimationFinished();
-                    animations.Remove(animations[i]);
-                }else animations[i].Yield();
+                    animations[i] = null;
+                    animations.RemoveAt(i);
+                }else animations[i].CalculateAnimation();
             }
             
         }
     }
     public void AddAnimation(UIAnimationToken t){
         // animations.Add(t);
-        UIAnimationToken prevToken = animations.Find(x => x.target == t.target && x.GetType() == t.GetType());
-        if(prevToken != null) {
+        int prevTokenID = animations.FindIndex(x => x.target == t.target && x.GetType() == t.GetType());
+        if(prevTokenID != -1) {
             // Debug.Log("Found overwrapped animation where " + prevToken.target.name + " / " + prevToken.animationTokenType.ToString());
-            animations.Remove(prevToken);
+            animations[prevTokenID] = null;
+            animations.RemoveAt(prevTokenID);
         }
         animations.Add(t);
     }

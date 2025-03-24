@@ -26,6 +26,8 @@ namespace ssm.game.structure.token{
                 }else if(deltaPower > 0 && isMeOffensive == true){
                     Damage damageGive = new Damage(true, Mathf.Abs(deltaPower));
                     pd.Combine(damageGive);
+                }else{
+                    pd.Combine(new Damage(false, 0f));
                 }
             }
             
