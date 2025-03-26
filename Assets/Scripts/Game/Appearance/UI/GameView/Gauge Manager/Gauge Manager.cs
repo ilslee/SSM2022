@@ -59,9 +59,12 @@ namespace ssm.game.appearance{
                 return;
             }
             float startValue = float.Parse(number.text);
-            float endValue = GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.HPCurrent).value0;
+            float endValue = GetValveFromData();
             if(startValue == endValue)return;
             else anim.AddAnimation(new UIAnimationGauge(gameObject.GetComponent<RectTransform>(), startValue, endValue, 10f, anim.acc.fastsmooth1));
+        }
+        internal virtual float GetValveFromData(){
+            return 0f;
         }
         public void ManageGameEvent(string type, float value){
             

@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &102316916 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1720281434}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &108884253
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,6 +339,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 113156208}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &117863584 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1993909858522954589, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8222310356750702406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &199558133
 GameObject:
   m_ObjectHideFlags: 0
@@ -4234,6 +4252,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631121557}
   m_CullTransparentMesh: 1
+--- !u!114 &1717121013 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1993909858522954589, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1720281434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1720281434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4246,6 +4276,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EP Gauge
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      propertyPath: characterIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3900198839274870563, guid: e806dcb809f714146ad2841d4159b5c7,
         type: 3}
@@ -4352,10 +4387,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1720281441}
+    - targetCorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1720281440}
   m_SourcePrefab: {fileID: 100100000, guid: e806dcb809f714146ad2841d4159b5c7, type: 3}
 --- !u!224 &1720281435 stripped
 RectTransform:
@@ -4363,6 +4407,84 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1720281434}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1720281436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8051803575065913313, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1720281434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102316916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c981f49f970e6489c8dc0dbb37018c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1720281440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102316916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a78aed7026f6374d8249d42176f7942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1720281441}
+        m_TargetAssemblyTypeName: ssm.game.appearance.GaugeManager, Assembly-CSharp
+        m_MethodName: ManageGameEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1720281441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102316916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbba705427ec1f40b63588876b9f1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterIndex: 1
+  gaugeBGColor: {r: 0, g: 0, b: 0, a: 0}
+  gaugeColor:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  gauge:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  number: {fileID: 1717121013}
+  anim: {fileID: 1720281436}
 --- !u!1 &1748599813
 GameObject:
   m_ObjectHideFlags: 0
@@ -6510,10 +6632,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 8222310356750702416}
     - targetCorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
         type: 3}
       insertIndex: -1
@@ -6525,18 +6652,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8222310356750702406}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8222310356750702409 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 8222310356750702406}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850920112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1c5885ba49d0c042ad4314be7d9302c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8222310356750702412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6553,7 +6668,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8222310356750702409}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ssm.game.appearance.GaugeManager, Assembly-CSharp
         m_MethodName: ManageGameEvent
         m_Mode: 0
@@ -6565,6 +6680,56 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8222310356750702413 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8051803575065913313, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8222310356750702406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850920112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c981f49f970e6489c8dc0dbb37018c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8222310356750702416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850920112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea6c75176c5d3fc4e86fcf48cd57a12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterIndex: 1
+  gaugeBGColor: {r: 0, g: 0, b: 0, a: 0}
+  gaugeColor:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  gauge:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  number: {fileID: 117863584}
+  anim: {fileID: 8222310356750702413}
 --- !u!224 &8700323799957388031
 RectTransform:
   m_ObjectHideFlags: 0
