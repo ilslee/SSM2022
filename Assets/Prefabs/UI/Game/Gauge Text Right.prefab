@@ -700,7 +700,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4424907897440449147}
   - {fileID: 8043802902872832115}
   - {fileID: 459688439357562954}
   - {fileID: 6950434710784347284}
@@ -711,6 +710,7 @@ RectTransform:
   - {fileID: 1012584416822395270}
   - {fileID: 3638761033170438785}
   - {fileID: 3669966272018586006}
+  - {fileID: 4424907897440449147}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -769,29 +769,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c5885ba49d0c042ad4314be7d9302c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterIndex: 0
   gaugeBGColor: {r: 0, g: 0, b: 0, a: 0}
-  gaugeColor:
-  - {r: 0.9411765, g: 0.9411765, b: 0.9411765, a: 0}
-  - {r: 0.9019608, g: 0.78431374, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0.9019608, a: 0}
-  - {r: 0, g: 0.9019608, b: 0.078431375, a: 0}
-  - {r: 0.5411765, g: 0, b: 0.9019608, a: 0}
-  - {r: 0.8627451, g: 0.9019608, b: 0, a: 0}
-  - {r: 0.9019608, g: 0, b: 0.72156864, a: 0}
-  - {r: 0, g: 0.8627451, b: 0.9019608, a: 0}
-  - {r: 0.9019608, g: 0, b: 0.18039216, a: 0}
-  - {r: 0, g: 0.3137255, b: 0.9019608, a: 0}
-  gauge:
-  - {fileID: 4827337461898224596}
-  - {fileID: 7210068818359460632}
-  - {fileID: 7183606129005156216}
-  - {fileID: 2681433450467122053}
-  - {fileID: 7149502147256445749}
-  - {fileID: 184989192269260958}
-  - {fileID: 6001044608253171766}
-  - {fileID: 207916333948263590}
-  - {fileID: 5572392847960681132}
-  - {fileID: 3457836608861016531}
+  gaugeColor: []
+  gauge: []
   number: {fileID: 7525442555979164320}
   anim: {fileID: -7171502051593013732}
 --- !u!114 &-7171502051593013732

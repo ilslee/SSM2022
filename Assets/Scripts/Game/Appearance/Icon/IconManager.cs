@@ -11,10 +11,10 @@ namespace ssm.game.appearance{
         // public Icon.IconType iconType;
         public GameTerms.TokenType tokenType; // 어떤 데이터에 기반해서 만들어졌는지 기록되어야 함
         // public int duration;
-        public GameTerms.Layout layout = GameTerms.Layout.None;
+        // public GameTerms.Layout layout = GameTerms.Layout.None;
 
-        private TMP_Text textField;
-        private RectTransform newIcon;
+        // private TMP_Text textField;
+        // private RectTransform newIcon;
         private float defaultSize;
         private float defaultTextfieldFontSize;
         private float defaultTextfieldWidth;
@@ -25,6 +25,7 @@ namespace ssm.game.appearance{
         private void OnEnable() {
             //Init Layout
             defaultSize = gameObject.GetComponent<RectTransform>().sizeDelta.x; // 128
+            /*
             textField = gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
             // Debug.Log("textField ? " + textField);
             defaultTextfieldWidth = textField.GetComponent<RectTransform>().sizeDelta.x;
@@ -32,11 +33,11 @@ namespace ssm.game.appearance{
             defaultTextfieldFontSize = textField.fontSize;
             newIcon = gameObject.transform.GetChild(1).GetComponent<RectTransform>();
             defaultNewSize = newIcon.sizeDelta.x;
-
+            */
             image = gameObject.GetComponent<Image>();
             
             SetTransparent(false);
-            SetNewIcon(false);
+            // SetNewIcon(false);
         }
         public void SetIcon(GameTerms.TokenType t =  GameTerms.TokenType.None){
             tokenType = t;
@@ -58,13 +59,15 @@ namespace ssm.game.appearance{
         }
         public void SetSize(float s){
             gameObject.GetComponent<RectTransform>().sizeDelta = Vector2.one * s;
-
+            /*
             float sizeRatio = s / defaultSize;
             textField.fontSize = Mathf.Floor(defaultTextfieldFontSize * sizeRatio);            
             textField.GetComponent<RectTransform>().sizeDelta = new Vector2(defaultTextfieldWidth, defaultTextfieldHeight) * sizeRatio;
 
             newIcon.sizeDelta =  Vector2.one * defaultNewSize * sizeRatio;
+            */
         }
+        /*
         public void SetNewIcon(bool newIconStatus){
             if(newIconStatus == true) newIcon.GetComponent<Image>().enabled = true;
             else newIcon.GetComponent<Image>().enabled = false;
@@ -72,5 +75,6 @@ namespace ssm.game.appearance{
         public void SetValue(int value){
             textField.text = value.ToString();
         }
+        */
     }
 }

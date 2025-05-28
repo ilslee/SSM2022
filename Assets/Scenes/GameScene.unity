@@ -328,6 +328,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Energy Gauge
       objectReference: {fileID: 0}
+    - target: {fileID: 6191143687360829303, guid: 5eb1dfa6572db5248b9c52289821c1b5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -368,7 +373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &199558134
 RectTransform:
   m_ObjectHideFlags: 0
@@ -447,12 +452,12 @@ GameObject:
   - component: {fileID: 208263808}
   - component: {fileID: 208263810}
   m_Layer: 5
-  m_Name: Status (1)
+  m_Name: Status
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &208263805
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1239,7 +1244,6 @@ GameObject:
   - component: {fileID: 473413701}
   - component: {fileID: 473413700}
   - component: {fileID: 473413703}
-  - component: {fileID: 473413704}
   - component: {fileID: 473413705}
   m_Layer: 5
   m_Name: History
@@ -1337,34 +1341,6 @@ MonoBehaviour:
   direction: 1
   anim: {fileID: 473413705}
   icon: {fileID: 8513609387909690169, guid: 7222fec38cab60b45a1a2e11c97d6cae, type: 3}
---- !u!114 &473413704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 473413698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a78aed7026f6374d8249d42176f7942, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 473413703}
-        m_TargetAssemblyTypeName: ssm.game.appearance.HistoryManager, Assembly-CSharp
-        m_MethodName: ManageGameEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &473413705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1378,6 +1354,95 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acc: {fileID: 11400000, guid: 86b18f41ea8eda643a62275d3d3cbd54, type: 2}
+--- !u!1 &489728400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 489728401}
+  - component: {fileID: 489728404}
+  - component: {fileID: 489728403}
+  - component: {fileID: 489728402}
+  m_Layer: 5
+  m_Name: History Icon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &489728401
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489728400}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2543809303026005646}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 128, y: 128}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &489728402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489728400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e444d179bbd3db74bbb1e0fd6416fef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &489728403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489728400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &489728404
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489728400}
+  m_CullTransparentMesh: 1
 --- !u!1 &513187173
 GameObject:
   m_ObjectHideFlags: 0
@@ -2081,7 +2146,7 @@ GameObject:
   - component: {fileID: 856100525}
   - component: {fileID: 856100524}
   m_Layer: 5
-  m_Name: Container
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4252,18 +4317,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631121557}
   m_CullTransparentMesh: 1
---- !u!114 &1717121013 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1993909858522954589, guid: e806dcb809f714146ad2841d4159b5c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1720281434}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1720281434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4276,6 +4329,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EP Gauge
+      objectReference: {fileID: 0}
+    - target: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7,
         type: 3}
@@ -4387,15 +4445,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1720281441}
     - targetCorrespondingSourceObject: {fileID: 2751462084093757066, guid: e806dcb809f714146ad2841d4159b5c7,
         type: 3}
       insertIndex: -1
@@ -4407,18 +4460,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1720281434}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1720281436 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8051803575065913313, guid: e806dcb809f714146ad2841d4159b5c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1720281434}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102316916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c981f49f970e6489c8dc0dbb37018c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1720281440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4435,7 +4476,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1720281441}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ssm.game.appearance.GaugeManager, Assembly-CSharp
         m_MethodName: ManageGameEvent
         m_Mode: 0
@@ -4447,44 +4488,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1720281441
+--- !u!114 &1720281445 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1720281434}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 102316916}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccbba705427ec1f40b63588876b9f1d3, type: 3}
+  m_Script: {fileID: 11500000, guid: c1c5885ba49d0c042ad4314be7d9302c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterIndex: 1
-  gaugeBGColor: {r: 0, g: 0, b: 0, a: 0}
-  gaugeColor:
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  gauge:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  number: {fileID: 1717121013}
-  anim: {fileID: 1720281436}
 --- !u!1 &1748599813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5826,6 +5841,7 @@ RectTransform:
   - {fileID: 3345242996005639964}
   - {fileID: 473413699}
   - {fileID: 208263805}
+  - {fileID: 489728401}
   m_Father: {fileID: 1820424567}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6055,6 +6071,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7959550702615140397}
     m_Modifications:
+    - target: {fileID: 4614714326968871552, guid: 5eb1dfa6572db5248b9c52289821c1b5,
+        type: 3}
+      propertyPath: gaugeBGColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614714326968871552, guid: 5eb1dfa6572db5248b9c52289821c1b5,
+        type: 3}
+      propertyPath: gaugeBGColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614714326968871552, guid: 5eb1dfa6572db5248b9c52289821c1b5,
+        type: 3}
+      propertyPath: gaugeBGColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5036219000796251870, guid: 5eb1dfa6572db5248b9c52289821c1b5,
         type: 3}
       propertyPath: m_Pivot.x
@@ -6269,11 +6300,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdf8a02753491640a09e78f3dc14a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterID: 0
-  hp: {fileID: 0}
-  ep: {fileID: 0}
-  history: {fileID: 0}
-  status: {fileID: 0}
+  characterID: 1
+  hp: {fileID: 8222310356750702416}
+  ep: {fileID: 1720281445}
+  history: {fileID: 473413703}
+  status: {fileID: 208263809}
 --- !u!1 &5404407459562468064
 GameObject:
   m_ObjectHideFlags: 0
@@ -6632,8 +6663,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3733121710458977149, guid: e806dcb809f714146ad2841d4159b5c7, type: 3}
+    - target: {fileID: 7773482946597726555, guid: e806dcb809f714146ad2841d4159b5c7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -6668,7 +6703,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8222310356750702416}
         m_TargetAssemblyTypeName: ssm.game.appearance.GaugeManager, Assembly-CSharp
         m_MethodName: ManageGameEvent
         m_Mode: 0
@@ -6699,13 +6734,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850920112}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea6c75176c5d3fc4e86fcf48cd57a12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterIndex: 1
-  gaugeBGColor: {r: 0, g: 0, b: 0, a: 0}
+  gaugeBGColor: {r: 1, g: 0, b: 0, a: 0}
   gaugeColor:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}

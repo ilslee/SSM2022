@@ -12,6 +12,15 @@ namespace ssm.game.appearance{
         public void Reset(){
             container = new List<Icon>();
         }
+        public Icon FindIcon(GameTerms.TokenType t){
+            Icon returnVal = container.Find(x => x.type==t);
+            if(returnVal==null){
+                return returnVal;
+            }else{
+                return new Icon();
+            }
+            
+        }
     }
     [Serializable]
     public class Icon{

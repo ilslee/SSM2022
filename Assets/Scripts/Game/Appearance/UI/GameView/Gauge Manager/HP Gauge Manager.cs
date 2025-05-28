@@ -8,7 +8,8 @@ namespace ssm.game.appearance{
         internal override float GetValveFromData()
         {
             // return base.GetValveFromData();
-            return GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.HPCurrent).value0;
+            // return GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.HPCurrent).value0;
+            return 0f;
         }
     }
 }
