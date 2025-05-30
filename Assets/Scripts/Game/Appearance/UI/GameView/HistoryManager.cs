@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using ssm.game.structure;
 using ssm.ui;
 // using System.Numerics;
 using UnityEngine;
+using UnityEngine.UI;
 namespace ssm.game.appearance{
     public class HistoryManager : MonoBehaviour
     {
         // public int charcterIndex = 0;
         public enum Direction {None, Left, Right}
         public Direction direction;
+        
         private float animationDirection;
         private int historyCount = 5;
         private float iconGap = 50f; // 각 아이콘 사이 간격
@@ -18,10 +19,10 @@ namespace ssm.game.appearance{
         private int id = 0;
         public UIAnimationManager anim;
         // public IconManager icon;
-        public IconContainer iconContainer;
-        public HistoryIconManager icon;
+        // public IconContainer iconContainer;
+        public Image icon;
         private List<Image> icons;
-        private RectTransform container;
+        public RectTransform container;
         public void Start()
         {            
             
@@ -40,10 +41,13 @@ namespace ssm.game.appearance{
 
             //Icon생성
             container = gameObject.transform.GetChild(0).GetComponent<RectTransform>();
+            icon = container.transform.GetChild(0).GetComponent<Image>();
             icons = new List<Image>();
-            for (int i = 0; i < historyCount+1; i++) // 추가 여분 1개 더 만듦
+            for (int i = 0; i < historyCount; i++) // 추가 여분 1개 더 만듦
             {
-                // HistoryIconManager ic = Instantiate(icon,container.transform );
+                Debug.Log(i + " / " + icon);
+                Image ic = Instantiate(icon, container);
+                /*
                 Image ic = new Image();
                 switch (direction){
                     case Direction.Left:
@@ -54,7 +58,8 @@ namespace ssm.game.appearance{
                     break;
                 }
                 ic.SetSize(iconGap-2f);
-                icons.Add(ic);                
+                icons.Add(ic);            
+                */    
             }
             //RectTransform을 통한 마스크 크기 조절(개수를 나중에 다르게 설정한다면..)
             gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(iconGap * (float)historyCount, iconGap);
@@ -86,11 +91,11 @@ namespace ssm.game.appearance{
             Vector2 destPos = Vector2.right * ((float)id * iconGap * animationDirection);
             //아이콘을 세팅
             int iconId = id % icons.Count;
-            icons[iconId].sprite = SetIconImageViaMotion(m);
+            // icons[iconId].sprite = SetIconImageViaMotion(m);
             //컨테이너 밀기
             anim.AddAnimation(new UIAnimationPosition(container, destPos, 0.5f, anim.acc.fastsmooth1));
             //끝나면 재정렬
-            
+            /*
             Sprite SetIconImageViaMotion(GameTerms.Motion m){
 
                 switch(m){
@@ -109,6 +114,7 @@ namespace ssm.game.appearance{
                 }
                 return iconContainer.FindIcon(GameTerms.TokenType.None).image;
             }
+            */
         }
         /*
         public void ManageGameEvent(string type, float value){

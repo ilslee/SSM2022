@@ -28,8 +28,8 @@ namespace ssm.ui{
             if(timer > duration) timer = duration;
             if(duration == 0f)curveRatio = 1f;            
             else curveRatio = timer / duration ;
-            float curveValue = curve.Evaluate(curveRatio);
-            ApplyAnimation(curveValue);
+            float curvedProgress = curve.Evaluate(curveRatio);
+            ApplyAnimation(curvedProgress);
             
             timer += Time.deltaTime;
         }

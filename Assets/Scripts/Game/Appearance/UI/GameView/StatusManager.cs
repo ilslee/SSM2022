@@ -41,7 +41,7 @@ namespace ssm.game.appearance{
         private void UpdateStatus(GameTerms.TokenType t, int v = -1){
             IconManager updatingIcon = statusContainer.Find(x => x.tokenType == t);
             if(updatingIcon == null) return;
-            updatingIcon.SetValue(v);
+            // updatingIcon.SetValue(v);
 
         }
         //시간 표시 등 업데이트 - 짧게 확대-축소되는 애니메이션 재생
