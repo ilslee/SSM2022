@@ -14,9 +14,10 @@ namespace ssm.game.appearance{
         private Character character;
 
         // Start is called before the first frame update
-        public void Start()
+        private void Initialize()
         {
             character = GameBoard.Instance().FindCharacter(characterID);
+            Debug.Log("CharacterInfoManager.Start : " + character);
             // hp.SetGauge(0f);
             // ep.SetGauge(0f);
         }
@@ -31,7 +32,7 @@ namespace ssm.game.appearance{
             ep.SetValue(epVal);
         }
         private void UpdateHistory(){
-
+            history.AddHistory(GameBoard.Instance().FindCharacter(characterID).GetLastPlayData().motion);
         }
         private void UpdateStatus()
         {
@@ -40,19 +41,20 @@ namespace ssm.game.appearance{
         public void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.GAME_START_END:
+                Initialize();
                 UpdateHP();
                 UpdateEP();
                 break;
                 case GameEvent.TURN_READY_END:
                 UpdateHP();
                 UpdateEP();
-                UpdateStatus();
+                // UpdateStatus();
                 break;
                 case GameEvent.TURN_CALCULATE_END:
                 UpdateHP();
                 UpdateEP();
                 UpdateHistory();
-                UpdateStatus();
+                // UpdateStatus();
                 break;
             }
 

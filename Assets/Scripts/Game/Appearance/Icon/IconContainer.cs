@@ -14,9 +14,13 @@ namespace ssm.game.appearance{
         }
         public Icon FindIcon(GameTerms.TokenType t){
             Icon returnVal = container.Find(x => x.type==t);
-            if(returnVal==null){
-                return returnVal;
-            }else{
+            if (returnVal != null)
+            {
+                // Debug.Log("IconContainer.FindIcon : Icon "+returnVal)
+                return returnVal;   
+            }
+            else
+            {
                 return new Icon();
             }
             

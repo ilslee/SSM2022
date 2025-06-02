@@ -100,9 +100,16 @@ namespace ssm.game.appearance{
             else anim.AddAnimation(new UIAnimationGauge(gameObject.GetComponent<RectTransform>(), startValue, endValue, 10f, anim.acc.fastsmooth1));
 
             //Set Text
-            if(v < 10){
+            if (v < 10)
+            {
                 number.text = "0" + v.ToString();
-            }else{
+            }
+            else if (v > maxValue)
+            {
+                number.text = maxValue.ToString();
+            }
+            else
+            {
                 number.text = v.ToString();
             }
         }

@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using ssm.data.league;
 using UnityEngine;
 using ssm.game.structure;
 using ssm.game.structure.token;
 using System.Linq;
 using System;
+using ssm.ui;
 namespace ssm.game.appearance{
     public class StatusManager : MonoBehaviour
     {

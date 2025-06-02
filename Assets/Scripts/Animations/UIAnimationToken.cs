@@ -23,15 +23,17 @@ namespace ssm.ui{
                 curve = c;
                 //자식 클래스의 생성자에서 start/end 지점 설정할 것
         }
-        public void CalculateAnimation(){
+        public float CalculateAnimation()
+        {
             float curveRatio = 0f;
-            if(timer > duration) timer = duration;
-            if(duration == 0f)curveRatio = 1f;            
-            else curveRatio = timer / duration ;
+            if (timer > duration) timer = duration;
+            if (duration == 0f) curveRatio = 1f;
+            else curveRatio = timer / duration;
             float curvedProgress = curve.Evaluate(curveRatio);
             ApplyAnimation(curvedProgress);
-            
+
             timer += Time.deltaTime;
+            return curvedProgress;
         }
         internal virtual void ApplyAnimation(float curveVal){}
         internal virtual void OnAnimationFinished(){}
@@ -73,6 +75,7 @@ namespace ssm.ui{
         }
         internal override void ApplyAnimation(float curveVal){
             Vector2 transformValue = Vector2.LerpUnclamped(start, end, curveVal);
+            // Debug.Log("Apply Position : " + transformValue.ToString());
             target.anchoredPosition = transformValue;
         }
     }   
