@@ -118,7 +118,7 @@ namespace ssm.game.appearance{
         public void ManageGameEvent(string type, float value){
             switch(type){
                 case GameEvent.TEST_ADD_HISTORY_SWORD:
-                case GameEvent.TURN_CALCULATE:
+                case GameEvent.TURN_CALCULATE_END:
                 AddHistory();
                 break;
             }

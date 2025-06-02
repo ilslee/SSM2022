@@ -10,6 +10,8 @@ using System;
 namespace ssm.game.appearance{
     public class GaugeManager : MonoBehaviour
     {
+        public enum GaugeType {None, HP, EP}
+        public GaugeType gaugeType = GaugeType.None;
         public int characterIndex = 0;
         private int gaugeLength = 10;
         public Color gaugeBGColor; 
@@ -61,9 +63,15 @@ namespace ssm.game.appearance{
             float startValue = float.Parse(number.text);
             float endValue = GetValveFromData();
             if(startValue == endValue)return;
-            else anim.AddAnimation(new UIAnimationGauge(gameObject.GetComponent<RectTransform>(), startValue, endValue, 10f, anim.acc.fastsmooth1));
+            else anim.AddAnimation(new UIAnimationGauge(gameObject.GetComponent<RectTransform>(), startValue, endValue, 1f, anim.acc.fastsmooth1));
         }
-        internal virtual float GetValveFromData(){
+        private float GetValveFromData(){
+            switch(gaugeType){
+                case GaugeType.HP:
+                return GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.HPCurrent).value0;
+                case GaugeType.EP:
+                return GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.EPCurrent).value0;
+            }
             return 0f;
         }
         public void ManageGameEvent(string type, float value){

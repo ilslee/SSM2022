@@ -346,5 +346,55 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6191143687360829303, guid: 5eb1dfa6572db5248b9c52289821c1b5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3175919430361145033}
   m_SourcePrefab: {fileID: 100100000, guid: 5eb1dfa6572db5248b9c52289821c1b5, type: 3}
+--- !u!1 &2751462084093757066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6191143687360829303, guid: 5eb1dfa6572db5248b9c52289821c1b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8341920303887553021}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3175919430361145033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2751462084093757066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a78aed7026f6374d8249d42176f7942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 6a7a6971b1912d84cb4b90531ce634fb, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3733121710458977149}
+        m_TargetAssemblyTypeName: ssm.game.appearance.GaugeManager, Assembly-CSharp
+        m_MethodName: ManageGameEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3733121710458977149 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4614714326968871552, guid: 5eb1dfa6572db5248b9c52289821c1b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8341920303887553021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2751462084093757066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c5885ba49d0c042ad4314be7d9302c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
