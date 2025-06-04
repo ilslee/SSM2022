@@ -11,7 +11,7 @@ namespace ssm.ui
         public AnimationCurveContainer acc;
         public List<UIAnimationToken> animations;
         //애니메이션 콜백을 처리할 인터페이스가 있는지 유뮤. 있으면 함수 실행 없으면 건너뜀(애니메이션만 진행)
-        public IUIAnimationInterface animationInterface;
+        private IUIAnimationInterface animationInterface;
         public void Start()
         {
             animations = new List<UIAnimationToken>();

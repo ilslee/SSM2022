@@ -769,10 +769,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c5885ba49d0c042ad4314be7d9302c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gaugeType: 0
   characterIndex: 0
   gaugeBGColor: {r: 0, g: 0, b: 0, a: 0}
   gaugeColor: []
-  gauge: []
+  gauge:
+  - {fileID: 4827337461898224596}
+  - {fileID: 7210068818359460632}
+  - {fileID: 7183606129005156216}
+  - {fileID: 2681433450467122053}
+  - {fileID: 7149502147256445749}
+  - {fileID: 184989192269260958}
+  - {fileID: 6001044608253171766}
+  - {fileID: 207916333948263590}
+  - {fileID: 5572392847960681132}
+  - {fileID: 3457836608861016531}
   number: {fileID: 7525442555979164320}
   anim: {fileID: -7171502051593013732}
 --- !u!114 &-7171502051593013732

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ssm.game.structure;
+using ssm.game.structure.token;
 using UnityEngine;
 
 namespace ssm.game.appearance{
@@ -36,7 +37,18 @@ namespace ssm.game.appearance{
         }
         private void UpdateStatus()
         {
-            
+            PlayData currentPlayData = GameBoard.Instance().FindCharacter(characterID).GetLastPlayData();
+            TokenList staticData = GameBoard.Instance().FindCharacter(characterID).staticTokens;
+            TokenList tempData = new TokenList();
+            foreach (GameToken pd in currentPlayData)
+            {
+                tempData.Add(pd);
+            }
+            foreach (GameToken sd in staticData)
+            {
+                tempData.Add(sd);
+            }
+            status.UpdateAllStatus(tempData);
         }
         public void ManageGameEvent(string type, float value){
             switch(type){
@@ -48,7 +60,7 @@ namespace ssm.game.appearance{
                 case GameEvent.TURN_READY_END:
                 UpdateHP();
                 UpdateEP();
-                // UpdateStatus();
+                UpdateStatus();
                 break;
                 case GameEvent.TURN_CALCULATE_END:
                 UpdateHP();
