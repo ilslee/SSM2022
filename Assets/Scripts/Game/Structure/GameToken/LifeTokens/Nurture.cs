@@ -16,7 +16,7 @@ namespace ssm.game.structure.token{
             type = GameTerms.TokenType.Nurture;
             occasion = GameTerms.TokenOccasion.Feedback;
             value0 = v0; // heal other amount
-            isDynamic = false;
+            isDynamic = true;
             isDisplayed = true;
         }
 

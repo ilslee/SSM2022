@@ -9,13 +9,13 @@ namespace ssm.game.structure.token{
     2턴 이상의 데이터가 필요
     추가 : 없음
     */
-    public class Circulation : GameToken
+    public class Circulation : GameToken, IGameTokenCloneable<Circulation>
     {
         public Circulation(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Circulation;
             occasion = GameTerms.TokenOccasion.Feedback;
             value0 = v0; // circulationDuration
-            isDynamic = false;
+            isDynamic = true;
             isDisplayed = true;
         }
 
@@ -24,15 +24,19 @@ namespace ssm.game.structure.token{
             if(Me().playData.Count > 1){
                 float lastHP = Me().GetLastPlayData(1).Find(GameTerms.TokenType.HPCurrent).value0;
                 float currentHP = Me().GetLastPlayData().Find(GameTerms.TokenType.HPCurrent).value0;
-                if(currentHP > lastHP){
+                if (currentHP > lastHP)
+                {
                     Me().GetLastPlayData().Combine(new Circulating(value0));
+                    isTrigged = true;
                 }
             }
             
         }
-        public override int GetTokenValue(){
-            return (int)value0;
+        public new Circulation Clone()
+        {
+            return base.Clone() as Circulation;
         }
+        
     }
 
 }

@@ -17,7 +17,7 @@ namespace ssm.game.structure.token{
             occasion = GameTerms.TokenOccasion.TurnStart;
             timer = (int)v0;            
             currentTime = timer;
-            isDynamic = false;
+            isDynamic = true;
             isDisplayed = true;
             
         }

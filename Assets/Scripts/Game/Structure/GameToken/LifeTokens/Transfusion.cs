@@ -14,7 +14,7 @@ namespace ssm.game.structure.token{
         public Transfusion(float v0 = 0f) : base(v0){
             type = GameTerms.TokenType.Transfusion;
             occasion = GameTerms.TokenOccasion.Calculation;
-            isDynamic = false;
+            isDynamic = true;
             isDisplayed = true;
 
             value0 = v0; // transfusionAmount

@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ssm.game.structure.token{
 
     [Serializable]
-    public class GameToken
+    public class GameToken : IGameTokenCloneable<GameToken>
     {
         public int characterIndex;
         public GameTerms.TokenType type;
@@ -19,52 +19,64 @@ namespace ssm.game.structure.token{
         //isDynamic : PlayData History상 비교 판단할 필요가 있는 정보면 dynamic
         public bool isDynamic; //static Token List(false) 혹은 playdata(true) 배치 여부
         public bool isDisplayed; //UI창에 표시 여부
-        public GameToken() {
+        public bool isTrigged; //이번 턴에 트리 되었는지 여부. 깜빡일 일이 있으면 모두 true
+        public GameToken()
+        {
             characterIndex = 0;
             type = GameTerms.TokenType.None;
             occasion = GameTerms.TokenOccasion.None;
-            value0 = 0f;    
+            value0 = 0f;
             priority = 50;
             isDynamic = false;
             isDisplayed = false;
+            isTrigged = false;
         }
         //Character Index는 Combine에서 처리
-        public GameToken(float v0, bool dynamic = false) {
+        public GameToken(float v0, bool dynamic = false)
+        {
             characterIndex = 0;
             type = GameTerms.TokenType.None;
             occasion = GameTerms.TokenOccasion.None;
-            value0 = v0;    
+            value0 = v0;
             priority = 50;
             isDynamic = dynamic;
             isDisplayed = false;
+            isTrigged = false;
         }
         //Power 같은 거 처리할 때
-        public GameToken(GameTerms.TokenOccasion o, float v0, bool dynamic = false) {
+        public GameToken(GameTerms.TokenOccasion o, float v0, bool dynamic = false)
+        {
             characterIndex = 0;
             type = GameTerms.TokenType.None;
             occasion = o;
-            value0 = v0;    
+            value0 = v0;
             priority = 50;
             isDynamic = dynamic;
             isDisplayed = false;
+            isTrigged = false;
         }
-        public GameToken(GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f, bool dynamic = false){
+        public GameToken(GameTerms.TokenType t, GameTerms.TokenOccasion o, float v = 0f, bool dynamic = false)
+        {
             characterIndex = 0;
             type = t;
             occasion = o;
-            value0 = v;    
-            priority = 50;   
+            value0 = v;
+            priority = 50;
             isDynamic = dynamic;
             isDisplayed = false;  
+            isTrigged = false;
         }  
         //아이템 데이터 등 특정 인덱스를 특정하지 않는 경우
         
-        public GameToken Clone(){
+        public virtual GameToken Clone(){
             GameToken returnVal = new GameToken(characterIndex);
             returnVal.type = this.type;
             returnVal.occasion = this.occasion;
             returnVal.value0 = this.value0;        
-            returnVal.priority = this.priority;        
+            returnVal.priority = this.priority;       
+            returnVal.isDynamic = this.isDynamic;
+            returnVal.isDisplayed = this.isDisplayed;  
+            returnVal.isTrigged = false; 
             return returnVal;
         }
         public virtual void Combine(GameToken t){
@@ -83,7 +95,7 @@ namespace ssm.game.structure.token{
         }
         //토큰이 숫자를 포함하는 경우 반환. UI 표기 시 사용
         public virtual int GetTokenValue(){
-            return -1;
+            return (int)value0;
         }
         internal Character Me(){
             return GameBoard.Instance().FindCharacter(characterIndex);
@@ -93,40 +105,43 @@ namespace ssm.game.structure.token{
         }
     }
 
-    public static class GameTokenConverter{
+    public static class GameTokenConverter
+    {
         //Static, Dynamic 기본으로 생성되는 토큰 중 개별 생성이 필요한 토큰이 있으면 그때마다 교환할 것
-        public static GameToken Convert(Token t){
-            switch(t.type){
+        public static GameToken Convert(Token t)
+        {
+            switch (t.type)
+            {
                 case GameTerms.TokenType.HPCurrent:
-                return new HPCurrent(t.value);
-                
+                    return new HPCurrent(t.value);
+
                 case GameTerms.TokenType.EPCurrent:
-                return new EPCurrent(t.value);
+                    return new EPCurrent(t.value);
                 case GameTerms.TokenType.RestGeneration:
-                return new RestGeneration(t.value); 
+                    return new RestGeneration(t.value);
                 case GameTerms.TokenType.AvoidGeneration:
-                return new AvoidGeneration(t.value); 
+                    return new AvoidGeneration(t.value);
                 case GameTerms.TokenType.CollisionGeneration:
-                return new CollisionGeneration(t.value);
+                    return new CollisionGeneration(t.value);
                 //Life
                 case GameTerms.TokenType.Circulation:
-                return new Circulation(t.value);
+                    return new Circulation(t.value);
                 case GameTerms.TokenType.Circulating:
-                return new Circulating(t.value);
+                    return new Circulating(t.value);
                 case GameTerms.TokenType.Nurture:
-                return new Nurture(t.value);
+                    return new Nurture(t.value);
                 case GameTerms.TokenType.Poisoned:
-                return new Poisoned(t.value);
+                    return new Poisoned(t.value);
                 case GameTerms.TokenType.Poisonous:
-                return new Poisonous(t.value);
+                    return new Poisonous(t.value);
                 case GameTerms.TokenType.Recovery:
-                return new Recovery(t.value);
+                    return new Recovery(t.value);
                 case GameTerms.TokenType.Regeneration:
-                return new Regeneration(t.value);
+                    return new Regeneration(t.value);
                 case GameTerms.TokenType.Transfusion:
-                return new Transfusion(t.value);
+                    return new Transfusion(t.value);
                 case GameTerms.TokenType.Vigor:
-                return new Vigor(t.value);
+                    return new Vigor(t.value);
                 //Default  
                 case GameTerms.TokenType.HPMax:
                 case GameTerms.TokenType.EPMax:
@@ -147,17 +162,24 @@ namespace ssm.game.structure.token{
                 case GameTerms.TokenType.AvoidPower:
                 case GameTerms.TokenType.AvoidEfficiency:
                 case GameTerms.TokenType.AvoidAdaptiveConsumption:
-                return new GameToken(t.type, GameTerms.TokenOccasion.Static, t.value);
-                
-                //break;
-                // case GameTerms.TokenType.EPMax:
-                // case GameTerms.TokenType.EPMax:
-                // case GameTerms.TokenType.EPMax:
+                    return new GameToken(t.type, GameTerms.TokenOccasion.Static, t.value);
 
-                 
+                    //break;
+                    // case GameTerms.TokenType.EPMax:
+                    // case GameTerms.TokenType.EPMax:
+                    // case GameTerms.TokenType.EPMax:
+
+
             }
             return new GameToken();
         }
+
+        
+    }
+
+    public interface IGameTokenCloneable<T>
+    {
+        T Clone();
     }
     /*
     [Serializable]
