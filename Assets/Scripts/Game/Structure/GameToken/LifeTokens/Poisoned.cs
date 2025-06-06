@@ -9,14 +9,15 @@ namespace ssm.game.structure.token{
     작동 : d 턴동안 Feedback 시 H-1
     추가 : d 증가
     */
-    public class Poisoned : GameToken
+    public class Poisoned : GameToken, IGameTokenCloneable<Poisoned>
     {
-        int curDuration = 0;
+        // int curDuration = 0;
         // int maxDuration = 0;
-        public Poisoned(float v0 = 0f) : base(v0){
+        public Poisoned(float v0 = 0f) : base(v0)
+        {
             type = GameTerms.TokenType.Poisoned;
             occasion = GameTerms.TokenOccasion.Feedback;
-            curDuration = (int)v0;
+            value0 = v0; // duration
             priority = 40;
             isDynamic = true;
             isDisplayed = true;
@@ -25,27 +26,26 @@ namespace ssm.game.structure.token{
         public override void Yeild()
         {
             // CurDuration이 남아있으면 Damage 1반납하고 횟수 차감
-            if(curDuration > 0) {
+            if (value0 > 0)
+            {
                 Me().GetLastPlayData().Combine(new Damage(false, 1f));
-                curDuration --;
+                value0--;
+                isTrigged = true;
             }
-            
+
         }
 
-        public override void Combine(GameToken t)
-        {
-            curDuration += (int)t.value0;
-        }
-
+        
         public override bool IsRemobable()
         {
             //횟수 없어지면 PlayData에서 제거
-            if(curDuration <= 0) return true;
+            if (value0 <= 0) return true;
             else return false;
         }
-        public override int GetTokenValue()
+        
+        public new Poisoned Clone()
         {
-            return curDuration;
+            return base.Clone() as Poisoned;
         }
     }
 }

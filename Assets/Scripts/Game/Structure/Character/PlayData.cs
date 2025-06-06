@@ -41,13 +41,18 @@ namespace ssm.game.structure{
         }
 
         public void Inherit(PlayData from){
-            foreach(GameToken t in from){
-                switch(t.type){
+            foreach (GameToken t in from)
+            {
+                this.Combine(t.Clone());
+                /*
+                switch (t.type)
+                {
                     case GameTerms.TokenType.HPCurrent:
                     case GameTerms.TokenType.EPCurrent:
-                    this.Combine(t.Clone());
-                    break;
+                        this.Combine(t.Clone());
+                        break;
                 }
+                */
             }
         }
     }

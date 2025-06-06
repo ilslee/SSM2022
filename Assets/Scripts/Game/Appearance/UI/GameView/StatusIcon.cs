@@ -16,23 +16,26 @@ namespace ssm.game.appearance
 
         private Animator anim;
 
-        public StatusIcon(GameTerms.TokenType t, int v)
+        public bool isTrigged;
+
+        public StatusIcon(GameTerms.TokenType t, int v, bool trig = false)
         {
             type = t;
             number = v;
+            isTrigged = trig;
 
         }
         public void OnEnable()
         {
             anim = gameObject.GetComponent<Animator>();
-            Debug.Log("StatusIcon.Start : Check Anim -" + anim);
+            // Debug.Log("StatusIcon.Start : Check Anim -" + anim);
         }
 
         public void InitIcon(GameTerms.TokenType t, Sprite s, int i)
         {
             type = t;
             icon.sprite = s;
-            numberText.text = i.ToString();
+            UpdateNumber(i);
             if (i < 0) numberText.enabled = false;
         }
 
@@ -40,19 +43,25 @@ namespace ssm.game.appearance
         {
             anim.SetTrigger("Create");
         }
-        public void UpdateNumber()
+        public void Countdown(int i)
         {
+            UpdateNumber(i);
             anim.SetTrigger("NumberUpdate");
         }
-        public void Activate()
+        public void Activate(int i )
         {
+            UpdateNumber(i);
             anim.SetTrigger("Activate");
         }
         public void Remove()
         {
             Destroy(this);
         }
-
+        private void UpdateNumber(int i)
+        {
+            number = i;
+            numberText.text = i.ToString();
+        }
 
     }
     

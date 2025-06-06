@@ -8,36 +8,42 @@ namespace ssm.game.structure.token{
     작동 : Turn Start 매 d 턴마다 H+1
     추가 : -
     */
-    public class Regeneration : GameToken
+    public class Regeneration : GameToken, IGameTokenCloneable<Regeneration>
     {
-        internal int timer;
-        internal int currentTime;
-        public Regeneration(float v0 = 0f) : base(v0){
+        // internal int timer;
+        internal float currentTime;
+        public Regeneration(float v0 = 0f) : base(v0)
+        {
             type = GameTerms.TokenType.Regeneration;
             occasion = GameTerms.TokenOccasion.TurnStart;
-            timer = (int)v0;            
-            currentTime = timer;
+            value0 = (int)v0; // timer
+            currentTime = value0;
             isDynamic = true;
             isDisplayed = true;
-            
+
         }
 
         public override void Yeild()
         {
-            currentTime --;
-            if(currentTime == 0){
+            currentTime--;
+            if (currentTime == 0f)
+            {
                 Me().GetLastPlayData().Combine(new HPCurrent(1f));
-                currentTime = timer;
-            }    
+                currentTime = value0;
+                isTrigged = true;
+            }
         }
         public override int GetTokenValue()
         {
-            return currentTime + 1;
+            return (int)currentTime;
 
         }
-        public override bool IsRemobable()
+
+        public new Regeneration Clone()
         {
-            return base.IsRemobable();
+            Regeneration returnVal = base.Clone() as Regeneration;
+            returnVal.currentTime = this.currentTime;
+            return returnVal;
         }
     }
 

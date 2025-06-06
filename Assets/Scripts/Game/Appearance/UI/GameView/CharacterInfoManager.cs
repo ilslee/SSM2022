@@ -42,11 +42,11 @@ namespace ssm.game.appearance{
             TokenList tempData = new TokenList();
             foreach (GameToken pd in currentPlayData)
             {
-                tempData.Add(pd);
+                if(pd.isDisplayed == true) tempData.Add(pd);
             }
             foreach (GameToken sd in staticData)
             {
-                tempData.Add(sd);
+                if(sd.isDisplayed == true) tempData.Add(sd);
             }
             status.UpdateAllStatus(tempData);
         }
@@ -56,6 +56,7 @@ namespace ssm.game.appearance{
                 Initialize();
                 UpdateHP();
                 UpdateEP();
+                UpdateStatus();
                 break;
                 case GameEvent.TURN_READY_END:
                 UpdateHP();
@@ -66,7 +67,7 @@ namespace ssm.game.appearance{
                 UpdateHP();
                 UpdateEP();
                 UpdateHistory();
-                // UpdateStatus();
+                UpdateStatus();
                 break;
             }
 

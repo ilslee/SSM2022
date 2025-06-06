@@ -84,9 +84,9 @@ namespace ssm.game.structure{
             // Debug.Log(staticTokens.ToString());
             // Debug.Log(GetLastPlayData().ToString());
             //토큰 후처리가 필요한 것들이 있음
-            //Vigor : 비율로 표시된 point를 값으로 변환 - HP Max의 등록이 완료된 후 처리되어야 함
-            GameToken vig = SearchToken(GameTerms.TokenType.Vigor);
-            if(vig is Vigor) (vig as Vigor).SetVigorPoint();
+            //Vigor : 비율로 표시된 point를 값으로 변환 - HP Max의 등록이 완료된 후 처리되어야 함 -> 자체 처리로 변경 250607
+            // GameToken vig = SearchToken(GameTerms.TokenType.Vigor);
+            // if(vig is Vigor) (vig as Vigor).SetVigorPoint();
             //recovery : Regenration 제거
             Recovery rec = SearchToken(GameTerms.TokenType.Recovery) as Recovery;
             if(rec is Recovery) (rec as Recovery).RemoveRegeneration();

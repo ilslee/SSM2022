@@ -41,7 +41,7 @@ namespace ssm.game.appearance
 
             RearangeAllStatus();
             //TODO : 아이콘의 액티베이션 여부에 따른 생성 시 애니메이션 분기 지정 250604
-            newStatus.UpdateNumber();
+            newStatus.Countdown(v);
         }
 
         private void RemoveStatus(GameTerms.TokenType t)
@@ -52,10 +52,18 @@ namespace ssm.game.appearance
             statusContainer.RemoveAt(removingID);
             RearangeAllStatus();
         }
-        private void UpdateStatus(GameTerms.TokenType t, int v = -1)
+        private void UpdateStatus(GameTerms.TokenType t, int v = -1, bool trig = false)
         {
             StatusIcon updatingIcon = statusContainer.Find(x => x.type == t);
             if (updatingIcon == null) return;
+            if(trig == true)
+            {
+                updatingIcon.Activate(v);
+            }
+            else if(updatingIcon.number != v)
+            {
+                updatingIcon.Countdown(v);
+            }
             // updatingIcon.SetValue(v);
 
         }
@@ -68,8 +76,8 @@ namespace ssm.game.appearance
             foreach (GameToken st in data)
             {
                 // staticTokenList += "\n" + st.type.ToString() + " / disp : " + st.isDisplayed.ToString();
-                if (st.isDisplayed == false) continue; // displayed == false면 고려 대상에서 제외
-                tempStatusIcon.Add(new StatusIcon(st.type, st.GetTokenValue()));
+                // if (st.isDisplayed == false) continue; // displayed == false면 고려 대상에서 제외 -> 앞단에서 처리
+                tempStatusIcon.Add(new StatusIcon(st.type, st.GetTokenValue(), st.isTrigged));
             }
 
             // List<TempStatusToken> status = GetStatuses();
@@ -82,12 +90,12 @@ namespace ssm.game.appearance
             beforeStr += "\n---Status";
             foreach (StatusIcon s in statusContainer)
             {
-                beforeStr += s.type.ToString() + " | ";
+                beforeStr += s.type.ToString() + " ("+ s.number.ToString() + ") | ";
             }
             beforeStr += "\n---Character";
             foreach (StatusIcon c in tempStatusIcon)
             {
-                beforeStr += c.type.ToString() + " | ";
+                beforeStr += c.type.ToString() + " ("+ c.number.ToString() + ") | ";
             }
             Debug.Log(beforeStr);
             string updateStr = "< Character " + characterIndex.ToString() + " Status Update Result >";
@@ -107,8 +115,8 @@ namespace ssm.game.appearance
             updateStr += "\n---Update : ";
             foreach (StatusIcon u in updateStatus)
             {
-                updateStr += u.type.ToString() +"(" + u.number.ToString() + ") | ";
-                UpdateStatus(u.type, u.number);
+                updateStr += u.type.ToString() +"(" + u.number.ToString() +","+ u.isTrigged.ToString() +") | ";
+                UpdateStatus(u.type, u.number, u.isTrigged);
             }
             Debug.Log(updateStr);
             /*
