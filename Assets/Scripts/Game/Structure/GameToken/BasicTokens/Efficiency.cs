@@ -10,6 +10,10 @@ namespace ssm.game.structure.token{
             type = GameTerms.TokenType.Efficieny;
             this.isActive = isActive;
         }
+        public float GetEfficiency()
+        {
+            return 0f;
+        }
         public new Efficiency Clone()
         {
             return new Efficiency(occasion, isActive, value0);

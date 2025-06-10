@@ -10,13 +10,14 @@ public static class GameTerms
     public enum TokenType { None,      
                             Question, History, Status,//아이콘에만 사용되는 인덱스 설정
                             AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions0
+                            Power, Consumption, Efficiency, //MultiTypeToken의 Subtype용
                             
                             HPCurrent, HPMax, HPStart, //Health 
                             EPCurrent, EPMax, EPStart, EPConsumption,//Energy
 
                             CollisionWin, CollisionLose, NoCollision,
-                            AttackPower, AttackEfficiency, StrikePower, StrikeEfficiency, StrikeConsumption, // Sword power and energy
-                            DefencePower, DefenceEfficiency, CollisionGeneration, ChargePower, ChargeEfficiency, ChargeConsumption, // Shield power and energy
+                            AttackPower, AttackEfficiency, StrikePower, StrikeEfficiency, SwordEPAvailable, StrikeConsumption, // Sword power and energy
+                            DefencePower, DefenceEfficiency, CollisionGeneration, ChargePower, ChargeEfficiency, ShieldEPAvailable, ChargeConsumption, // Shield power and energy
                             RestPower, AvoidPower, AvoidEfficiency, AvoidAdaptiveConsumption, RestGeneration, AvoidGeneration, // Move power and energy
                             SwrodPower, SwordEfficiency, ShieldPower, ShieldEfficiency, MovePower, MoveEfficiency,
                             OffensivePower, OffensiveEfficiency, DefensivePower, DefensiveEfficiency,

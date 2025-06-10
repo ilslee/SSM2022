@@ -56,18 +56,18 @@ namespace ssm.game.appearance{
                 Initialize();
                 UpdateHP();
                 UpdateEP();
-                UpdateStatus();
+                // UpdateStatus();
                 break;
                 case GameEvent.TURN_READY_END:
                 UpdateHP();
                 UpdateEP();
-                UpdateStatus();
+                // UpdateStatus();
                 break;
                 case GameEvent.TURN_CALCULATE_END:
                 UpdateHP();
                 UpdateEP();
-                UpdateHistory();
-                UpdateStatus();
+                // UpdateHistory();
+                // UpdateStatus();
                 break;
             }
 

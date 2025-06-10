@@ -50,7 +50,7 @@ namespace ssm.data.item{
             tokens.Add(new Token(GameTerms.TokenType.CollisionGeneration, s.collisionGeneration));
             tokens.Add(new Token(GameTerms.TokenType.ChargePower, s.chargePower));
             tokens.Add(new Token(GameTerms.TokenType.ChargeEfficiency, s.chargeEfficiency));
-            tokens.Add(new Token(GameTerms.TokenType.ChargeConsumption, s.chargeConsumption));
+            tokens.Add(new Token(GameTerms.TokenType.ShieldEPAvailable, s.shieldEPAvailable));
             if(s.additionalToken == GameTerms.TokenType.None)return;
             else{
                 tokens.Add(new Token(s.additionalToken, s.additionalValue));
@@ -62,7 +62,7 @@ namespace ssm.data.item{
             internal float collisionGeneration;
             internal float chargePower;
             internal float chargeEfficiency;
-            internal float chargeConsumption;
+            internal float shieldEPAvailable;
             internal GameTerms.TokenType additionalToken;
             internal float additionalValue;
 
@@ -72,7 +72,7 @@ namespace ssm.data.item{
                 collisionGeneration = dp;
                 chargePower = cp;
                 chargeEfficiency = ce;
-                chargeConsumption = cc;
+                shieldEPAvailable = cc;
                 additionalToken = adt;
                 additionalValue = adv;
 

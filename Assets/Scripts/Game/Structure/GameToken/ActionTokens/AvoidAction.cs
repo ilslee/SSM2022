@@ -22,13 +22,13 @@ namespace ssm.game.structure.token{
 
             TokenList target = new TokenList();
             if(GameBoard.Instance().phase == GameTerms.Phase.Turn_Ready){
-                TokenList expextation = GameBoard.Instance().FindCharacter(characterIndex).temporaryTokens;
+                TokenList expextation = Me().temporaryTokens;
                 expextation.Combine(new Power(GameTerms.TokenType.BasePower, o, isOffensive, avoidBasePower));
                 expextation.Combine(new Power(GameTerms.TokenType.EnergyPower, o, isOffensive, avoidEnergyPower));
                 expextation.Combine(new Efficiency(o, isActive, avoidEfficiency));
                 expextation.Combine(new Power(GameTerms.TokenType.TotalPower, o, isOffensive, avoidBasePower + avoidEnergyPower));
             }else{
-                TokenList playData = GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData();
+                TokenList playData = Me().GetLastPlayData();
                 playData.Combine(new Power(GameTerms.TokenType.BasePower, o, isOffensive, avoidBasePower));
                 float energyPower = AdjustEnegyPower();
                 playData.Combine(new EnergyPower(o, isOffensive, energyPower));
@@ -38,16 +38,20 @@ namespace ssm.game.structure.token{
             }
             
             float AdjustEnegyPower(){
-                PlayData other = GameBoard.Instance().FindOpponent(characterIndex).GetLastPlayData();
+                PlayData other = Other().GetLastPlayData();
                 //양쪽이 Avoid이면서 해당 액션을 실행하면 NullRef 발생 > 방어코드 추가
                 if(other.motion == GameTerms.Motion.Avoid) return 0f;
 
                 TotalPower otherPower = other.Find(GameTerms.TokenType.TotalPower) as TotalPower;
-                if(otherPower.isOffensive == true){
-                    if(otherPower.value0 - avoidBasePower <= 0) return 0f;
-                    else if(otherPower.value0 >= (avoidBasePower + avoidEnergyPower)) return avoidEnergyPower;
+                Debug.Log(other.motion.ToString() + " / " + otherPower.ToString());
+                if (otherPower.isOffensive == true)
+                {
+                    if (otherPower.value0 - avoidBasePower <= 0) return 0f;
+                    else if (otherPower.value0 >= (avoidBasePower + avoidEnergyPower)) return avoidEnergyPower;
                     else return otherPower.value0 - avoidBasePower;
-                }else{
+                }
+                else
+                {
                     return 0f;
                 }
             }

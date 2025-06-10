@@ -3,64 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using ssm.game.structure;
 namespace ssm.game.structure.token{
-    public class StrikeAction : GameToken
+    public class StrikeAction : Action
     {
-        public StrikeAction() : base(){
+        public StrikeAction() : base()
+        {
             type = GameTerms.TokenType.StrikeAction;
             occasion = GameTerms.TokenOccasion.Static;
+            motion = GameTerms.Motion.Strike; // base.Yield()에서 사용
         }
         public override void Yeild()
         {
-            game.structure.Character me = GameBoard.Instance().FindCharacter(characterIndex);
-            GameTerms.TokenOccasion o = GameTerms.TokenOccasion.Charge;
-            bool isOffensive = true;
-            bool isActive = true;
-            float basePower = SearchPower().value0; 
-            float energyConsumption = CalculateEnergyConsumption();
-            float efficiency = SearchEfficiency().value0;
-            float energyPower = Mathf.Floor(energyConsumption * efficiency); 
-            float totalPower = basePower + energyPower;
+            base.Yeild(); //1,2 수행
+            //3. 추가 계산 Energy Power & Consumption 후 expectation에 넣는다
+            float currentEnergy = Me().GetLastPlayData().Find(GameTerms.TokenType.EPCurrent).value0;
+            float availableMaxEnergy = Me().staticTokens.Find(GameTerms.TokenType.SwordEPAvailable).value0;
+            float usingEP = Mathf.Min(currentEnergy, availableMaxEnergy);
 
-            if(GameBoard.Instance().phase == GameTerms.Phase.Turn_Ready){
-                TokenList expextation = GameBoard.Instance().FindCharacter(characterIndex).temporaryTokens;
-                expextation.Combine(new Power(GameTerms.TokenType.BasePower, o, isOffensive, basePower));
-                expextation.Combine(new Power(GameTerms.TokenType.EnergyPower, o, isOffensive, energyPower));
-                expextation.Combine(new GameToken(GameTerms.TokenType.EPConsumption, GameTerms.TokenOccasion.Consumption, energyConsumption));
-                expextation.Combine(new Efficiency(o, isActive, efficiency));
-                expextation.Combine(new Power(GameTerms.TokenType.TotalPower, o, isOffensive, totalPower));
+            float baseEfficiency = Me().staticTokens.FindMTT(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Strike).value0;
+            float additionalEfficiency = Me().staticTokens.FindMTT(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Additional, GameTerms.TokenOccasion.Strike).value0;
+            float totalEfficiency = baseEfficiency + additionalEfficiency;
+
+            float totalEPPower = Mathf.Floor(totalEfficiency * usingEP);
+            float baseEPPower = Mathf.Floor(baseEfficiency * usingEP);
+            float additionalEPPower = totalEPPower - baseEPPower;
+
+            // 1,2에서 작성
+            float basePower = Me().temporaryTokens.FindMTT(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Strike).value0;
+
+            //AdditionalEPPower 추가
+            //3. BaseEPPower 추가
+            if (baseEPPower > 0f) Me().temporaryTokens.Add(new MultiTypeToken(GameTerms.TokenType.Power, MultiTypeToken.SubType.EP, GameTerms.TokenOccasion.Strike, baseEPPower));
+            //이건 특수 경로로만 1,2에서 작성. 수치 한 차례 업데이트
+            if (additionalEPPower > 0f)
+            {
+                Me().temporaryTokens.CombineMTT(new MultiTypeToken(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, GameTerms.TokenOccasion.Strike, additionalEPPower));
             }
-            else{
-                TokenList playData = GameBoard.Instance().FindCharacter(characterIndex).GetLastPlayData();
-                playData.Combine(new Power(GameTerms.TokenType.BasePower, o, isOffensive, basePower));
-                playData.Combine(new EnergyPower(o, isOffensive, energyPower));
-                playData.Combine(new EPConsumption(energyConsumption));
-                playData.Combine(new Efficiency(o, isActive, efficiency));
-                playData.Combine(new TotalPower(o, isOffensive, totalPower));
+            float additionalPower = Me().temporaryTokens.FindMTT(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, GameTerms.TokenOccasion.Strike).value0;
+            //4.Consumption 추가
+            if (usingEP > 0f)
+            {
+                Me().temporaryTokens.Combine(new GameToken(GameTerms.TokenType.Consumption, GameTerms.TokenOccasion.Strike, usingEP));
             }
+            //5. TotalPower추가
+            float totalPower = basePower + baseEPPower + additionalPower;
+            Me().temporaryTokens.Combine(new Power(GameTerms.TokenOccasion.Strike, true, totalPower));
             
         }
-        private float CalculateEnergyConsumption(){
-            Character me = GameBoard.Instance().FindCharacter(characterIndex);
-            float currentEnergy = me.GetLastPlayData().Find(GameTerms.TokenType.EPCurrent).value0;
-            float energyConsumptionMax = me.SearchToken(GameTerms.TokenType.StrikeConsumption).value0;
-            float returnValue = currentEnergy;
-            if(currentEnergy > energyConsumptionMax)returnValue = energyConsumptionMax;
-            return returnValue; 
-        }
-
-        private Power SearchPower(){
-            Power returnValue = new Power(GameTerms.TokenType.AttackPower, GameTerms.TokenOccasion.Attack, true, 0f);
-            returnValue.Combine(GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.StrikePower));
-            returnValue.Combine(GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.SwrodPower));
-            returnValue.Combine(GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.OffensiveEfficiency));
-            return returnValue;
-        }
-        private Efficiency SearchEfficiency(){
-            Efficiency returnValue = new Efficiency(GameTerms.TokenOccasion.Attack, false, 0f);
-            returnValue.Combine(GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.StrikeEfficiency));
-            returnValue.Combine(GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.SwordEfficiency));
-            returnValue.Combine(GameBoard.Instance().FindCharacter(characterIndex).SearchToken(GameTerms.TokenType.OffensiveEfficiency));
-            return returnValue;
-        }
+        
     }
 }

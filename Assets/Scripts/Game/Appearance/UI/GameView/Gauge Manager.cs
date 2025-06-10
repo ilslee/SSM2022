@@ -10,9 +10,9 @@ using System;
 namespace ssm.game.appearance{
     public class GaugeManager : MonoBehaviour
     {
-        public enum GaugeType {None, HP, EP}
-        public GaugeType gaugeType = GaugeType.None;
-        public int characterIndex = 0;
+        // public enum GaugeType {None, HP, EP}
+        // public GaugeType gaugeType = GaugeType.None;
+        // public int characterIndex = 0;
         private int gaugeLength = 10;
         public Color gaugeBGColor; 
         public List<Color> gaugeColor;

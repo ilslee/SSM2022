@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ssm.data.token;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace ssm.game.structure.token{
@@ -142,25 +141,40 @@ namespace ssm.game.structure.token{
                     return new Transfusion(t.value);
                 case GameTerms.TokenType.Vigor:
                     return new Vigor(t.value);
+
+                //Power, Efficiency, Consumptions : PowerInfoGenerator(Except AvoidAdaptiveConsumption)
+                case GameTerms.TokenType.AttackPower:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Attack, t.value);
+                case GameTerms.TokenType.AttackEfficiency:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Attack, t.value);
+                case GameTerms.TokenType.StrikePower:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Strike, t.value);
+                case GameTerms.TokenType.StrikeEfficiency:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Strike, t.value);
+                
+                case GameTerms.TokenType.DefencePower:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Defence, t.value);
+                case GameTerms.TokenType.DefenceEfficiency:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Defence, t.value);
+                case GameTerms.TokenType.ChargePower:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Charge, t.value);
+                case GameTerms.TokenType.ChargeEfficiency:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Charge, t.value);
+                
+                case GameTerms.TokenType.RestPower:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Rest, t.value);
+                case GameTerms.TokenType.AvoidPower:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Avoid, t.value);
+                case GameTerms.TokenType.AvoidEfficiency:
+                    return new PowerInfoGenerator(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Avoid, t.value);
+                
+                    
+
                 //Default  
                 case GameTerms.TokenType.HPMax:
                 case GameTerms.TokenType.EPMax:
-
-                case GameTerms.TokenType.AttackPower:
-                case GameTerms.TokenType.AttackEfficiency:
-                case GameTerms.TokenType.StrikePower:
-                case GameTerms.TokenType.StrikeEfficiency:
-                case GameTerms.TokenType.StrikeConsumption:
-
-                case GameTerms.TokenType.DefencePower:
-                case GameTerms.TokenType.DefenceEfficiency:
-                case GameTerms.TokenType.ChargePower:
-                case GameTerms.TokenType.ChargeEfficiency:
-                case GameTerms.TokenType.ChargeConsumption:
-
-                case GameTerms.TokenType.RestPower:
-                case GameTerms.TokenType.AvoidPower:
-                case GameTerms.TokenType.AvoidEfficiency:
+                case GameTerms.TokenType.SwordEPAvailable:
+                case GameTerms.TokenType.ShieldEPAvailable:
                 case GameTerms.TokenType.AvoidAdaptiveConsumption:
                     return new GameToken(t.type, GameTerms.TokenOccasion.Static, t.value);
 
@@ -227,7 +241,7 @@ namespace ssm.game.structure.token{
         }
         public void Combine(GameToken t){
             // Debug.Log("?????? " + t.GetType().Name);
-            GameToken resulttoken = this.Find(x => x.type == t.type && x.occasion == t.occasion);
+            GameToken? resulttoken = this.Find(x => x.type == t.type && x.occasion == t.occasion);
             if(resulttoken != null ) resulttoken.Combine(t);
             else{
                 t.characterIndex = this.characterIndex;
@@ -235,7 +249,18 @@ namespace ssm.game.structure.token{
             }
             this.Sort(ComparePriority);
         }
-        private int ComparePriority(GameToken t1, GameToken t2){
+        public void CombineMTT(MultiTypeToken t){
+            // Debug.Log("?????? " + t.GetType().Name);
+            MultiTypeToken? resulttoken = this.Find(x => x is MultiTypeToken && x.type == t.type && x.occasion == t.occasion && (x as MultiTypeToken).subType ==t.subType) as MultiTypeToken;
+            if(resulttoken != null ) resulttoken.Combine(t);
+            else{
+                t.characterIndex = this.characterIndex;
+                this.Add(t);
+            }
+            this.Sort(ComparePriority);
+        }
+        private int ComparePriority(GameToken t1, GameToken t2)
+        {
             return t1.priority.CompareTo(t2.priority);
         }
         // public void Subtract(GameToken tk){
@@ -269,7 +294,12 @@ namespace ssm.game.structure.token{
             }
             return returnVal;
         }
-
+        public MultiTypeToken FindMTT(GameTerms.TokenType t, MultiTypeToken.SubType s, GameTerms.TokenOccasion o)
+        {
+            MultiTypeToken? resulttoken = this.Find(x => x is MultiTypeToken && x.type == t && x.occasion == o && (x as MultiTypeToken).subType == s) as MultiTypeToken;
+            if (resulttoken != null) return resulttoken;
+            else return new MultiTypeToken();
+        }
 
         public bool Has(GameTerms.TokenType t){
             GameToken resulttoken = this.Find(t);

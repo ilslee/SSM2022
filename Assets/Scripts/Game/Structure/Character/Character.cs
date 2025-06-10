@@ -21,7 +21,7 @@ namespace ssm.game.structure{
         public TokenList staticTokens;                
         public List<PlayData> playData;
         
-        public TokenList temporaryTokens; // expectation 임시 보관용
+        public TokenList temporaryTokens; // expectation 임시 보관용 : 각종 Power, Consumption (MultiTypeToken)보관
         
         public Character(PlayableCharacter data, int index){
             Debug.Log("Character : Initiate character as index = " + index);
@@ -77,8 +77,13 @@ namespace ssm.game.structure{
                 foreach(ssm.data.token.Token t in tokenList){
                     GameToken gameToken = GameTokenConverter.Convert(t);
                     gameToken.characterIndex = index;
-                    if(gameToken.isDynamic == false) staticTokens.Combine(gameToken);
+                    
+                    //설정에 따라 static과 playData에 나누어 배치
+                    if (gameToken.occasion == GameTerms.TokenOccasion.Static) staticTokens.Combine(gameToken);
+                    else if (gameToken is PowerInfoGenerator) staticTokens.Combine(gameToken);
                     else GetLastPlayData().Combine(gameToken);                    
+                    // if (gameToken.isDynamic == false)
+                    
                 }
             }
             // Debug.Log(staticTokens.ToString());
@@ -133,15 +138,17 @@ namespace ssm.game.structure{
             if(index >= 0) return index;
             else return -1;
         }
-        
+
         //Static, LastPlayData, Temp에서 순서대로 지정 타입의 토큰을 찾는다. 
-        public GameToken SearchToken(GameTerms.TokenType t, GameTerms.TokenOccasion o = GameTerms.TokenOccasion.None){
+        //MultiTypeToken를 찾을때는 이 메소드를 이용하지 않는다
+        public GameToken SearchToken(GameTerms.TokenType t, GameTerms.TokenOccasion o = GameTerms.TokenOccasion.None)
+        {
             GameToken s = staticTokens.Find(t, o);
-            if(s.type != GameTerms.TokenType.None) return s;
+            if (s.type != GameTerms.TokenType.None) return s;
             GameToken p = GameBoard.Instance().FindCharacter(index).GetLastPlayData().Find(t, o);
-            if(p.type != GameTerms.TokenType.None) return p;
+            if (p.type != GameTerms.TokenType.None) return p;
             GameToken e = temporaryTokens.Find(t, o);
-            if(e.type != GameTerms.TokenType.None) return e;
+            if (e.type != GameTerms.TokenType.None) return e;
             return new GameToken();
         }
         //Static, Temp, LastPlayData에서 지정 상황의 토큰 리스트를 찾는다
@@ -166,8 +173,10 @@ namespace ssm.game.structure{
                 t.Yeild();
             }
         }
-        //------------------------------[Expectation]
-        public void ExpectPower(){
+        //------------------------------[Expectation] Rest 계산 때문에 1,2로 구문
+        //1에서는 rest 제외한 나머지 계산, 2에서는 rest 계산
+        public void ExpectPower1()
+        {
             staticTokens.Find(GameTerms.TokenType.AttackAction).Yeild();
             staticTokens.Find(GameTerms.TokenType.StrikeAction).Yeild();
             staticTokens.Find(GameTerms.TokenType.DefenceAction).Yeild();
@@ -176,15 +185,41 @@ namespace ssm.game.structure{
             staticTokens.Find(GameTerms.TokenType.AvoidAction).Yeild();
             // Debug.Log("[After Expectation]------------");
             // Debug.Log(temporaryTokens.ToString());
+
+            //1. static과 playData에서 PowerInfoGenerator를 찾음
+            //2. 결과에 따라 파싱하여 expectation에 넣는다
+            //3. 추가 계산 Energy Power & Consumption 진행
+            foreach (GameToken st in staticTokens)
+            {
+                if (st is PowerInfoGenerator)
+                {
+                    MultiTypeToken? att = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Attack);
+                    if (att != null) temporaryTokens.CombineMTT(att);
+                    MultiTypeToken? str = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Strike);
+                    if (str != null) temporaryTokens.CombineMTT(str);
+                    MultiTypeToken? def = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Defence);
+                    if (def != null) temporaryTokens.CombineMTT(def);
+                    MultiTypeToken? cha = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Charge);
+                    if (cha != null) temporaryTokens.CombineMTT(cha);
+                    MultiTypeToken? res = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Rest);
+                    if (res != null) temporaryTokens.CombineMTT(res);
+                }
+            }
         }
-       
-        public void CalcuateCollision(){
+        public void ExpectPower2()
+        {
+        }
+        
+        public void CalcuateCollision()
+        {
             GameTerms.Motion myMotion = GetLastPlayData().motion;
             GameTerms.Motion otherMotion = GameBoard.Instance().FindOpponent(index).GetLastPlayData().motion;
             bool isCollide = false;
-            switch(myMotion){
+            switch (myMotion)
+            {
                 case GameTerms.Motion.None:
-                    switch(otherMotion){
+                    switch (otherMotion)
+                    {
                         // case GameTerms.Motion.None:
                         // case GameTerms.Motion.Defence:
                         // case GameTerms.Motion.Rest:
@@ -193,72 +228,78 @@ namespace ssm.game.structure{
                         case GameTerms.Motion.Attack:
                         case GameTerms.Motion.Strike:
                         case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
+                            isCollide = true;
+                            break;
                     }
-                break;
+                    break;
                 case GameTerms.Motion.Attack:
-                    switch(otherMotion){
+                    switch (otherMotion)
+                    {
                         case GameTerms.Motion.None:
                         case GameTerms.Motion.Attack:
                         case GameTerms.Motion.Strike:
                         case GameTerms.Motion.Defence:
                         case GameTerms.Motion.Charge:
                         case GameTerms.Motion.Rest:
-                        isCollide = true;
-                        break;
+                            isCollide = true;
+                            break;
                     }
-                break;
+                    break;
                 case GameTerms.Motion.Strike:
-                    switch(otherMotion){
+                    switch (otherMotion)
+                    {
                         case GameTerms.Motion.None:
                         case GameTerms.Motion.Attack:
                         case GameTerms.Motion.Strike:
                         case GameTerms.Motion.Defence:
                         case GameTerms.Motion.Charge:
                         case GameTerms.Motion.Rest:
-                        isCollide = true;
-                        break;
+                            isCollide = true;
+                            break;
                     }
-                break;
+                    break;
                 case GameTerms.Motion.Defence:
-                    switch(otherMotion){
+                    switch (otherMotion)
+                    {
                         case GameTerms.Motion.Attack:
                         case GameTerms.Motion.Strike:
                         case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
+                            isCollide = true;
+                            break;
                     }
-                break;
+                    break;
                 case GameTerms.Motion.Charge:
-                    switch(otherMotion){
+                    switch (otherMotion)
+                    {
                         case GameTerms.Motion.None:
                         case GameTerms.Motion.Attack:
                         case GameTerms.Motion.Strike:
                         case GameTerms.Motion.Defence:
                         case GameTerms.Motion.Charge:
-                        case GameTerms.Motion.Rest:                            
+                        case GameTerms.Motion.Rest:
                         case GameTerms.Motion.Avoid:
-                        isCollide = true;
-                        break;
+                            isCollide = true;
+                            break;
                     }
-                break;
+                    break;
                 case GameTerms.Motion.Rest:
-                    switch(otherMotion){
+                    switch (otherMotion)
+                    {
                         case GameTerms.Motion.Attack:
                         case GameTerms.Motion.Strike:
                         case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
+                            isCollide = true;
+                            break;
                     }
-                break;
+                    break;
                 case GameTerms.Motion.Avoid:
-                    switch(otherMotion){
+                    switch (otherMotion)
+                    {
                         case GameTerms.Motion.Charge:
-                        isCollide = true;
-                        break;
+                            isCollide = true;
+                            break;
                     }
-                break;
+                    break;
             }
             GetLastPlayData().collision = isCollide;
         }
@@ -293,6 +334,7 @@ namespace ssm.game.structure{
         
         public void ComparePower(){
             TotalPower tp = GetLastPlayData().Find(GameTerms.TokenType.TotalPower) as TotalPower;
+            Debug.Log(tp + " / " + tp.ToString());
             tp.Yeild(); // >> Damage
             
             // Debug.Log("[After ComparePower]------------");

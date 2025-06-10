@@ -69,7 +69,7 @@ namespace ssm.data.item{
             internal float attackEfficiency;
             internal float StrikePower;
             internal float strikeEfficiency;
-            internal float strikeConsumption;
+            internal float swordEPAvailable;
             internal GameTerms.TokenType additionalToken;
             internal float additionalValue;
 
@@ -78,7 +78,7 @@ namespace ssm.data.item{
                 attackEfficiency = ae;
                 StrikePower = sp;
                 strikeEfficiency = se;
-                strikeConsumption = sc;
+                swordEPAvailable = sc;
                 additionalToken = adt;
                 additionalValue = adv;
             }

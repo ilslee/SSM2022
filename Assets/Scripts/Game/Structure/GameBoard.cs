@@ -58,9 +58,12 @@ namespace ssm.game.structure{
             character2.ApplyTurnStart();
             
         }
-        public void CalculateExpectations(){
-            character1.ExpectPower();
-            character2.ExpectPower();
+        public void CalculateExpectations()
+        {
+            character1.ExpectPower1();
+            character2.ExpectPower1();
+            character1.ExpectPower2();
+            character2.ExpectPower2();
         }
         //------------------------------[Pose]------------------------------
         public void ProcessMotions(){
@@ -89,10 +92,10 @@ namespace ssm.game.structure{
             if(character2.GetLastPlayData().motion == GameTerms.Motion.Avoid) character2.FinalizePower();
             
             //ComparePower : Damage, Consumption 결정
-            // string ttPower = "[Check Total Power]";
-            // ttPower += "\n Character 1 : " + character1.SearchToken(GameTerms.TokenType.TotalPower).ToString();
-            // ttPower += "\n Character 2 : " + character2.SearchToken(GameTerms.TokenType.TotalPower).ToString();
-            // Debug.Log(ttPower);
+            string ttPower = "[Check Total Power]";
+            ttPower += "\n Character 1 : " + character1.GetLastPlayData().motion.ToString() + " : " + character1.SearchToken(GameTerms.TokenType.TotalPower).ToString();
+            ttPower += "\n Character 2 : " + character2.GetLastPlayData().motion.ToString() + " : " + character2.SearchToken(GameTerms.TokenType.TotalPower).ToString();
+            Debug.Log(ttPower);
             character1.ComparePower();
             character2.ComparePower();
             
