@@ -5,6 +5,6 @@ namespace ssm.game.structure.token
 {
     public interface IYeldPowerSource
     {
-        public MultiTypeToken YieldMTT(GameTerms.Motion m);
+        public MultiTypeToken YieldMTT(GameTerms.TokenOccasion o);
     }
 }

@@ -11,7 +11,7 @@ namespace ssm.game.structure.token
         internal float additionalEfficiency;
         internal float baseEnergy;
         internal float additionalEnergy;
-        internal GameTerms.Motion motion;
+        internal GameTerms.TokenOccasion motion;
         public override void Yeild()
         {
             //1. static과 playData에서 PowerInfoGenerator를 찾음
@@ -23,7 +23,7 @@ namespace ssm.game.structure.token
                 if (st is PowerInfoGenerator)
                 {
                     MultiTypeToken? mtt = (st as PowerInfoGenerator).YieldMTT(motion);
-                    if (mtt != null) Me().temporaryTokens.CombineMTT(mtt);
+                    if (mtt != null) Me().temporaryTokens.CombineMTT(mtt); //동일 토큰이라도 StaticTokens에서 temporaryTokens로 이동됨
                 }
             }
             foreach (GameToken st in Me().GetLastPlayData())
@@ -31,9 +31,14 @@ namespace ssm.game.structure.token
                 if (st is PowerInfoGenerator)
                 {
                     MultiTypeToken? mtt = (st as PowerInfoGenerator).YieldMTT(motion);
-                    if (mtt != null) Me().temporaryTokens.CombineMTT(mtt);
+                    if (mtt != null) Me().temporaryTokens.CombineMTT(mtt);//동일 토큰이라도 playData에서 temporaryTokens로 이동됨
                 }
             }
+        }
+
+        internal virtual void YeildPowerAndConsumption(float p = 0f, float c = 0f)
+        {
+            
         }
     }
 }

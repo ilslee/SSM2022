@@ -273,8 +273,8 @@ namespace ssm.game.structure.token{
         public GameToken Find(GameTerms.TokenType t, GameTerms.TokenOccasion o = GameTerms.TokenOccasion.None){
             // Debug.Log("??? : " + t);
             GameToken resulttoken = o == GameTerms.TokenOccasion.None ? 
-                                this.Find(x => x.type == t):
-                                this.Find(x => x.type == t && x.occasion == o);
+                                this.Find(x => x is not PowerInfoGenerator && x.type == t):
+                                this.Find(x => x is not PowerInfoGenerator && x.type == t && x.occasion == o);
             
             if(resulttoken != null ) {
                 // Debug.Log("Found Token " + t + " and Type is : " + resulttoken.GetType().Name);
@@ -287,7 +287,7 @@ namespace ssm.game.structure.token{
         }
         
         public TokenList FindAll(GameTerms.TokenOccasion o){
-            List<GameToken> resulttoken = this.FindAll(x => x.occasion == o);
+            List<GameToken> resulttoken = this.FindAll(x => x is not PowerInfoGenerator && x.occasion == o);
             TokenList returnVal = new TokenList(characterIndex);
             foreach(GameToken tk in resulttoken){
                 returnVal.Combine(tk);
@@ -296,7 +296,8 @@ namespace ssm.game.structure.token{
         }
         public MultiTypeToken FindMTT(GameTerms.TokenType t, MultiTypeToken.SubType s, GameTerms.TokenOccasion o)
         {
-            MultiTypeToken? resulttoken = this.Find(x => x is MultiTypeToken && x.type == t && x.occasion == o && (x as MultiTypeToken).subType == s) as MultiTypeToken;
+            MultiTypeToken? resulttoken = this.Find(x => x is MultiTypeToken && x is not PowerInfoGenerator && 
+                                                    x.type == t && x.occasion == o && (x as MultiTypeToken).subType == s) as MultiTypeToken;
             if (resulttoken != null) return resulttoken;
             else return new MultiTypeToken();
         }

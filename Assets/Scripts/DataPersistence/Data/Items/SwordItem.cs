@@ -21,7 +21,7 @@ namespace ssm.data.item{
             tokens.Add(new Token(GameTerms.TokenType.AttackEfficiency, s.attackEfficiency));
             tokens.Add(new Token(GameTerms.TokenType.StrikePower, s.StrikePower));
             tokens.Add(new Token(GameTerms.TokenType.StrikeEfficiency, s.strikeEfficiency));
-            tokens.Add(new Token(GameTerms.TokenType.StrikeConsumption, s.strikeConsumption));
+            tokens.Add(new Token(GameTerms.TokenType.SwordEPAvailable, s.swordEPAvailable));
             if(s.additionalToken == GameTerms.TokenType.None)return;
             else{
                 tokens.Add(new Token(s.additionalToken, s.additionalValue));

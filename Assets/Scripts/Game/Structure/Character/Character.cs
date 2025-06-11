@@ -145,23 +145,37 @@ namespace ssm.game.structure{
         {
             GameToken s = staticTokens.Find(t, o);
             if (s.type != GameTerms.TokenType.None) return s;
-            GameToken p = GameBoard.Instance().FindCharacter(index).GetLastPlayData().Find(t, o);
+            GameToken p = GetLastPlayData().Find(t, o);
             if (p.type != GameTerms.TokenType.None) return p;
             GameToken e = temporaryTokens.Find(t, o);
             if (e.type != GameTerms.TokenType.None) return e;
             return new GameToken();
         }
+        public MultiTypeToken SearchMTT(GameTerms.TokenType t, MultiTypeToken.SubType s, GameTerms.TokenOccasion o)
+        {
+            MultiTypeToken te = temporaryTokens.FindMTT(t, s, o);
+            if (te.type != GameTerms.TokenType.None) return te;
+            MultiTypeToken pd = GetLastPlayData().FindMTT(t, s, o);
+            if (pd.type != GameTerms.TokenType.None) return pd;
+            MultiTypeToken st = staticTokens.FindMTT(t, s, o);
+            if (st.type != GameTerms.TokenType.None) return st;            
+            return new MultiTypeToken();
+        }
         //Static, Temp, LastPlayData에서 지정 상황의 토큰 리스트를 찾는다
-        private TokenList SearchTokenList(GameTerms.TokenOccasion o){
-            TokenList resultValue =  new TokenList();
+        private TokenList SearchTokenList(GameTerms.TokenOccasion o)
+        {
+            TokenList resultValue = new TokenList();
             resultValue.characterIndex = this.index;
-            foreach(GameToken t in staticTokens.FindAll(o)){
+            foreach (GameToken t in staticTokens.FindAll(o))
+            {
                 resultValue.Combine(t);
             }
-            foreach(GameToken t in temporaryTokens.FindAll(o)){
+            foreach (GameToken t in temporaryTokens.FindAll(o))
+            {
                 resultValue.Combine(t);
             }
-            foreach(GameToken t in GameBoard.Instance().FindCharacter(index).GetLastPlayData().FindAll(o)){
+            foreach (GameToken t in GameBoard.Instance().FindCharacter(index).GetLastPlayData().FindAll(o))
+            {
                 resultValue.Combine(t);
             }
             return resultValue;
@@ -189,22 +203,7 @@ namespace ssm.game.structure{
             //1. static과 playData에서 PowerInfoGenerator를 찾음
             //2. 결과에 따라 파싱하여 expectation에 넣는다
             //3. 추가 계산 Energy Power & Consumption 진행
-            foreach (GameToken st in staticTokens)
-            {
-                if (st is PowerInfoGenerator)
-                {
-                    MultiTypeToken? att = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Attack);
-                    if (att != null) temporaryTokens.CombineMTT(att);
-                    MultiTypeToken? str = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Strike);
-                    if (str != null) temporaryTokens.CombineMTT(str);
-                    MultiTypeToken? def = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Defence);
-                    if (def != null) temporaryTokens.CombineMTT(def);
-                    MultiTypeToken? cha = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Charge);
-                    if (cha != null) temporaryTokens.CombineMTT(cha);
-                    MultiTypeToken? res = (st as PowerInfoGenerator).YieldMTT(GameTerms.Motion.Rest);
-                    if (res != null) temporaryTokens.CombineMTT(res);
-                }
-            }
+            
         }
         public void ExpectPower2()
         {

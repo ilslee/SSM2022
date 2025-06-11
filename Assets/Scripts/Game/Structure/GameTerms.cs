@@ -10,7 +10,7 @@ public static class GameTerms
     public enum TokenType { None,      
                             Question, History, Status,//아이콘에만 사용되는 인덱스 설정
                             AttackAction, StrikeAction, DefenceAction, ChargeAction, RestAction, AvoidAction, // Actions0
-                            Power, Consumption, Efficiency, //MultiTypeToken의 Subtype용
+                            Power, Energy, Consumption, Efficiency, //MultiTypeToken의 Subtype용
                             
                             HPCurrent, HPMax, HPStart, //Health 
                             EPCurrent, EPMax, EPStart, EPConsumption,//Energy

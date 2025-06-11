@@ -9,19 +9,20 @@ namespace ssm.game.structure.token{
         {
             type = GameTerms.TokenType.AttackAction;
             occasion = GameTerms.TokenOccasion.Static;
-            motion = GameTerms.Motion.Attack; // base.Yield()에서 사용
+            motion = GameTerms.TokenOccasion.Attack; // base.Yield()에서 사용
         }
 
         public override void Yeild()
         {
             base.Yeild(); //1,2 수행
             //3. 추가 계산 Energy Power & Consumption 후 expectation에 넣는다
-            float currentEnergy = Me().GetLastPlayData().Find(GameTerms.TokenType.EPCurrent).value0;
-            float availableMaxEnergy = Me().staticTokens.Find(GameTerms.TokenType.SwordEPAvailable).value0;
-            float usingEP = Mathf.Min(currentEnergy, availableMaxEnergy);
+            float currentEnergy = Me().SearchToken(GameTerms.TokenType.EPCurrent).value0;
+            float availableMaxEnergy = Me().SearchToken(GameTerms.TokenType.SwordEPAvailable).value0;
+            float additionalEnergy = Me().SearchMTT(GameTerms.TokenType.Energy, MultiTypeToken.SubType.Additional, motion).value0;
+            float usingEP = Mathf.Min(currentEnergy, availableMaxEnergy) + additionalEnergy;
 
-            float baseEfficiency = Me().staticTokens.FindMTT(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Attack).value0;
-            float additionalEfficiency = Me().staticTokens.FindMTT(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Additional, GameTerms.TokenOccasion.Attack).value0;
+            float baseEfficiency = Me().SearchMTT(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Base, motion).value0;
+            float additionalEfficiency = Me().SearchMTT(GameTerms.TokenType.Efficiency, MultiTypeToken.SubType.Additional, motion).value0;
             float totalEfficiency = baseEfficiency + additionalEfficiency;
 
             float totalEPPower = Mathf.Floor(totalEfficiency * usingEP);
@@ -29,45 +30,24 @@ namespace ssm.game.structure.token{
             float additionalEPPower = totalEPPower - baseEPPower;
 
             // 1,2에서 작성
-            float basePower = Me().temporaryTokens.FindMTT(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, GameTerms.TokenOccasion.Attack).value0;
+            float basePower = Me().SearchMTT(GameTerms.TokenType.Power, MultiTypeToken.SubType.Base, motion).value0;
 
             //AdditionalEPPower 추가
             //3. BaseEPPower 추가
-            if (baseEPPower > 0f) Me().temporaryTokens.Add(new MultiTypeToken(GameTerms.TokenType.Power, MultiTypeToken.SubType.EP, GameTerms.TokenOccasion.Attack, baseEPPower));
-            //이건 특수 경로로만 1,2에서 작성. 수치 한 차례 업데이트
+            if (baseEPPower > 0f) Me().temporaryTokens.CombineMTT(new MultiTypeToken(GameTerms.TokenType.Power, MultiTypeToken.SubType.EP, motion, baseEPPower));
+            //이건 특수 경로로만 1,2에서 작성. 수치 한 차례 업데이트 Additional Poower는 additionalBasePower와 additionalEPPower의 합
             if (additionalEPPower > 0f)
             {
-                Me().temporaryTokens.CombineMTT(new MultiTypeToken(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, GameTerms.TokenOccasion.Attack, additionalEPPower));
+                Me().temporaryTokens.CombineMTT(new MultiTypeToken(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, motion, additionalEPPower));
             }
-            float additionalPower = Me().temporaryTokens.FindMTT(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, GameTerms.TokenOccasion.Attack).value0;
+            float additionalPower = Me().SearchMTT(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, motion).value0;
             //4. TotalPower추가
             float totalPower = basePower + baseEPPower + additionalPower;
-            Me().temporaryTokens.Combine(new Power(GameTerms.TokenOccasion.Attack, true, totalPower));
+            YeildPowerAndConsumption(totalPower);
         }
-        /*
-            private Power SearchPower(){
-                Power returnValue = new Power(GameTerms.TokenType.AttackPower, GameTerms.TokenOccasion.Attack, true, 0f);
-                returnValue.Combine(Me().SearchToken(GameTerms.TokenType.AttackPower));
-                returnValue.Combine(Me().SearchToken(GameTerms.TokenType.SwrodPower));
-                returnValue.Combine(Me().SearchToken(GameTerms.TokenType.OffensivePower));
-                return returnValue;
-            }
-            private Efficiency SearchEfficiency(){
-                Efficiency returnValue = new Efficiency(GameTerms.TokenOccasion.Attack, false, 0f);
-                returnValue.Combine(Me().SearchToken(GameTerms.TokenType.AttackEfficiency));
-                returnValue.Combine(Me().SearchToken(GameTerms.TokenType.SwordEfficiency));
-                returnValue.Combine(Me().SearchToken(GameTerms.TokenType.OffensiveEfficiency));
-                return returnValue;
-            }
-            public new AttackAction Clone(){
-                AttackAction returnVal = new AttackAction();
-                returnVal.characterIndex = this.characterIndex;
-                returnVal.type = this.type;
-                returnVal.occasion = this.occasion;
-                returnVal.value0 = this.value0;        
-                returnVal.priority = this.priority;        
-                return returnVal;
-            }
-            */
+        internal override void YeildPowerAndConsumption(float p = 0, float c = 0)
+        {
+            Me().temporaryTokens.Combine(new Power(motion, true, p));
         }
+    }
 }
