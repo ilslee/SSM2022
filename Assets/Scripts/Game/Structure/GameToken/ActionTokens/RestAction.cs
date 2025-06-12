@@ -23,6 +23,7 @@ namespace ssm.game.structure.token{
             float additionalPower = Me().SearchMTT(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, GameTerms.TokenOccasion.Rest).value0;
             //4. TotalPower추가
             float totalPower = basePower + additionalPower;
+            //굳이 YeildPowerAndConsumption을 사용하지 않음
             Me().temporaryTokens.Combine(new Power(GameTerms.TokenOccasion.Rest, false, totalPower));
 
         }        

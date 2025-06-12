@@ -341,7 +341,9 @@ namespace ssm.game.structure{
         }
 
         public void ApplyConsumption(){
-            if( GetLastPlayData().Has(GameTerms.TokenType.EnergyPower) == true){
+            /*
+            if (GetLastPlayData().Has(GameTerms.TokenType.Consumption) == true)
+            {
                 EnergyPower ep = GetLastPlayData().Find(GameTerms.TokenType.EnergyPower) as EnergyPower;
                 ep.Yeild(); // >> Consumtion of EPCurrent
             }
@@ -349,6 +351,7 @@ namespace ssm.game.structure{
             foreach(GameToken t in consumptions){
                 t.Yeild(); 
             }
+            */
             // Debug.Log("[After ApplyConsumption]------------");
             // Debug.Log(GetLastPlayData().ToString());
         }

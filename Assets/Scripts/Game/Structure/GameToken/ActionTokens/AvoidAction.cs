@@ -43,7 +43,8 @@ namespace ssm.game.structure.token{
             otherOffensiveValue -= (basePower + additionalPower);
             if (otherOffensiveValue <= 0f)
             {
-                YieldDefault();
+                //추가 계산을 하지 않아도 될 때 : 기본 파워와 additional 파워만으로 total power 계산
+                YeildPowerAndConsumption(basePower + additionalPower);
                 return;
             }
 
@@ -56,11 +57,12 @@ namespace ssm.game.structure.token{
             float needEP = Mathf.Ceil(otherOffensiveValue / totalEfficiency);
             float currentEnergy = Me().SearchToken(GameTerms.TokenType.EPCurrent).value0;
             float additionalEnergy = Me().SearchMTT(GameTerms.TokenType.Energy, MultiTypeToken.SubType.Additional, motion).value0;
-            float usingEP = Mathf.Min(needEP, currentEnergy);
-            float ConsumingEP = usingEP - additionalEnergy;
+            float usingEP = Mathf.Min(needEP - additionalEnergy, currentEnergy);
+            // float ConsumingEP = usingEP - additionalEnergy;
             if (usingEP <= 0f)
             {
-                YieldDefault();
+                //추가 계산을 하지 않아도 될 때 : 기본 파워와 additional 파워만으로 total power 계산
+                YeildPowerAndConsumption(basePower + additionalPower);
                 return;
             }
 
@@ -75,17 +77,18 @@ namespace ssm.game.structure.token{
             {
                 Me().temporaryTokens.CombineMTT(new MultiTypeToken(GameTerms.TokenType.Power, MultiTypeToken.SubType.Additional, motion, additionalEPPower));
             }
-            
+
             //5. TotalPower, Concumption추가
-            float totalPower = basePower + baseEPPower + additionalPower;            
-            YeildPowerAndConsumption(totalPower, ConsumingEP);
+            float totalPower = basePower + baseEPPower + additionalPower;
+            YeildPowerAndConsumption(totalPower, usingEP);
         }
-
-        //추가 계산을 하지 않아도 될 때 : 기본 파워와 additional 파워만으로 total power 계산
-        private void YieldDefault()
+        
+        internal override void YeildPowerAndConsumption(float p = 0, float c = 0)
         {
-
+            Me().temporaryTokens.Combine(new Power(motion, false, p));
+            if(c > 0f) Me().temporaryTokens.Combine(new GameToken(GameTerms.TokenType.Consumption, motion, c));
         }
+
     }
 }
 
